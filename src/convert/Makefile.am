@@ -13,21 +13,21 @@ endif
 ## headers.
 
 ConvertSources = \
-	convert3dface.cpp \
-	arc.cpp \
-	circle.cpp \
+	3dfaceconvert.cpp \
+	arcconvert.cpp \
+	circleconvert.cpp \
 	convert.cpp \
 	convert_funcs.h \
-	ellipse.cpp \
+	ellipseconvert.cpp \
 	layerdata.cpp \
-	line.cpp \
+	lineconvert.cpp \
 	linesegment.cpp \
 	linesegment.h \
-	lwpolyline.cpp \
-	point.cpp \
-	polyline.cpp \
-	solid.cpp \
-	trace.cpp
+	lwpolylineconvert.cpp \
+	pointconvert.cpp \
+	polylineconvert.cpp \
+	solidconvert.cpp \
+	traceconvert.cpp
 
 libconvert_la_SOURCES = \
 	$(ConvertSources)
