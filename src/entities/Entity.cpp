@@ -31,7 +31,7 @@
   \class dimeEntity dime/entities/Entity.h
   \brief The dimeEntity class is the superclass of all \e entity classes.
 
-  If you plane to implement your own entity you should inherit this
+  If you plan to implement your own entity you should inherit this
   class.  There are some method you need to implement to create an
   entity, and some steps need to be taken if it's going to work 100%
   with the rest of the library. I recommend looking at the code for

@@ -601,6 +601,10 @@ dimeModel::getSection(const int idx)
   Inserts a new section to the list of sections. The argument \a idx,
   specifies the target position of the new section in the list of sections.
   If \a idx is negative, the section will be placed at the end of the list.
+
+  Sections shold never be allocated on the stack. Use the new/delete
+  operators to create/destroy section instances.
+
 */
 
 void 

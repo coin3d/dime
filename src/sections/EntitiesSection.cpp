@@ -234,6 +234,9 @@ dimeEntitiesSection::removeEntity(const int idx)
 /*!
   Inserts a new entity at index \a idx. If \a idx is negative, the
   entity will be inserted at the end of the list of entities.
+
+  Entities should never be allocated on the stack. Use the
+  new and delete operators to create/destroy entities.
 */
 
 void 
