@@ -96,7 +96,7 @@ dnl *******************************************************************
 AM_INIT_AUTOMAKE(libdime, $VERSION)
 
 dnl  File to cram results from the configure tests into.
-AM_CONFIG_HEADER([config.h])
+AM_CONFIG_HEADER([include/config.h])
 
 dnl  Default to not building a static library.
 dnl  Can be overridden by the user with --enable-static.
