@@ -46,6 +46,7 @@ usage(char *progname)
 	  "(default infile is stdin, default outfile is stdout)\n\n"
 	  "Options:\n"
 	  "-e <maxerr>  Maximum error when tessellating curves\n"
+          "-s <numsub>  Number of subdivisions for a curve (full circle)\n"
 	  "-f           Respect the $FILLMODE header variable\n"
           "-vrml2       Write as vrml2. Default is vrml1\n"
           "-2d          Set z-coordinate to 0 for all vertices\n"
