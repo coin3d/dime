@@ -100,6 +100,7 @@ dimeModel::dimeModel(const bool usememhandler)
   largestHandle(0),
   usememhandler(usememhandler)
 {
+  this->init();
 }
 
 /*!
