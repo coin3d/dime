@@ -212,8 +212,7 @@ dimeArc::extractGeometry(dimeArray <dimeVec3f> &verts,
   // split the arc into lines
   
   double end = this->endAngle;
-  if (end < this->startAngle &&
-      DXFABS(startAngle-endAngle) > 179.9) end += 360.0;
+  if (end < this->startAngle) end += 360.0;
   
   double delta = DXFDEG2RAD(end - this->startAngle);
   if (delta == 0.0) {
