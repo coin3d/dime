@@ -193,6 +193,14 @@ if test "x$ac_cv_prog_gxx" = "xyes"; then
 fi
 
 # **************************************************************************
+# Headers we might want to use
+
+AC_CHECK_HEADERS(
+  [ieeefp.h], 
+  [], [], 
+  [ ])
+
+# **************************************************************************
 
 # We want to use BSD 4.3's isinf(), isnan(), finite() if they are
 # available.
