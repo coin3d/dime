@@ -102,19 +102,24 @@ am__quote = @am__quote@
 install_sh = @install_sh@
 
 INCLUDES = -I$(top_srcdir)/include
-noinst_PROGRAMS = dxf2vrml
-dxf2vrml_SOURCES = dxf2vrml.cpp
-dxf2vrml_LDADD = $(top_builddir)/src/libdime.la
+
+@BUILD_WITH_MSVC_FALSE@noinst_PROGRAMS = dxf2vrml
+@BUILD_WITH_MSVC_FALSE@dxf2vrml_SOURCES = dxf2vrml.cpp
+@BUILD_WITH_MSVC_FALSE@dxf2vrml_LDADD = $(top_builddir)/src/libdime.la
 subdir = dxf2vrml
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-noinst_PROGRAMS = dxf2vrml$(EXEEXT)
+@BUILD_WITH_MSVC_TRUE@noinst_PROGRAMS =
+@BUILD_WITH_MSVC_FALSE@noinst_PROGRAMS = dxf2vrml$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
-am_dxf2vrml_OBJECTS = dxf2vrml.$(OBJEXT)
+@BUILD_WITH_MSVC_TRUE@am_dxf2vrml_OBJECTS =
+@BUILD_WITH_MSVC_FALSE@am_dxf2vrml_OBJECTS = dxf2vrml.$(OBJEXT)
 dxf2vrml_OBJECTS = $(am_dxf2vrml_OBJECTS)
-dxf2vrml_DEPENDENCIES = $(top_builddir)/src/libdime.la
+@BUILD_WITH_MSVC_TRUE@dxf2vrml_DEPENDENCIES =
+@BUILD_WITH_MSVC_FALSE@dxf2vrml_DEPENDENCIES = \
+@BUILD_WITH_MSVC_FALSE@	$(top_builddir)/src/libdime.la
 dxf2vrml_LDFLAGS =
 
 DEFS = @DEFS@
