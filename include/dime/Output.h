@@ -40,7 +40,7 @@ public:
   ~dimeOutput();
   
   void setCallback(const int numrecords,
-		   int (*cb)(float, void *), void *cbdata);
+                   int (*cb)(float, void *), void *cbdata);
   bool setFileHandle(FILE *fp);
   bool setFilename(const char * const filename);
   void setBinary(const bool state = true);
