@@ -5,7 +5,7 @@ dxfsphere_SOURCES = dxfsphere.cpp
 INCLUDES = -I$(top_srcdir)/include
 
 if BUILD_WITH_MSVC
-dxfsphere_LDADD = $(top_builddir)/src/dime.lst
+dxfsphere_LDADD = $(top_builddir)/src/dime0.lib
 else
 dxfsphere_LDADD = $(top_builddir)/src/libdime.la
 endif

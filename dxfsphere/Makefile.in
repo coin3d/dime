@@ -112,7 +112,7 @@ dxfsphere_SOURCES = dxfsphere.cpp
 
 INCLUDES = -I$(top_srcdir)/include
 
-@BUILD_WITH_MSVC_TRUE@dxfsphere_LDADD = $(top_builddir)/src/dime.lst
+@BUILD_WITH_MSVC_TRUE@dxfsphere_LDADD = $(top_builddir)/src/dime0.lib
 @BUILD_WITH_MSVC_FALSE@dxfsphere_LDADD = $(top_builddir)/src/libdime.la
 subdir = dxfsphere
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -124,7 +124,7 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_dxfsphere_OBJECTS = dxfsphere.$(OBJEXT)
 dxfsphere_OBJECTS = $(am_dxfsphere_OBJECTS)
 @BUILD_WITH_MSVC_TRUE@dxfsphere_DEPENDENCIES = \
-@BUILD_WITH_MSVC_TRUE@	$(top_builddir)/src/dime.lst
+@BUILD_WITH_MSVC_TRUE@	$(top_builddir)/src/dime0.lib
 @BUILD_WITH_MSVC_FALSE@dxfsphere_DEPENDENCIES = \
 @BUILD_WITH_MSVC_FALSE@	$(top_builddir)/src/libdime.la
 dxfsphere_LDFLAGS =

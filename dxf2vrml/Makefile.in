@@ -112,7 +112,7 @@ dxf2vrml_SOURCES = dxf2vrml.cpp
 
 INCLUDES = -I$(top_srcdir)/include
 
-@BUILD_WITH_MSVC_TRUE@dxf2vrml_LDADD = $(top_builddir)/src/dime.lst
+@BUILD_WITH_MSVC_TRUE@dxf2vrml_LDADD = $(top_builddir)/src/dime0.lib
 @BUILD_WITH_MSVC_FALSE@dxf2vrml_LDADD = $(top_builddir)/src/libdime.la
 subdir = dxf2vrml
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -124,7 +124,7 @@ PROGRAMS = $(noinst_PROGRAMS)
 am_dxf2vrml_OBJECTS = dxf2vrml.$(OBJEXT)
 dxf2vrml_OBJECTS = $(am_dxf2vrml_OBJECTS)
 @BUILD_WITH_MSVC_TRUE@dxf2vrml_DEPENDENCIES = \
-@BUILD_WITH_MSVC_TRUE@	$(top_builddir)/src/dime.lst
+@BUILD_WITH_MSVC_TRUE@	$(top_builddir)/src/dime0.lib
 @BUILD_WITH_MSVC_FALSE@dxf2vrml_DEPENDENCIES = \
 @BUILD_WITH_MSVC_FALSE@	$(top_builddir)/src/libdime.la
 dxf2vrml_LDFLAGS =
