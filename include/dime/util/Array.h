@@ -32,6 +32,8 @@
 
 #include <stdlib.h>
 
+#include <dime/Basic.h>
+
 template <class T>
 class DIME_DLL_API dimeArray
 {
