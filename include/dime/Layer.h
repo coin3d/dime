@@ -56,7 +56,7 @@ public:
   static const dimeLayer *getDefaultLayer();
 
   static void colorToRGB(const int colornum, 
-			 float &r, float &g, float &b);
+			 dxfdouble &r, dxfdouble &g, dxfdouble &b);
 
 private:
   friend class dimeModel;

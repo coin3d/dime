@@ -42,7 +42,7 @@
 #include <dime/Layer.h>
 
 // palette for color indices 1-255
-static float colortable[] = {
+static dxfdouble colortable[] = {
   1,0,0, // 1
   1,1,0,
   0,1,0,
@@ -333,7 +333,7 @@ dimeLayer::dimeLayer(const char * const name, const int num,
 
 void 
 dimeLayer::colorToRGB(const int colornum, 
-		      float &r, float &g, float &b)
+		      dxfdouble &r, dxfdouble &g, dxfdouble &b)
 {
   int idx = 7*3; // default white
   if (colornum >= 1 && colornum <= 255) idx = colornum*3;

@@ -505,7 +505,7 @@ dimeEntity::GeometryType
 dimeEntity::extractGeometry(dimeArray <dimeVec3f> &verts,
 			   dimeArray <int> &indices,
 			   dimeVec3f &extrusionDir,
-			   float &thickness)
+			   dxfdouble &thickness)
 {
   extrusionDir = dimeVec3f(0,0,1);
   verts.setCount(0);

@@ -153,7 +153,7 @@ dimeTrace::typeId() const
   return dimeBase::dimeTraceType;
 }
 
-float 
+dxfdouble 
 dimeTrace::getThickness() const
 {
   return this->thickness;

@@ -116,7 +116,7 @@ convertColor(faceset_data *data, const int colnum, FILE *out)
 
   fprintf(out,"Separator {\n");
 
-  float r, g, b;
+  dxfdouble r, g, b;
   dimeLayer::colorToRGB(colnum, r, g, b); 
 
   fprintf(out,"Material {\n"
@@ -324,7 +324,7 @@ my_dime_callback(const dimeState * const state,
   indexarray.setCount(0);
   vertexarray.setCount(0);
 
-  float thickness = 0.0;
+  dxfdouble thickness = 0.0;
   dimeVec3f extrusionDir(0,0,1);
 
   dimeEntity::GeometryType type = 
@@ -435,7 +435,5 @@ int main(int argc, char **argv)
     }
     end();
   }
+  return 0;
 }
-
-
-

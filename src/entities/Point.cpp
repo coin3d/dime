@@ -145,7 +145,7 @@ dimeEntity::GeometryType
 dimePoint::extractGeometry(dimeArray <dimeVec3f> &verts,
 			  dimeArray <int> &/*indices*/,
 			  dimeVec3f &extrusionDir,
-			  float &thickness)
+			  dxfdouble &thickness)
 {
   thickness = this->thickness;
   extrusionDir = this->extrusionDir;

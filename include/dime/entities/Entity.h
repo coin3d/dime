@@ -105,7 +105,7 @@ public:
   virtual GeometryType extractGeometry(dimeArray <dimeVec3f> &verts,
 				       dimeArray <int> &indices,
 				       dimeVec3f &extrusionDir,
-				       float &thickness);
+				       dxfdouble &thickness);
 protected:
 
   bool preWrite(dimeOutput * const file);

@@ -158,7 +158,7 @@ dimeSolid::typeId() const
 
 //!
 
-float 
+dxfdouble 
 dimeSolid::getThickness() const
 {
   return this->thickness;

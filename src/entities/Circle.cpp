@@ -182,14 +182,14 @@ dimeEntity::GeometryType
 dimeCircle::extractGeometry(dimeArray <dimeVec3f> &verts,
 			   dimeArray <int> &/*indices*/,
 			   dimeVec3f &extrusionDir,
-			   float &thickness)
+			   dxfdouble &thickness)
 {
   thickness = this->thickness;
   extrusionDir = this->extrusionDir;
 
    // tessellate the circle/cylinder
-  float inc = (2*M_PI) / CIRCLE_NUMPTS;
-  float rad = 0.0f;
+  dxfdouble inc = (2*M_PI) / CIRCLE_NUMPTS;
+  dxfdouble rad = 0.0f;
   int i;
   for (i = 0; i < CIRCLE_NUMPTS; i++) {
     verts.append(dimeVec3f(this->center.x + this->radius * cos(rad),

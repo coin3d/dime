@@ -44,8 +44,8 @@ typedef float dxfdouble;
 #define DXFABS(x) ((x)<0?-(x):(x))
 #define DXFMAX(x,y) ((x)>(y)?(x):(y))
 #define DXFMIN(x,y) ((x)<(y)?(x):(y))
-#define DXFDEG2RAD(x) (M_PI*(x)/180.0f)
-#define DXFRAD2DEG(x) (180.0f*(x)/M_PI)
+#define DXFDEG2RAD(x) (M_PI*(x)/180.0)
+#define DXFRAD2DEG(x) (180.0*(x)/M_PI)
 
 
 #ifdef __sgi

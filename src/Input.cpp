@@ -338,7 +338,7 @@ dimeInput::readInt8(int8 &val)
   
   long tmp;
   bool ok = skipWhiteSpace();
-  if (ok && readInteger(tmp) && tmp >= -128 & tmp <= 127) {
+  if (ok && readInteger(tmp) && tmp >= -128 && tmp <= 127) {
     val = (int8) tmp;
     return nextLine();
   }
@@ -368,7 +368,7 @@ dimeInput::readInt16(int16 &val)
 
   long tmp;
   bool ok = skipWhiteSpace();
-  if (ok && readInteger(tmp) && tmp >= -32768 & tmp <= 32767) {
+  if (ok && readInteger(tmp) && tmp >= -32768 && tmp <= 32767) {
     val = (int16) tmp;
     return nextLine();
   }

@@ -52,7 +52,7 @@ public:
   virtual GeometryType extractGeometry(dimeArray <dimeVec3f> &verts,
 				       dimeArray <int> &indices,
 				       dimeVec3f &extrusionDir,
-				       float &thickness);
+				       dxfdouble &thickness);
   int getNumVertices() const;
   const dxfdouble *getXCoords() const;
   const dxfdouble *getYCoords() const;

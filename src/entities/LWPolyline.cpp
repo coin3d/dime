@@ -121,7 +121,7 @@ dimeLWPolyline::write(dimeOutput * const file)
   bool ret = true;
 
   file->writeGroupCode(90);
-  ret = file->writeInt16(this->numVertices);
+  ret = file->writeInt16((int16)this->numVertices);
 
   if (ret && this->flags != 0) {
     file->writeGroupCode(70);
@@ -358,7 +358,7 @@ dimeEntity::GeometryType
 dimeLWPolyline::extractGeometry(dimeArray <dimeVec3f> &verts,
 			       dimeArray <int> &/*indices*/,
 			       dimeVec3f &extrusionDir,
-			       float &thickness)
+			       dxfdouble &thickness)
 {
   thickness = this->thickness;
   extrusionDir = this->extrusionDir;

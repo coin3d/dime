@@ -199,7 +199,7 @@ dimeEntity::GeometryType
 dimeFaceEntity::extractGeometry(dimeArray <dimeVec3f> &verts,
 			       dimeArray <int> &indices,
 			       dimeVec3f &extrusionDir,
-			       float &thickness)
+			       dxfdouble &thickness)
 {
   verts.setCount(0);
   indices.setCount(0);
@@ -231,7 +231,7 @@ dimeFaceEntity::extractGeometry(dimeArray <dimeVec3f> &verts,
   correct for all cases.
 */
 
-float 
+dxfdouble 
 dimeFaceEntity::getThickness() const
 {
   return 0.0f;

@@ -58,7 +58,7 @@ public:
   GeometryType extractGeometry(dimeArray <dimeVec3f> &verts,
 			       dimeArray <int> &indices,
 			       dimeVec3f &extrusionDir,
-			       float &thickness);
+			       dxfdouble &thickness);
   
   virtual int typeId() const;
   virtual bool isOfType(const int thetypeid) const;
