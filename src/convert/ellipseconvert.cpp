@@ -72,15 +72,18 @@ convert_ellipse(const dimeEntity *entity, const dimeState *state,
   dimeVec3f e = ellipse->getExtrusionDir();
   dxfdouble thickness = ellipse->getThickness();
   
-  if (e != dimeVec3f(0,0,1)) {
-    dimeMatrix m;
-    dimeEntity::generateUCS(e, m);
-    matrix.multRight(m);
-  }
-  e = dimeVec3f(0,0,1);
+  // According to the DXF Intern, Ellipse has no Element coordinate
+  // system, so this code is disabled
+
+//   if (e != dimeVec3f(0,0,1) && e != dimeVec3f(0,0,-1)) {
+//     dimeMatrix m;
+//     dimeEntity::generateUCS(e, m);
+//     matrix.multRight(m);
+//   }
+
+  e *= thickness;
 
   dimeVec3f center = ellipse->getCenter();
-
 
   // do some cross product magic to calculate minor axis
   dimeVec3f xaxis = ellipse->getMajorAxisEndpoint();
@@ -91,7 +94,7 @@ convert_ellipse(const dimeEntity *entity, const dimeState *state,
     xaxis[2] = param.double_data;
   }
 
-  dxfdouble xlen = (xaxis-center).length() * 0.5;
+  dxfdouble xlen = xaxis.length() * 0.5;
   xaxis.normalize();
   dimeVec3f yaxis = dimeVec3f(0,0,1).cross(xaxis);
   yaxis.normalize();
@@ -130,7 +133,13 @@ convert_ellipse(const dimeEntity *entity, const dimeState *state,
 		    center[1] + xaxis[1] * cos(rad) + yaxis[1] * sin(rad),
 		    center[2] + xaxis[2] * cos(rad) + yaxis[2] * sin(rad));
     
-    layerData->addLine(prev, v, &matrix);
+    if (thickness == 0.0) {
+      layerData->addLine(prev, v, &matrix);
+    }
+    else {
+      layerData->addQuad(prev, v, v + e, prev + e,
+			 &matrix);
+    }
     prev = v;
     rad += inc;
   }
@@ -139,5 +148,11 @@ convert_ellipse(const dimeEntity *entity, const dimeState *state,
   v =   dimeVec3f(center[0] + xaxis[0] * cos(rad) + yaxis[0] * sin(rad),
 		  center[1] + xaxis[1] * cos(rad) + yaxis[1] * sin(rad),
 		  center[2] + xaxis[2] * cos(rad) + yaxis[2] * sin(rad));
-  layerData->addLine(prev, v, &matrix);
+  if (thickness == 0.0) {
+    layerData->addLine(prev, v, &matrix);
+  }
+  else {
+    layerData->addQuad(prev, v, v + e, prev + e,
+                       &matrix);
+  }
 }
