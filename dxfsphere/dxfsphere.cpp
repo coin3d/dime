@@ -229,7 +229,7 @@ main(int ac, char ** av)
     // DIME: set up our layer
     dimeLayerTable * layer = new dimeLayerTable;
     layer->setLayerName(LAYERNAME, NULL);
-    layer->setColorNumber(16);
+    layer->setColorNumber(16); // the color numbers are defined in dime/Layer.cpp.
     layer->registerLayer(&model); // important, register layer in model
     
     // DIME: set up a layer table to store our layer
