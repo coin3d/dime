@@ -4,6 +4,9 @@ Just to clarify something; the order of the items in the list and the
 priority we have given the items do not guarantee when (or even if) the
 items will be implemented.
 
+ *) upgrade configure setup and and DLLify library - make Mac OS X framework
+    [top priority]
+
  *) Write more and better doxygen documentation comments.
     [high priority]
 
@@ -18,4 +21,7 @@ items will be implemented.
 
  *) Implement more of the entities, tables, etc. used by AutoCAD
     [medium priority]
+
+ *) implement some means of "seamless" integration with Coin
+    [medium-low priority?]
 
