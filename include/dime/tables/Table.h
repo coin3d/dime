@@ -51,7 +51,9 @@ public:
   int typeId() const;
   int countRecords() const;
   int tableType() const;
-  const char *tableName() const;
+
+  void setTableName(const char * name);
+  const char * tableName() const;
   
   int getNumTableEntries() const;
   dimeTableEntry *getTableEntry(const int idx);
@@ -65,10 +67,10 @@ public:
 
 private:
   int16 maxEntries; // dummy variable read from file
+  char * tablename;
   dimeArray <dimeTableEntry*> tableEntries;
   dimeArray <dimeRecord*> records;
   dimeMemHandler *memHandler;
-
 }; // class dimeTable
 
 #endif // ! DIME_TABLE_H

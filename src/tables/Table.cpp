@@ -39,6 +39,7 @@
 #include <dime/tables/Table.h>
 #include <dime/tables/TableEntry.h>
 #include <dime/records/Record.h>
+#include <dime/records/StringRecord.h>
 #include <dime/Input.h>
 #include <dime/Output.h>
 #include <dime/util/MemHandler.h>
@@ -51,7 +52,7 @@
 */
 
 dimeTable::dimeTable(dimeMemHandler * const memhandler)
-  : maxEntries( 0 ), memHandler( memhandler )
+  : maxEntries( 0 ), tablename(NULL), memHandler( memhandler )
 {
 }
 
@@ -69,6 +70,7 @@ dimeTable::~dimeTable()
     for (i = 0; i < this->records.count(); i++) {
       delete this->records[i];
     }
+    delete[] this->tablename;
   }
 }
 
@@ -79,7 +81,7 @@ dimeTable::copy(dimeModel * const model) const
 {
   dimeMemHandler *memh = model->getMemHandler();
   int i;
-  dimeTable *t = new dimeTable(memh);
+  dimeTable * t = new dimeTable(memh);
   int n = this->records.count();
   if (n) {
     t->records.makeEmpty(n);
@@ -113,6 +115,11 @@ dimeTable::read(dimeInput * const file)
     if (!file->readGroupCode(groupcode)) {ok = false; break;}
     if (groupcode == 70) {
       if (!file->readInt16(this->maxEntries)) {ok = false; break;}
+    }
+    else if (groupcode == 2) {
+      const char * s = file->readString();
+      if (!s) { ok = false; break; }
+      this->setTableName(s);
     }
     else if (groupcode != 0) {
       record = dimeRecord::createRecord(groupcode, memh);
@@ -151,10 +158,16 @@ dimeTable::write(dimeOutput * const file)
   file->writeGroupCode(0);
   file->writeString("TABLE");
   int i;
-  for (i = 0; i < this->records.count(); i++) {
-    if (!this->records[i]->write(file)) break;
+
+  file->writeGroupCode(2);
+  ret = file->writeString(this->tableName());
+  
+  if (ret) {
+    for (i = 0; i < this->records.count(); i++) {
+      if (!this->records[i]->write(file)) break;
+    }
+    if (i < this->records.count()) ret = false;
   }
-  if (i < this->records.count()) ret = false;
   if (ret) {
     file->writeGroupCode(70);
     ret = file->writeInt16(this->tableEntries.count());
@@ -193,8 +206,18 @@ dimeTable::tableType() const
 const char *
 dimeTable::tableName() const
 {
+  if (this->tablename) return this->tablename;
   if (this->tableEntries.count()) return this->tableEntries[0]->getTableName();
   return NULL;
+}
+
+void 
+dimeTable::setTableName(const char * name)
+{
+  if (!this->memHandler) {
+    delete[] this->tablename;
+  }
+  DXF_STRCPY(this->memHandler, this->tablename, name);
 }
 
 /*!
@@ -309,6 +332,10 @@ void
 dimeTable::insertTableRecord(dimeRecord * const record, const int idx)
 {
   assert(record->getGroupCode() != 70);
+  if (record->getGroupCode() == 2) {
+    dimeStringRecord * rec = (dimeStringRecord*) record;
+    this->setTableName(rec->getString());
+  }
   int i = idx >= 0 ? idx : this->records.count();
   assert(i <= this->records.count());
   this->records.insertElem(i, record);
