@@ -24,6 +24,10 @@
  * C++ version and Dime output added by pederb@sim.no
  */
 
+
+// define this to create dime3DFace, otherwise dimeLine will be used. 
+#define DXFSPHERE_FILLED 1
+
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>
@@ -37,6 +41,7 @@
 #include <dime/tables/LayerTable.h>
 #include <dime/tables/Table.h>
 #include <dime/entities/3DFace.h>
+#include <dime/entities/Line.h>
 #include <dime/Output.h>
 #include <dime/util/Linear.h>
 
@@ -391,6 +396,8 @@ void print_object(object * obj, int level, dimeModel & model, const char * layer
 /* Output a triangle */
 void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer)
 {
+#ifdef DXFSPHERE_FILLED
+  // filled, create dime3DFace
   int i;
 
   // DIME: create a 3DFACE entity, and set it to contain a triangle
@@ -407,6 +414,7 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer)
   }
   face->setTriangle(v[0], v[1], v[2]);
 
+  // DIME: create a unique handle for this entity.
   const int BUFSIZE = 1024;
   char buf[BUFSIZE];
   const char * handle = model.getUniqueHandle(buf, BUFSIZE);
@@ -417,5 +425,39 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer)
 
   // DIME: add entity to model
   model.addEntity(face);
+#else // DXFSPHERE_FILLED
+  // create three dimeLine entities to represent the triangle
+  int i;
+  for (i = 0; i < 3; i++) {
+    // DIME: create a LINE entity
+    dimeLine * line = new dimeLine;
+    if (layer) {
+      line->setLayer(layer);
+    }
+    dimeVec3f v[2];
+    v[0].x = t->pt[i].x;
+    v[0].y = t->pt[i].y;
+    v[0].z = t->pt[i].z;
+
+    v[1].x = t->pt[(i+1)%3].x;
+    v[1].y = t->pt[(i+1)%3].y;
+    v[1].z = t->pt[(i+1)%3].z;
+
+    line->setCoords(0, v[0]);
+    line->setCoords(1, v[1]);
+    
+    // DIME: create unique handle for the entity (needed to load the file into AutoCAD)
+    const int BUFSIZE = 1024;
+    char buf[BUFSIZE];
+    const char * handle = model.getUniqueHandle(buf, BUFSIZE);
+    
+    dimeParam param;
+    param.string_data = handle;
+    line->setRecord(5, param);
+
+    // DIME: add entity to model
+    model.addEntity(line);
+  }
+#endif // ! DXFSPHERE_FILLED
 }
 
