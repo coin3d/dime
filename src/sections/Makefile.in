@@ -227,10 +227,6 @@ AR = ar
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-sections.lst: $(sections_lst_OBJECTS) $(sections_lst_DEPENDENCIES) 
-	-rm -f sections.lst
-	$(sections_lst_AR) sections.lst $(sections_lst_OBJECTS) $(sections_lst_LIBADD)
-	$(RANLIB) sections.lst
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -418,6 +414,11 @@ uninstall-am: uninstall-info-am uninstall-libsectionsincHEADERS
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
 	uninstall-am uninstall-info-am uninstall-libsectionsincHEADERS
 
+
+sections.lst: Makefile $(sections_lst_OBJECTS)
+	@echo "Linking sections.lst..."; \
+	rm -f $@; \
+	for i in $(sections_lst_OBJECTS); do echo $$i >>$@; done
 
 install-libsectionsincHEADERS: $(libsectionsinc_HEADERS)
 	@$(NORMAL_INSTALL)

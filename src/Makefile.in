@@ -140,9 +140,9 @@ libdime@SUFFIX@_la_LDFLAGS = \
 
 
 dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
-	classes/libclasses.lst entities/libentities.lst objects/libobjects.lst \
-	records/librecords.lst sections/libsections.lst tables/libtables.lst \
-	util/libutil.lst convert/libconvert.lst
+	classes/classes.lst entities/entities.lst objects/objects.lst \
+	records/records.lst sections/sections.lst tables/tables.lst \
+	util/util.lst convert/convert.lst
 
 
 libdime@SUFFIX@_la_SOURCES = \
@@ -171,11 +171,10 @@ CONFIG_CLEAN_FILES =
 LIBRARIES = $(lib_LIBRARIES)
 
 dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
-dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
-	classes/libclasses.lst entities/libentities.lst \
-	objects/libobjects.lst records/librecords.lst \
-	sections/libsections.lst tables/libtables.lst util/libutil.lst \
-	convert/libconvert.lst
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = classes/classes.lst \
+	entities/entities.lst objects/objects.lst records/records.lst \
+	sections/sections.lst tables/tables.lst util/util.lst \
+	convert/convert.lst
 am_dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = Base.$(OBJEXT) \
 	Basic.$(OBJEXT) Input.$(OBJEXT) Layer.$(OBJEXT) Model.$(OBJEXT) \
 	Output.$(OBJEXT) RecordHolder.$(OBJEXT) State.$(OBJEXT)

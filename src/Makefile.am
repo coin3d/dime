@@ -37,9 +37,9 @@ libdime@SUFFIX@_la_LDFLAGS = \
 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
-	classes/libclasses.lst entities/libentities.lst objects/libobjects.lst \
-	records/librecords.lst sections/libsections.lst tables/libtables.lst \
-	util/libutil.lst convert/libconvert.lst
+	classes/classes.lst entities/entities.lst objects/objects.lst \
+	records/records.lst sections/sections.lst tables/tables.lst \
+	util/util.lst convert/convert.lst
 
 ## All source files from the base directory used when building the
 ## library, including all headers.

@@ -28,6 +28,11 @@ libsections_la_SOURCES = \
 sections_lst_SOURCES = \
 	$(SectionsSources)
 
+sections.lst: Makefile $(sections_lst_OBJECTS)
+	@echo "Linking sections.lst..."; \
+	rm -f $@; \
+	for i in $(sections_lst_OBJECTS); do echo $$i >>$@; done
+
 ## Installation information.
 
 libsectionsincdir = $(includedir)/dime/sections
