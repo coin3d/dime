@@ -205,10 +205,14 @@ dimeModel::read(dimeInput * const in)
   }	
   if (!ok) {
     if (in->aborted) {
+#ifndef NDEBUG
       fprintf(stderr,"DXF read aborted by user.\n");
+#endif
     }
     else {
+#ifndef NDEBUG
       fprintf( stderr, "DXF loading failed at line: %d\n", in->getFilePosition());
+#endif
     }
   }
   else {
@@ -409,15 +413,14 @@ dimeModel::getDxfVersion() const
     (const dimeHeaderSection*) this->findSection("HEADER");
   
   if (!header) {
-    return "unknown";
+    return NULL;
   }
-
+  
   int groupcode; 
   dimeParam param;
   
   if (header->getVariable("$ACADVER", &groupcode, &param, 1) != 1 ||
       groupcode != 1) {
-//    sim_trace("DXF version not found!!!\n");
     return NULL;
   }
   if (!strcmp(param.string_data, "AC1006")) return "r10";
@@ -425,7 +428,6 @@ dimeModel::getDxfVersion() const
   if (!strcmp(param.string_data, "AC1012")) return "r13";
   if (!strcmp(param.string_data, "AC1013")) return "r14";
   
-//  sim_trace("Unknows DXF version found in model!\n");
   return NULL;
 }
 
