@@ -205,6 +205,10 @@ dimeEntity *
 dimeEntity::createEntity(const char * const name, 
 			 dimeMemHandler * const memhandler)
 {
+#ifndef NDEBUG
+  //fprintf(stderr,"Entity: %s\n", name);
+#endif
+
   //
   // TODO: optimize 
   //

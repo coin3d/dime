@@ -143,8 +143,9 @@ dimePolyline::copy(dimeModel * const model) const
     pl->smoothCountN = this->smoothCountN;
     pl->surfaceType = this->surfaceType;
     pl->flags = this->flags;
+    pl->elevation = this->elevation;
     pl->copyExtrusionData(this);
-
+    
     pl->seqend = this->seqend->copy(model);
     if (!pl->seqend) ok = false;
   }
