@@ -29,6 +29,8 @@ VERSION=$DIME_VERSION
 AC_SUBST(DIME_INTERFACE_AGE, 0)
 AC_SUBST(DIME_BINARY_AGE, 0)
 
+SIM_AC_MSVC_DSP_ENABLE_OPTION
+
 SIM_AC_SETUP_MSVCPP_IFELSE
 if $BUILD_WITH_MSVC; then
   SIM_AC_SETUP_MSVCRT([
@@ -107,6 +109,10 @@ AC_PROG_LIBTOOL
 CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
 sim_ac_build_library=true
+
+dime_build_dir=`pwd`
+dime_src_dir=`cd "$srcdir"; pwd`
+
 
 dnl *******************************************************************
 dnl * Enable/disable compilation with debug information.
@@ -304,6 +310,10 @@ if $sim_ac_build_library; then
 else
   SIM_AC_CONFIGURATION_SETTING([Dime build type], [build disabled])
 fi
+
+# **************************************************************************
+
+SIM_AC_MSVC_DSP_SETUP([DIME], [Dime], [dime], [-I$dime_build_dir -I$dime_build_dir/include -I$dime_src_dir/include])
 
 # **************************************************************************
 

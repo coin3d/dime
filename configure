@@ -1007,6 +1007,7 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-msvcdsp        build .dsp, not library
   --disable-msvc          don't require MS Visual C++ on Cygwin
   --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors
@@ -1526,6 +1527,24 @@ VERSION=$DIME_VERSION
 DIME_INTERFACE_AGE=0
 
 DIME_BINARY_AGE=0
+
+
+
+# Check whether --enable-msvcdsp or --disable-msvcdsp was given.
+if test "${enable_msvcdsp+set}" = set; then
+  enableval="$enable_msvcdsp"
+  case $enableval in
+  no | false) sim_ac_make_dsp=false ;;
+  *)          sim_ac_make_dsp=true ;;
+  esac
+else
+  sim_ac_make_dsp=false
+fi;
+
+if $sim_ac_make_dsp; then
+  enable_dependency_tracking=no
+  enable_libtool_lock=no
+fi
 
 
 
@@ -4977,7 +4996,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4980 "configure"' > conftest.$ac_ext
+  echo '#line 4999 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5513,7 +5532,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5516: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5535: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7306,7 +7325,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7309 "configure"
+#line 7328 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7404,7 +7423,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7407 "configure"
+#line 7426 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8133,6 +8152,10 @@ CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
 sim_ac_build_library=true
 
+dime_build_dir=`pwd`
+dime_src_dir=`cd "$srcdir"; pwd`
+
+
 
 # Check whether --enable-debug or --disable-debug was given.
 if test "${enable_debug+set}" = set; then
@@ -8540,6 +8563,95 @@ else
 fi
 
 fi
+
+# **************************************************************************
+
+
+
+DIME_DSP_LIBDIRS=
+DIME_DSP_LIBS=
+DIME_DSP_INCS=
+DIME_DSP_DEFS=
+
+if $sim_ac_make_dsp; then
+  if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="Dime build type:msvc .dsp"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:msvc .dsp"
+fi
+
+
+  # -DHAVE_CONFIG_H is set up in $DEFS too late for use to use, and some
+  # include directives are usually set up in the Makefile.am files
+  for arg in -DHAVE_CONFIG_H -I$dime_build_dir -I$dime_build_dir/include -I$dime_src_dir/include $CPPFLAGS $LDFLAGS $LIBS; do
+    case $arg in
+    -L* )
+      libdir=`echo $arg | cut -c3-`
+      DIME_DSP_LIBDIRS="$DIME_DSP_LIBDIRS $libdir"
+      ;;
+    -l* )
+      libname=`echo $arg | cut -c3-`
+      for libdir in $DIME_DSP_LIBDIRS; do
+        if test -f $libdir/$libname.lib; then
+          # lib is not in any standard location - use full path
+          libname=`cygpath -w "$libdir/$libname" 2>/dev/null || echo "$libdir/$libname"`
+          break
+        fi
+      done
+      if test x"$DIME_DSP_LIBS" = x""; then
+        DIME_DSP_LIBS="$libname.lib"
+      else
+        DIME_DSP_LIBS="$DIME_DSP_LIBS $libname.lib"
+      fi
+      ;;
+    -I* )
+      incdir=`echo $arg | cut -c3-`
+      incdir=`cygpath -w "$incdir" 2>/dev/null || echo "$incdir"`
+      if test x"$DIME_DSP_INCS" = x""; then
+        DIME_DSP_INCS="/I \"$incdir\""
+      else
+        DIME_DSP_INCS="$DIME_DSP_INCS /I \"$incdir\""
+      fi
+      ;;
+    -DDIME_DEBUG* | -DNDEBUG )
+      # Defines that vary between release/debug configurations can't be
+      # set up dynamically in <lib>_DSP_DEFS - they must be static in the
+      # gendsp.sh script.  We therefore catche them here so we can ignore
+      # checking for them below.
+      ;;
+    -D*=* | -D* )
+      define=`echo $arg | cut -c3-`
+      if test x"$DIME_DSP_DEFS" = x""; then
+        DIME_DSP_DEFS="/D \"$define\""
+      else
+        DIME_DSP_DEFS="$DIME_DSP_DEFS /D \"$define\""
+      fi
+      ;;
+    esac
+  done
+
+  CC=$dime_src_dir/cfg/gendsp.sh
+  CXX=$dime_src_dir/cfg/gendsp.sh
+  CXXLD=$dime_src_dir/cfg/gendsp.sh
+  # Yes, this is totally bogus stuff, but don't worry about it.  As long
+  # as gendsp.sh recognizes it...  20030219 larsa
+  CPPFLAGS="$CPPFLAGS -Ddspfile=$dime_build_dir/dime$DIME_MAJOR_VERSION.dsp"
+  LDFLAGS="$LDFLAGS -Wl,-Ddspfile=$dime_build_dir/dime$DIME_MAJOR_VERSION.dsp"
+  LIBFLAGS="$LIBFLAGS -o dime$DIME_MAJOR_VERSION.so.0"
+
+  # this can't be set up at the point the libtool script is generated
+  mv libtool libtool.bak
+  sed -e "s%^CC=\"gcc\"%CC=\"$dime_src_dir/cfg/gendsp.sh\"%" \
+      -e "s%^CC=\".*/wrapmsvc.exe\"%CC=\"$dime_src_dir/cfg/gendsp.sh\"%" \
+      <libtool.bak >libtool
+  rm -f libtool.bak
+  chmod 755 libtool
+fi
+
+
+
+
+
 
 # **************************************************************************
 
@@ -9211,6 +9323,9 @@ s,@LIBFLAGS@,$LIBFLAGS,;t t
 s,@BUILD_WITH_MSVC_TRUE@,$BUILD_WITH_MSVC_TRUE,;t t
 s,@BUILD_WITH_MSVC_FALSE@,$BUILD_WITH_MSVC_FALSE,;t t
 s,@DIME_COMPILER@,$DIME_COMPILER,;t t
+s,@DIME_DSP_LIBS@,$DIME_DSP_LIBS,;t t
+s,@DIME_DSP_INCS@,$DIME_DSP_INCS,;t t
+s,@DIME_DSP_DEFS@,$DIME_DSP_DEFS,;t t
 CEOF
 
 _ACEOF
