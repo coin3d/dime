@@ -305,7 +305,9 @@ static dxfdouble colortable[] = {
 
 
 dimeLayer * dimeLayer::defaultLayer;
-static char defaultName[] = "Default DIME layer";
+
+// 0 seems to be the default layer name in AutoCAD
+static char defaultName[] = "0"; 
 
 dimeLayer::dimeLayer()
   : layerName( NULL ), layerNum( -1 ), colorNum( -1 ), flags( 0 )
