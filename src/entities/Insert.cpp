@@ -407,10 +407,6 @@ dimeInsert::traverse(const dimeState * const state,
 {
   dimeState newstate = *state;
   newstate.currentInsert = this;
-
-#ifndef NDEBUG
-  fprintf(stderr,"Insert: %d %d\n", rowCount, columnCount);
-#endif
   
   if (this->block && (state->getFlags() & dimeState::EXPLODE_INSERTS)) {
     for (int i = 0; i < this->rowCount; i++) {
