@@ -195,16 +195,17 @@ fi
 
 AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
 
+# no DLL setup yet
 DIME_STATIC=true
-case $enable_static in
-yes | true)  DIME_STATIC=true ;;
-*)           DIME_STATIC=false ;;
-esac
+# case $enable_static in
+# yes | true)  DIME_STATIC=true ;;
+# *)           DIME_STATIC=false ;;
+# esac
 
-case $enable_shared in
-yes | true)  DIME_STATIC=false ;;
-*)           DIME_STATIC=true ;;
-esac
+# case $enable_shared in
+# yes | true)  DIME_STATIC=false ;;
+# *)           DIME_STATIC=true ;;
+# esac
 
 AC_SUBST([LIBFLAGS], [])
 
