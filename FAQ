@@ -23,14 +23,14 @@ Question 2: What about support for other file formats?
 
 Short answer:
 
-    AutoCAD dwg is being considered. Beta support for dxb has recently
-    been added.
+    Beta support for dxb has recently been added.  For AutoCAD dwg support,
+    see www.opendwg.org.
 
 Long answer:
 
     To support other file formats, the format must be structurally very
     similar to the AutoCAD .dxf file format.  AutoCAD .dxb is one such
-    format, but it is hardly used by anyone.  AutoCAD .dwg might be another
-    format with similar structure.  If the structure is different, it will
-    probably be easier to create a new library for that file format.
+    format, but it is hardly used by anyone.  The AutoCAD .dwg format
+    could potensially be a candidate, but the file format seems too complex.
+    Check out opendwg.org if you need support for .dwg files.
 
