@@ -30,7 +30,7 @@
 #include <dime/Model.h>
 #include <dime/State.h>
 #include <stdio.h>
-#include "convert.h"
+#include <dime/convert/convert.h>
 
 #ifdef macintosh
 #include "console.h"
