@@ -36,6 +36,9 @@
   An instance of this class can only be constructed by the dimeModel
   class.
 
+  To add new layers to your model, you must use the dimeLayerTable
+  class, and add them to a dimeTablesSection.
+
   \sa dimeModel::addLayer()
 */
 
