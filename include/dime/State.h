@@ -37,6 +37,8 @@
 
 #include <dime/util/Linear.h>
 
+class dimeInsert;
+
 class dimeState
 {
 public:
@@ -61,11 +63,14 @@ public:
   void setFlags(const unsigned int flags);
   unsigned int getFlags() const;
 
+  const dimeInsert *getCurrentInsert() const;
+
 private:
+  friend class dimeInsert;
   dimeMatrix matrix;
   dimeMatrix invmatrix; // to speed up things...
   unsigned int flags;
-
+  const dimeInsert *currentInsert;
 }; // class dimeState
 
 inline const dimeMatrix &
@@ -83,6 +88,12 @@ inline unsigned int
 dimeState::getFlags() const
 {
   return (this->flags & PUBLIC_MASK);
+}
+
+inline const dimeInsert *
+dimeState::getCurrentInsert() const
+{
+  return this->currentInsert;
 }
 
 #endif // ! DIME_STATE_H

@@ -141,6 +141,7 @@ dimeEllipse::copy(dimeModel * const model) const
     e = NULL;
   }
   else {
+    e->copyExtrusionData(this);
     e->center = this->center;
     e->ratio = this->ratio;
     e->majorAxisEndpoint = this->majorAxisEndpoint;
@@ -179,8 +180,10 @@ dimeEllipse::write(dimeOutput * const file)
   
   file->writeGroupCode(42);
   file->writeDouble(this->endParam);
+
+  this->writeExtrusionData(file);
   
-  return dimeEntity::write(file);
+  return dimeExtrusionEntity::write(file);
 }
 
 //!
@@ -219,7 +222,7 @@ dimeEllipse::handleRecord(const int groupcode,
     this->endParam = param.double_data;
     return true;
   }  
-  return dimeEntity::handleRecord(groupcode, param, memhandler);
+  return dimeExtrusionEntity::handleRecord(groupcode, param, memhandler);
 }
 
 //!
@@ -259,7 +262,7 @@ dimeEllipse::getRecord(const int groupcode,
     return true;
   }
 
-  return dimeEntity::getRecord(groupcode, param, index);  
+  return dimeExtrusionEntity::getRecord(groupcode, param, index);  
 }
 
 //!
@@ -276,6 +279,6 @@ int
 dimeEllipse::countRecords() const
 {
   // header + center point + major endpoint + ratio + start + end
-  return 10 + dimeEntity::countRecords();
+  return 10 + dimeExtrusionEntity::countRecords();
 }
 

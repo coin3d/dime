@@ -51,7 +51,7 @@
 
 dimeOutput::dimeOutput()
   : fp( NULL ), binary( false ), callback( NULL ), callbackdata( NULL ),
-    aborted( false )
+    aborted( false ), didOpenFile(false)
 {
 }
 
@@ -61,7 +61,7 @@ dimeOutput::dimeOutput()
 
 dimeOutput::~dimeOutput()
 {
-  if (this->fp) fclose(this->fp);
+  if (this->fp && this->didOpenFile) fclose(this->fp);
 }
 
 /*!
@@ -83,18 +83,37 @@ dimeOutput::setCallback(const int num_records,
 
 /*!
   Sets the filename for the output file. The file will be opened,
-  and \e true is returned if all was ok.
+  and \e true is returned if all was ok. The file is closed in
+  the destructor.
 */
 
 bool
 dimeOutput::setFilename(const char * const filename)
 {
+  if (this->fp && this->didOpenFile) fclose(this->fp);
   this->fp = fopen(filename, "wb");
+  this->didOpenFile = true;
   return (this->fp != NULL);
 }
 
 /*!
-  Sets binary (DXB) or ASCII (DXF) format.
+  Sets the output stream. \fp should be a valid file/stream, and
+  it will not be closed in the destructor.
+ */
+bool 
+dimeOutput::setFileHandle(FILE *fp)
+{
+  if (this->fp && this->didOpenFile) fclose(this->fp);
+
+  assert(fp);
+  this->fp = fp;
+  this->didOpenFile = false;
+  return true;
+}
+
+/*!
+  Sets binary (DXB) or ASCII (DXF) format. Currently only ASCII
+  is supported.
 */
 
 void

@@ -49,6 +49,7 @@ dimeState::dimeState(const bool traversePolylineVertices,
 {
   this->matrix.makeIdentity();
   this->invmatrix.makeIdentity();
+  this->currentInsert = NULL;
   this->flags = 0;
   if (traversePolylineVertices) {
     this->flags |= TRAVERSE_POLYLINE_VERTICES;
@@ -67,6 +68,7 @@ dimeState::dimeState(const dimeState &st)
   this->matrix = st.matrix;
   this->invmatrix = st.invmatrix;
   this->flags = st.flags;
+  this->currentInsert = st.currentInsert;
 }
 
 void 

@@ -58,6 +58,16 @@ public:
 				       dimeArray <int> &indices,
 				       dimeVec3f &extrusionDir,
 				       float &thickness);
+  int getNumVertices() const;
+  const dxfdouble *getXCoords() const;
+  const dxfdouble *getYCoords() const;
+  const dxfdouble *getStartingWidths() const;
+  const dxfdouble *getEndWidths() const;
+  const dxfdouble *getBulges() const;
+
+  dxfdouble getElevation() const;
+  dxfdouble getConstantWidth() const;
+  int16 getFlags() const;
  
 protected:
   virtual bool handleRecord(const int groupcode,
@@ -78,6 +88,62 @@ private:
   dxfdouble *bulge;
 
 }; // class dimeLWPolyLine
+
+
+inline int 
+dimeLWPolyline::getNumVertices() const
+{
+  return this->numVertices;
+}
+
+inline const dxfdouble *
+dimeLWPolyline::getXCoords() const
+{
+  return this->xcoord;
+}
+inline const dxfdouble *
+dimeLWPolyline::getYCoords() const
+{
+  return this->ycoord;
+}
+
+inline const dxfdouble *
+dimeLWPolyline::getStartingWidths() const
+{
+  return this->startingWidth;
+
+}
+
+inline const dxfdouble *
+dimeLWPolyline::getEndWidths() const
+{
+  return this->endWidth;
+}
+
+inline const dxfdouble *
+dimeLWPolyline::getBulges() const
+{
+  return this->bulge;
+}
+
+inline dxfdouble 
+dimeLWPolyline::getElevation() const
+{
+  return this->elevation;
+}
+
+inline dxfdouble 
+dimeLWPolyline::getConstantWidth() const
+{
+  return this->constantWidth;
+}
+
+inline int16 
+dimeLWPolyline::getFlags() const
+{
+  return this->flags;
+}
+
 
 #endif // ! DIME_LWPOLYLINE_H
 

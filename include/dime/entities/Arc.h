@@ -52,10 +52,6 @@ public:
   dxfdouble getStartAngle() const;
   void setEndAngle(const dxfdouble a);
   dxfdouble getEndAngle() const;
-  void setThickness(const dxfdouble t); 
-  dxfdouble getThickness() const;
-  void setExtrusionDir(const dimeVec3f &e);
-  void getExtrusionDir(dimeVec3f &e) const;
   
   virtual bool getRecord(const int groupcode,
 			 dimeParam &param,
@@ -138,30 +134,6 @@ dimeArc::getEndAngle() const
 {
   return this->endAngle;
 }
-
-inline void 
-dimeArc::setThickness(const dxfdouble t)
-{
-  this->thickness = t;
-}
-
-inline dxfdouble 
-dimeArc::getThickness() const
-{
-  return this->thickness;
-}
-
-inline void 
-dimeArc::setExtrusionDir(const dimeVec3f &e)
-{
-  this->extrusionDir = e;
-}
-
-inline void 
-dimeArc::getExtrusionDir(dimeVec3f &e) const
-{
-  e = this->extrusionDir;
-}
-
+ 
 #endif // ! DIME_ARC_H
 

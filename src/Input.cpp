@@ -76,6 +76,7 @@ dimeInput::dimeInput()
   this->gzfp = NULL;
 #else
   this->fp = NULL;
+  this->didOpenFile = false;
 #endif
   this->prevwashandle = false;
 }
@@ -90,7 +91,7 @@ dimeInput::~dimeInput()
 #ifdef USE_GZFILE
   if (this->gzfp) gzclose(this->gzfp);
 #else
-  if (this->fp) fclose(this->fp);
+  if (this->fp && this->didOpenFile) fclose(this->fp);
 #endif
 }
 
@@ -109,8 +110,9 @@ dimeInput::init()
   this->gzfp = NULL;
   this->gzeof = true;
 #else
-  if (this->fp) fclose(this->fp);
+  if (this->fp && this->didOpenFile) fclose(this->fp);
   this->fp = NULL;
+  this->didOpenFile = false;
   this->fpeof = true;
 #endif
   this->filesize = 0;
@@ -160,6 +162,7 @@ dimeInput::setCallback(int (*cb)(float, void *), void *cbdata)
 float
 dimeInput::relativePosition()
 {
+  assert(this->didOpenFile);
   if (!this->filesize) return 0.0f;
   return (((float)(lseek(this->fd, 0, SEEK_CUR)-(readbufLen-readbufIndex)))/
 	  ((float)(this->filesize)));
@@ -167,7 +170,7 @@ dimeInput::relativePosition()
 
 /*!
   Opens the file 'filename' for reading. True is returned if the file
-  is opened correctly.
+  is opened correctly. File will be closed in destructor.
 */
 
 bool
@@ -185,6 +188,23 @@ dimeInput::setFile(const char * const filename)
 }
 
 /*!
+  Sets the input data to the stream \a fp. \fp must be a valid file/stream,
+  and will \e not be closed in the destuctor. No progress information
+  will be avilable during loading if this method is used.
+*/
+bool 
+dimeInput::setFileHandle(FILE *fp)
+{
+  if (!this->init()) return false;
+  this->fp = fp;
+  this->fpeof = false;
+  this->didOpenFile = false;
+  this->filesize = 1;
+  return true;
+}
+
+
+/*!
   Sets the file pointer for this instance. \a newfd is a file opened 
   with the unistd open() function.
 */
@@ -199,6 +219,7 @@ dimeInput::setFilePointer(const int newfd)
   this->gzeof = false; 
 #else
   this->fp = fdopen(this->fd, "rb");
+  this->didOpenFile = true;
   this->fpeof = false;
 #endif
   long startpos = lseek(fd, 0, SEEK_CUR);
@@ -238,7 +259,7 @@ dimeInput::readGroupCode(int32 &code)
     ret = true;
   }
   else {
-    if (this->callback && this->cbcnt++ > 100) {
+    if (this->didOpenFile && this->callback && this->cbcnt++ > 100) {
       this->cbcnt = 0;
       float pos = this->relativePosition();
       if (pos > this->prevposition + 0.01f) {
@@ -432,8 +453,8 @@ dimeInput::getVersion() const
 
 //  
 //  Reads a relatively big block from the file into local memory.  
+//  stdio caching is not fast enough...
 //
-
 bool
 dimeInput::doBufferRead()
 {
@@ -451,7 +472,7 @@ dimeInput::doBufferRead()
     this->readbufLen = len;
     return true;
   }
-#else
+#else // ! USE_GZFILE
   if (!this->fp) return false;
   int len = fread(this->readbuf, 1, READBUFSIZE, this->fp);
   if (len <= 0) {
@@ -465,7 +486,7 @@ dimeInput::doBufferRead()
     this->readbufLen = len;
     return true;
   }
-#endif
+#endif // ! USE_GZFILE
 }
 
 //

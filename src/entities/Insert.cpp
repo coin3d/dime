@@ -406,6 +406,7 @@ dimeInsert::traverse(const dimeState * const state,
 		    void *userdata)
 {
   dimeState newstate = *state;
+  newstate.currentInsert = this;
   
   if (this->block && (state->getFlags() & dimeState::EXPLODE_INSERTS)) {
     for (int i = 0; i < this->rowCount; i++) {
@@ -426,7 +427,7 @@ dimeInsert::traverse(const dimeState * const state,
   dimeMatrix m = state->getMatrix();
   this->makeMatrix(m);
   newstate.setMatrix(m);
-
+  
   // extract internal INSERT entities
   for (int i = 0; i < this->numEntities; i++) {
     if (!this->entities[i]->traverse(&newstate, callback, userdata)) return false;
@@ -442,7 +443,7 @@ dimeInsert::fixReferences(dimeModel * const model)
   if (this->block == NULL) {
     this->block = (dimeBlock*)model->findReference(this->blockName);
     if (this->block) {
-      fprintf(stderr,"forward reference fixed: %s -> %p\n", blockName, block);
+      //      fprintf(stderr,"forward reference fixed: %s -> %p\n", blockName, block);
 //      sim_warning("forward reference fixed: %s -> %p\n", blockName, block);
     }
     else {

@@ -46,6 +46,7 @@ public:
   dimeInput();
   ~dimeInput();
   
+  bool setFileHandle(FILE *fp);
   bool setFile(const char * const filename);
   bool setFilePointer(const int fd);
   bool eof() const;
@@ -102,6 +103,7 @@ private:
   int cbcnt;
   bool aborted;
   bool prevwashandle;
+  bool didOpenFile;
 
 private:
   bool init();

@@ -36,10 +36,14 @@
 #define DIME_ELLIPSE_H
 
 #include <dime/Basic.h>
-#include <dime/entities/Entity.h>
+#include <dime/entities/ExtrusionEntity.h>
 #include <dime/util/Linear.h>
 
-class dimeEllipse : public dimeEntity
+//
+// please note that the thickness will always be 0.0 for this entity
+//
+
+class dimeEllipse : public dimeExtrusionEntity
 {
 public:
   dimeEllipse();

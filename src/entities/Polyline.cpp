@@ -513,7 +513,8 @@ dimePolyline::extractGeometry(dimeArray <dimeVec3f> &verts,
   thickness = this->thickness;
   extrusionDir = this->extrusionDir;
 
-  if ((this->flags & 0x8) && this->coordCnt > 1) {
+  if ((((this->flags & 0x58) == 0) || (this->flags & 0x8)) && 
+      this->coordCnt > 1) {
     // this is a polyline 
     for (i = 0; i < this->coordCnt; i++) {
       verts.append(this->coordVertices[i]->coords);

@@ -46,6 +46,7 @@ public:
   
   void setCallback(const int numrecords,
 		   int (*cb)(float, void *), void *cbdata);
+  bool setFileHandle(FILE *fp);
   bool setFilename(const char * const filename);
   void setBinary(const bool state = true);
   bool isBinary() const;
@@ -72,6 +73,7 @@ private:
   int numrecords;
   int numwrites;
   bool aborted;
+  bool didOpenFile;
 
 }; // class dimeOutput
 
