@@ -114,21 +114,21 @@ LIBS =
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libconvert.la
 
 ConvertSources = \
-	convert3dface.cpp \
-	arc.cpp \
-	circle.cpp \
+	3dfaceconvert.cpp \
+	arcconvert.cpp \
+	circleconvert.cpp \
 	convert.cpp \
 	convert_funcs.h \
-	ellipse.cpp \
+	ellipseconvert.cpp \
 	layerdata.cpp \
-	line.cpp \
+	lineconvert.cpp \
 	linesegment.cpp \
 	linesegment.h \
-	lwpolyline.cpp \
-	point.cpp \
-	polyline.cpp \
-	solid.cpp \
-	trace.cpp
+	lwpolylineconvert.cpp \
+	pointconvert.cpp \
+	polylineconvert.cpp \
+	solidconvert.cpp \
+	traceconvert.cpp
 
 
 libconvert_la_SOURCES = \
@@ -152,19 +152,23 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 convert_lst_AR = $(AR) cru
 convert_lst_LIBADD =
-am_convert_lst_OBJECTS = convert3dface.$(OBJEXT) arc.$(OBJEXT) \
-	circle.$(OBJEXT) convert.$(OBJEXT) ellipse.$(OBJEXT) \
-	layerdata.$(OBJEXT) line.$(OBJEXT) linesegment.$(OBJEXT) \
-	lwpolyline.$(OBJEXT) point.$(OBJEXT) polyline.$(OBJEXT) \
-	solid.$(OBJEXT) trace.$(OBJEXT)
+am_convert_lst_OBJECTS = 3dfaceconvert.$(OBJEXT) arcconvert.$(OBJEXT) \
+	circleconvert.$(OBJEXT) convert.$(OBJEXT) \
+	ellipseconvert.$(OBJEXT) layerdata.$(OBJEXT) \
+	lineconvert.$(OBJEXT) linesegment.$(OBJEXT) \
+	lwpolylineconvert.$(OBJEXT) pointconvert.$(OBJEXT) \
+	polylineconvert.$(OBJEXT) solidconvert.$(OBJEXT) \
+	traceconvert.$(OBJEXT)
 convert_lst_OBJECTS = $(am_convert_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libconvert_la_LDFLAGS =
 libconvert_la_LIBADD =
-am_libconvert_la_OBJECTS = convert3dface.lo arc.lo circle.lo convert.lo \
-	ellipse.lo layerdata.lo line.lo linesegment.lo lwpolyline.lo \
-	point.lo polyline.lo solid.lo trace.lo
+am_libconvert_la_OBJECTS = 3dfaceconvert.lo arcconvert.lo \
+	circleconvert.lo convert.lo ellipseconvert.lo layerdata.lo \
+	lineconvert.lo linesegment.lo lwpolylineconvert.lo \
+	pointconvert.lo polylineconvert.lo solidconvert.lo \
+	traceconvert.lo
 libconvert_la_OBJECTS = $(am_libconvert_la_OBJECTS)
 
 DEFS = @DEFS@
@@ -172,20 +176,25 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/include
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/arc.Plo $(DEPDIR)/arc.Po \
-@AMDEP_TRUE@	$(DEPDIR)/circle.Plo $(DEPDIR)/circle.Po \
-@AMDEP_TRUE@	$(DEPDIR)/convert.Plo $(DEPDIR)/convert.Po \
-@AMDEP_TRUE@	$(DEPDIR)/convert3dface.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/convert3dface.Po $(DEPDIR)/ellipse.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/ellipse.Po $(DEPDIR)/layerdata.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/layerdata.Po $(DEPDIR)/line.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/line.Po $(DEPDIR)/linesegment.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/linesegment.Po $(DEPDIR)/lwpolyline.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/lwpolyline.Po $(DEPDIR)/point.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/point.Po $(DEPDIR)/polyline.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/polyline.Po $(DEPDIR)/solid.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/solid.Po $(DEPDIR)/trace.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/trace.Po
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/3dfaceconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/3dfaceconvert.Po $(DEPDIR)/arcconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/arcconvert.Po $(DEPDIR)/circleconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/circleconvert.Po $(DEPDIR)/convert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/convert.Po $(DEPDIR)/ellipseconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ellipseconvert.Po $(DEPDIR)/layerdata.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/layerdata.Po $(DEPDIR)/lineconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/lineconvert.Po $(DEPDIR)/linesegment.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/linesegment.Po \
+@AMDEP_TRUE@	$(DEPDIR)/lwpolylineconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/lwpolylineconvert.Po \
+@AMDEP_TRUE@	$(DEPDIR)/pointconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/pointconvert.Po \
+@AMDEP_TRUE@	$(DEPDIR)/polylineconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/polylineconvert.Po \
+@AMDEP_TRUE@	$(DEPDIR)/solidconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/solidconvert.Po \
+@AMDEP_TRUE@	$(DEPDIR)/traceconvert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/traceconvert.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -246,32 +255,32 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arc.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arc.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circle.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circle.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/3dfaceconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/3dfaceconvert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arcconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arcconvert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circleconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circleconvert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert3dface.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert3dface.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipse.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipseconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipseconvert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/layerdata.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/layerdata.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/line.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/line.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lineconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lineconvert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/linesegment.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/linesegment.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lwpolyline.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lwpolyline.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/point.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/point.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/polyline.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/polyline.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/solid.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/solid.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trace.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trace.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lwpolylineconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lwpolylineconvert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/pointconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/pointconvert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/polylineconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/polylineconvert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/solidconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/solidconvert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/traceconvert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/traceconvert.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
