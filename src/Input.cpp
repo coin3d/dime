@@ -98,6 +98,7 @@ dimeInput::init()
   this->putBackCode = 0;
   this->filePosition = 0;
   this->binary = false;
+  this->binary16bit = false;
 
   this->fd = -1;
 #ifdef USE_GZFILE
@@ -197,7 +198,7 @@ dimeInput::setFileHandle(FILE *fp)
   this->didOpenFile = false;
   this->filesize = 1;
   
-  this->binary = checkBinary();
+  this->binary = this->checkBinary();
 
   return true;
 }
@@ -274,10 +275,18 @@ dimeInput::readGroupCode(int32 &code)
     }
     
     if (this->binary) {
-      unsigned char uval; // group code is unsigned int8
-      char *ptr = (char*) &uval;
-      ret = this->get(*ptr);
-      code = (int32) uval;
+      if (this->binary16bit) {
+        uint16 uval;
+        int16 *ptr = (int16*)&uval;
+        ret = this->readInt16(*ptr);
+        code = (int32)uval;
+      }
+      else {
+        unsigned char uval; // group code is unsigned int8
+        char *ptr = (char*) &uval;
+        ret = this->get(*ptr);
+        code = (int32) uval;
+      }
       if (code == 255) {
 	int16 val16;
 	ret = this->readInt16(val16);
@@ -474,6 +483,12 @@ dimeInput::readString()
   if (ok) {
     char c;
     int idx = 0;
+#if 0     
+    if (this->binary) {
+      if (!get(c)) return NULL;
+      if (c != 0) lineBuf[idx++] = c;
+    }
+#endif
     while (get(c) && c != 0xa && c != 0xd && c != 0 && idx < DXF_MAXLINELEN) {
       lineBuf[idx++] = c;
     }
@@ -666,7 +681,6 @@ bool
 dimeInput::skipWhiteSpace()
 {
   if (this->binary) return true;
-
   char c;
   register bool gotChar;
   register char endline = 0xa;
@@ -928,6 +942,21 @@ dimeInput::checkBinary()
     // skip next 4 bytes
     for (i = 0; i < 4; i++) this->get(buf[0]);
     this->filePosition = 22; // byte position in file
+
+    char test16;
+    this->get(test16);
+    assert(test16 == 0);
+    this->get(test16);
+    if (test16 == 0) {
+      this->binary16bit = true;
+      this->putBack((char)0);
+      this->putBack((char)0);
+    }
+    else {
+      this->binary16bit = false;
+      this->putBack(test16);
+      this->putBack((char)0);
+    }
     return true;
   }
 }

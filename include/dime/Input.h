@@ -71,6 +71,7 @@ private:
   dimeModel *model;              // set by the dimeModel class.
   int filePosition;
   bool binary;
+  bool binary16bit;
   int version;
 
   int fd;
