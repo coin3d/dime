@@ -93,6 +93,7 @@ dimeHeaderSection::getVariable(const char * const variableName,
       groupcodes[cnt] = this->records[i]->getGroupCode();
       this->records[i]->getValue(params[cnt]);
       cnt++;
+      i++;
     }
     return cnt;
   }
