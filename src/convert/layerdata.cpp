@@ -346,7 +346,7 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
   }
 
 
-  if (points.count()) {
+  if (points.count() && 0) { // FIXME disabled, suspect bug. pederb, 2001-12-11 
     if (vrml1) {
       fprintf(fp,
               "  Separator {\n"
