@@ -36,11 +36,11 @@
   entity, and some steps need to be taken if it's going to work 100%
   with the rest of the library. I recommend looking at the code for
   the dimeArc entity when you read this documentation and before you
-  implement your own record. This is a very simple entity.It inherits
-  the dimeExtrusionEntity class. The dimeExtrusion class is used to
-  store extrusion information for an entity, and you should inherit
-  this class if your entity defines needs all of the following group
-  codes: 39 (thickness), 210, 220, 230 (extrusion direction vector).
+  implement your own record. This is a very simple entity. It inherits
+  the dimeExtrusionEntity class. The dimeExtrusionEntity class is used
+  to store extrusion information for an entity, and you should inherit
+  this class if your entity needs all of the following group codes: 39
+  (thickness), 210, 220, 230 (extrusion direction vector).
 
   The getRecord() method should be implemented to enable records to be
   queried using the group code of the record. Usually when you implement
@@ -101,7 +101,7 @@
 
   Well, that's about it I think. Good luck :) Don't hesitate to contact
   us (dime-support@sim.no) if you have questions about how to create
-  entities.
+  entities.  
 */
 
 #include <dime/entities/Entity.h>
