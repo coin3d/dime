@@ -54,7 +54,7 @@ public:
     FRAME_CONTROL_POINT    = 0x10,
     POLYLINE_3D_VERTEX     = 0x20,
     POLYGON_MESH_VERTEX    = 0x40,
-    POLYFACE_MESH_VERTEX   = 0x80
+    POLYFACE_MESH_VERTEX   = 0x80,
   };
   
   virtual dimeEntity *copy(dimeModel * const model) const;

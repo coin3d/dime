@@ -47,7 +47,9 @@
 #define FLAG_TMP_BUFFER_SET  0x0002 // see dimeEntity::read()
 #define FLAG_VERTICES_FOLLOW 0x0004 // used by dimePolyline
 #define FLAG_TAGGED          0x0008 // used by dimeEntity
-#define FLAG_FIRST_FREE      0x0010 // use this if you want to define your own flags
+#define FLAG_COLOR_NUMBER    0x0010 // signals a color number was read 
+
+#define FLAG_FIRST_FREE      0x0020 // use this if you want to define your own flags
 
 class dimeLayer;
 
@@ -62,6 +64,9 @@ class dimeEntity : public dimeRecordHolder
 public:
   dimeEntity();
   virtual ~dimeEntity();
+
+  int16 getEntityFlags() const;
+  void setEntityFlags(const int16 flags);
 
   int16 getColorNumber() const;
   void setColorNumber(const int16 c);
@@ -157,6 +162,18 @@ inline void
 dimeEntity::setColorNumber(const int16 c)
 {
   this->colorNumber = c;
+}
+
+inline int16 
+dimeEntity::getEntityFlags() const
+{
+  return this->entityFlags;
+}
+
+inline void 
+dimeEntity::setEntityFlags(const int16 flags)
+{
+  this->entityFlags = flags;
 }
 
 

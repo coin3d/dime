@@ -407,6 +407,10 @@ dimeInsert::traverse(const dimeState * const state,
 {
   dimeState newstate = *state;
   newstate.currentInsert = this;
+
+#ifndef NDEBUG
+  fprintf(stderr,"Insert: %d %d\n", rowCount, columnCount);
+#endif
   
   if (this->block && (state->getFlags() & dimeState::EXPLODE_INSERTS)) {
     for (int i = 0; i < this->rowCount; i++) {
@@ -423,7 +427,8 @@ dimeInsert::traverse(const dimeState * const state,
       }
     }
   }
-  
+
+#if 1
   dimeMatrix m = state->getMatrix();
   this->makeMatrix(m);
   newstate.setMatrix(m);
@@ -432,6 +437,8 @@ dimeInsert::traverse(const dimeState * const state,
   for (int i = 0; i < this->numEntities; i++) {
     if (!this->entities[i]->traverse(&newstate, callback, userdata)) return false;
   }
+#endif
+
   return true;
 }
 

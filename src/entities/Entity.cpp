@@ -222,6 +222,9 @@ dimeEntity *
 dimeEntity::createEntity(const char * const name, 
                         dimeMemHandler * const memhandler)
 {
+#ifndef NDEBUG
+  //  fprintf(stderr,"Entity: %s\n", name);
+#endif
   //
   // TODO: optimize 
   //
@@ -611,6 +614,7 @@ dimeEntity::handleRecord(const int groupcode,
     return true;
   }
   else if (groupcode == 62) {
+    this->entityFlags |= FLAG_COLOR_NUMBER;
     this->colorNumber = param.int16_data;
     return true;
   }
