@@ -230,6 +230,23 @@ dimeModel::read(dimeInput * const in)
 bool 
 dimeModel::write(dimeOutput * const out)
 {
+  if (largestHandle > 0) {
+    dimeHeaderSection *hs = (dimeHeaderSection*)
+      this->findSection("HEADER");
+    
+    if (hs) {
+      dimeParam param;
+      int groupcode;
+      if (hs->getVariable("$HANDSEED", &groupcode, &param, 1) == 1) {
+	char buf[512];
+	this->getUniqueHandle(buf, 512);
+	this->largestHandle--; // ok to use this handle next time
+	param.string_data = buf;
+	hs->setVariable("$HANDSEED", &groupcode, &param, 1, 
+			this->getMemHandler());
+      }
+    }
+  }
   out->writeHeader();
   int i, n = this->headerComments.count();
   for (i = 0; i < n; i++) {
