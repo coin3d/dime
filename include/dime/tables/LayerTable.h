@@ -36,6 +36,15 @@ class dimeLayerTable : public dimeTableEntry
 {
 public:
   dimeLayerTable();
+  virtual ~dimeLayerTable();
+  
+  void setLayerName(const char * name, dimeMemHandler * const memhandler);
+  const char * getLayerName(void) const;
+  
+  void setColorNumber(const int16 colnum);
+  int16 getColorNumber(void) const;
+
+  void registerLayer(dimeModel * model);
 
   virtual dimeTableEntry *copy(dimeModel * const model) const;
 
@@ -53,8 +62,8 @@ protected:
 
 private:
   int16 colorNumber;
-  char *layerName; // used only as temporary storage
-  class dimeLayer *layerInfo;
+  char * layerName;
+  class dimeLayer * layerInfo;
 
 }; // class dimeLayerTable
 

@@ -80,7 +80,7 @@ public:
   void getValue(dxfdouble &_x, dxfdouble &_y, dxfdouble &_z) const
   { _x = x; _y = y; _z = z;}
   dxfdouble length() const                    
-  { return sqrt(x*x+y*y+z*z); }
+  { return (dxfdouble) sqrt(x*x+y*y+z*z); }
   dxfdouble sqrLength(void) const
   { return x*x+y*y+z*z; }
   void negate(void)

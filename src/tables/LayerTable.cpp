@@ -51,6 +51,11 @@ dimeLayerTable::dimeLayerTable()
 {
 }
 
+dimeLayerTable::~dimeLayerTable()
+{
+  delete [] this->layerName;
+}
+
 //!
 
 dimeTableEntry *
@@ -59,9 +64,12 @@ dimeLayerTable::copy(dimeModel * const model) const
   dimeMemHandler *memh = model->getMemHandler();
   dimeLayerTable *l = new(memh) dimeLayerTable;
   l->colorNumber = this->colorNumber;
+  if (this->layerName) {
+    DXF_STRCPY(memh, l->layerName, this->layerName);
+  }
   if (this->layerInfo) {
     l->layerInfo = (dimeLayer*)model->addLayer(this->layerInfo->getLayerName(), 
-					      DXFABS(this->colorNumber));
+                                               DXFABS(this->colorNumber));
   }
   if (!copyRecords(l, model)) {
     // check if allocated on heap.
@@ -84,13 +92,9 @@ dimeLayerTable::getTableName() const
 bool 
 dimeLayerTable::read(dimeInput * const file)
 {
-  this->layerName = NULL;
   bool ret = dimeTableEntry::read(file);
-  if (ret && this->layerName) {
-    this->layerInfo = (dimeLayer*) 
-      file->getModel()->addLayer(this->layerName, DXFABS(this->colorNumber));
-    delete [] this->layerName;
-    this->layerName = NULL;
+  if (ret) {
+    this->registerLayer(file->getModel());
   }
   return ret;
 }
@@ -102,13 +106,13 @@ dimeLayerTable::write(dimeOutput * const file)
 {
   bool ret = dimeTableEntry::preWrite(file);
   
-  if (this->layerInfo) { 
+  if (this->layerName) { 
     ret = file->writeGroupCode(2); 
-    file->writeString(this->layerInfo->getLayerName());
+    file->writeString(this->layerName);
   }
   file->writeGroupCode(62);
   file->writeInt16(this->colorNumber);
-
+  
   ret = dimeTableEntry::write(file);
   return ret;
 }
@@ -130,18 +134,10 @@ dimeLayerTable::handleRecord(const int groupcode,
 {
   switch(groupcode) {
   case 2:
-    {
-      const char *str = param.string_data;
-      if (str) {
-	// a small hack -- deleted in read() very soon
-	this->layerName = new char[strlen(str)+1];
-	if (this->layerName)
-	  strcpy(this->layerName, str);
-      }
-      return true;
-    }
+    this->setLayerName(param.string_data, memhandler);
+    return true;
   case 62:
-    this->colorNumber = param.int16_data;
+    this->setColorNumber(param.int16_data);
     return true;
   }
   return dimeTableEntry::handleRecord(groupcode, param, memhandler);
@@ -157,4 +153,63 @@ dimeLayerTable::countRecords() const
   cnt++; // colorNumber
   return cnt + dimeTableEntry::countRecords();
 }
+
+/*!
+  Sets the layer name.
+*/
+void 
+dimeLayerTable::setLayerName(const char * name, dimeMemHandler * const memhandler)
+{
+  if (this->layerName && memhandler == NULL) {
+    delete this->layerName;
+  }
+  DXF_STRCPY(memhandler, this->layerName, name);
+}
+
+/*!
+  Returns the layer name.
+ */
+const char * 
+dimeLayerTable::getLayerName(void) const
+{
+  return this->layerName;
+}
+
+/*!
+  Sets the color number.
+ */
+void 
+dimeLayerTable::setColorNumber(const int16 colnum)
+{
+  this->colorNumber = colnum;
+  if (this->layerInfo) this->layerInfo->setColorNumber(DXFABS(this->colorNumber));
+}
+
+/*!
+  Returns the color number.
+ */
+int16 
+dimeLayerTable::getColorNumber(void) const
+{
+  return this->colorNumber;
+}
+
+/*!  
+  Should be called _once_ after you've finished setting up your
+  layer (name and color number).  Calling this method more than once
+  for a layer might lead to hard-to-find bugs. After calling this
+  method, the layer information (color number) will be available to
+  entities using this layer.  
+*/
+void 
+dimeLayerTable::registerLayer(dimeModel * model)
+{
+  if (this->layerInfo == NULL && this->layerName != NULL) {
+    this->layerInfo = (dimeLayer*) 
+      model->addLayer(this->layerName, DXFABS(this->colorNumber));    
+  }
+}
+
+
+
 
