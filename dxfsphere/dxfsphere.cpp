@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 
+// DIME: needed include files.
 #include <dime/Model.h>
 #include <dime/sections/EntitiesSection.h>
 #include <dime/entities/3DFace.h>
