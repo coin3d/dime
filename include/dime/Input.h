@@ -35,7 +35,7 @@
 
 #define DXF_MAXLINELEN 4096
 
-class dimeInput
+class DIME_DLL_API dimeInput
 {
 public:
   dimeInput();

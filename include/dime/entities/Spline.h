@@ -33,7 +33,7 @@
 #include <dime/entities/ExtrusionEntity.h>
 #include <assert.h>
 
-class dimeSpline : public dimeEntity
+class DIME_DLL_API dimeSpline : public dimeEntity
 {
 public:
   dimeSpline();

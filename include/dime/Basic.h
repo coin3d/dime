@@ -104,5 +104,6 @@ typedef union {
   const char *hex_data;
 } dimeParam;
 
-#endif // ! DIME_BASIC_H
+#define DIME_DLL_API
 
+#endif // !DIME_BASIC_H

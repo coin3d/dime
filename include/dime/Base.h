@@ -35,7 +35,7 @@
 
 class dimeMemHandler;
 
-class dimeBase
+class DIME_DLL_API dimeBase
 {
 public:
   enum {

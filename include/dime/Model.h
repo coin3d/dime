@@ -48,7 +48,7 @@ class dimeBlock;
 class dimeEntity;
 class dimeRecord;
 
-class dimeModel
+class DIME_DLL_API dimeModel
 {
 public:
   dimeModel(const bool usememhandler = true);

@@ -32,7 +32,7 @@
 
 #include <dime/Basic.h>
 
-class dimeMemHandler
+class DIME_DLL_API dimeMemHandler
 {
 public:
   dimeMemHandler();

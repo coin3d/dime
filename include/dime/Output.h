@@ -33,7 +33,7 @@
 #include <dime/Basic.h>
 #include <stdio.h>
 
-class dimeOutput
+class DIME_DLL_API dimeOutput
 {
 public:
   dimeOutput();

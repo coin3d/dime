@@ -32,7 +32,7 @@
 
 #include <dime/entities/ExtrusionEntity.h>
 
-class dimeLWPolyline : public dimeExtrusionEntity
+class DIME_DLL_API dimeLWPolyline : public dimeExtrusionEntity
 {
 public:
   dimeLWPolyline();

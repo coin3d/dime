@@ -34,7 +34,7 @@
 
 class dimeMemHandler;
 
-class dimeUnknownClass : public dimeClass 
+class DIME_DLL_API dimeUnknownClass : public dimeClass 
 {
 public:
   dimeUnknownClass(const char * const name, dimeMemHandler * const memhandler);

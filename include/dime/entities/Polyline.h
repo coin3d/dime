@@ -38,7 +38,7 @@
 
 class dimeVertex;
 
-class dimePolyline : public dimeExtrusionEntity
+class DIME_DLL_API dimePolyline : public dimeExtrusionEntity
 {
 public:
   dimePolyline();

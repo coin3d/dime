@@ -33,7 +33,7 @@
 #include <dime/sections/Section.h>
 #include <dime/util/Array.h>
 
-class dimeBlocksSection : public dimeSection 
+class DIME_DLL_API dimeBlocksSection : public dimeSection 
 {
 public:
   dimeBlocksSection(dimeMemHandler * const memhandler = NULL);

@@ -37,7 +37,7 @@ class dimeMemHandler;
 class dimeOutput;
 class dimeRecord;
 
-class dimeRecordHolder : public dimeBase
+class DIME_DLL_API dimeRecordHolder : public dimeBase
 {
 public:
   dimeRecordHolder(const int separator);

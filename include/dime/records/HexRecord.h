@@ -32,7 +32,7 @@
 
 #include <dime/records/StringRecord.h>
 
-class dimeHexRecord : public dimeStringRecord
+class DIME_DLL_API dimeHexRecord : public dimeStringRecord
 {
 public:
   dimeHexRecord(const int group_code = 0);

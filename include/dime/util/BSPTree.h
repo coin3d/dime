@@ -30,13 +30,14 @@
 #ifndef DIME_BSPTREE_H
 #define DIME_BSPTREE_H
 
+#include <dime/Basic.h>
 #include <dime/util/Array.h>
 #include <dime/util/Linear.h>
 
 class dimeBox;
 class dime_bspnode;
 
-class dimeBSPTree
+class DIME_DLL_API dimeBSPTree
 {
 public:
   dimeBSPTree(const int maxnodepts = 64, const int initsize = 4);

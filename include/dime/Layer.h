@@ -32,7 +32,7 @@
 
 #include <dime/Basic.h>
 
-class dimeLayer
+class DIME_DLL_API dimeLayer
 {
 public:
 

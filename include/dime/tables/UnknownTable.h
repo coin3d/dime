@@ -32,7 +32,7 @@
 
 #include <dime/tables/TableEntry.h>
 
-class dimeUnknownTable : public dimeTableEntry 
+class DIME_DLL_API dimeUnknownTable : public dimeTableEntry 
 {
 public:
   dimeUnknownTable(const char * const name, dimeMemHandler * const memhandler);

@@ -32,7 +32,7 @@
 
 #include <dime/tables/TableEntry.h>
 
-class dimeLayerTable : public dimeTableEntry 
+class DIME_DLL_API dimeLayerTable : public dimeTableEntry 
 {
 public:
   dimeLayerTable();

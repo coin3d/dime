@@ -32,7 +32,7 @@
 
 #include <dime/entities/Entity.h>
 
-class dimeUnknownEntity : public dimeEntity 
+class DIME_DLL_API dimeUnknownEntity : public dimeEntity 
 {
 public:
   dimeUnknownEntity(const char * const name, dimeMemHandler * const memhandler);

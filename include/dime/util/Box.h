@@ -33,7 +33,7 @@
 #include <dime/Basic.h>
 #include <dime/util/Linear.h>
 
-class dimeBox
+class DIME_DLL_API dimeBox
 {
 public:
   dimeVec3f min, max;

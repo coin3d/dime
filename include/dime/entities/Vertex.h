@@ -34,7 +34,7 @@
 #include <dime/entities/Entity.h>
 #include <dime/util/Linear.h>
 
-class dimeVertex : public dimeEntity
+class DIME_DLL_API dimeVertex : public dimeEntity
 {
   friend class dimePolyline;
   friend class dimeEntity;

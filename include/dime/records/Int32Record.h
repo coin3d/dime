@@ -32,7 +32,7 @@
 
 #include <dime/records/Record.h>
 
-class dimeInt32Record : public dimeRecord
+class DIME_DLL_API dimeInt32Record : public dimeRecord
 {
 public:
   dimeInt32Record(const int group_code = 90, const int32 val = 0);

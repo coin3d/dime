@@ -40,7 +40,7 @@ class dimeInput;
 class dimeMemHandler;
 class dimeOutput;
 
-class dimeClass : public dimeRecordHolder
+class DIME_DLL_API dimeClass : public dimeRecordHolder
 {
   friend class dimeClassesSection;
   friend class dimeModel;

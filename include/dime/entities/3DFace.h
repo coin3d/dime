@@ -34,7 +34,7 @@
 #include <dime/entities/FaceEntity.h>
 #include <dime/util/Linear.h>
 
-class dime3DFace : public dimeFaceEntity
+class DIME_DLL_API dime3DFace : public dimeFaceEntity
 {
   friend class dimeEntitiesSection;
   friend class dimeBlock;

@@ -39,7 +39,7 @@ class dimeOutput;
 class dimeTableEntry;
 class dimeRecord;
 
-class dimeTable : public dimeBase
+class DIME_DLL_API dimeTable : public dimeBase
 {
 public:
   dimeTable(dimeMemHandler * const memhandler);

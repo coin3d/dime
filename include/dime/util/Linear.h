@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-class dimeVec2f
+class DIME_DLL_API dimeVec2f
 {
 public:
   dimeVec2f() {}
@@ -53,7 +53,7 @@ public:
 
 }; // class dimeVec2f
 
-class dimeVec3f
+class DIME_DLL_API dimeVec3f
 { 
 public:
   dxfdouble x, y, z;
@@ -148,7 +148,7 @@ public:
 
 }; // class dimeVec3f
 
-class dimeMatrix
+class DIME_DLL_API dimeMatrix
 {
 public:
   dimeMatrix() {}

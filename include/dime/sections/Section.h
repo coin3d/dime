@@ -37,7 +37,7 @@ class dimeInput;
 class dimeModel;
 class dimeOutput;
 
-class dimeSection : public dimeBase
+class DIME_DLL_API dimeSection : public dimeBase
 {
 public:
   dimeSection(dimeMemHandler * const memhandler);

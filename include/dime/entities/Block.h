@@ -39,7 +39,7 @@ class dimeMemHandler;
 class dimeModel;
 class dimeOutput;
 
-class dimeBlock : public dimeEntity
+class DIME_DLL_API dimeBlock : public dimeEntity
 {
   friend class dimeBlocksSection;
   friend class dimeEntitiesSection;

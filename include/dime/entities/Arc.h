@@ -34,7 +34,7 @@
 #include <dime/entities/ExtrusionEntity.h>
 #include <dime/util/Linear.h>
 
-class dimeArc : public dimeExtrusionEntity
+class DIME_DLL_API dimeArc : public dimeExtrusionEntity
 {
 public:
   dimeArc();

@@ -34,7 +34,7 @@
 #include <dime/entities/Entity.h>
 #include <dime/util/Linear.h>
 
-class dimeFaceEntity : public dimeEntity 
+class DIME_DLL_API dimeFaceEntity : public dimeEntity 
 {
 public:
   bool isQuad() const;

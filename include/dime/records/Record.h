@@ -37,7 +37,7 @@
 class dimeInput;
 class dimeOutput;
 
-class dimeRecord : public dimeBase
+class DIME_DLL_API dimeRecord : public dimeBase
 {
 public: 
   dimeRecord(const int group_code);

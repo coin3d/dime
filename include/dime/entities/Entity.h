@@ -53,7 +53,7 @@
 
 class dimeLayer;
 
-class dimeEntity : public dimeRecordHolder
+class DIME_DLL_API dimeEntity : public dimeRecordHolder
 {
   friend class dimeEntitiesSection;
   friend class dimeModel;

@@ -38,7 +38,7 @@
 // please note that the thickness will always be 0.0 for this entity
 //
 
-class dimeEllipse : public dimeExtrusionEntity
+class DIME_DLL_API dimeEllipse : public dimeExtrusionEntity
 {
 public:
   dimeEllipse();

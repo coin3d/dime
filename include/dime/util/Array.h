@@ -33,7 +33,7 @@
 #include <stdlib.h>
 
 template <class T>
-class dimeArray
+class DIME_DLL_API dimeArray
 {
 public:
   dimeArray(const int initsize = 4);

@@ -36,7 +36,7 @@
 #include <dime/util/Linear.h>
 #include <dime/RecordHolder.h>
 
-class dimeObject : public dimeRecordHolder
+class DIME_DLL_API dimeObject : public dimeRecordHolder
 {
   friend class dimeObjectesSection;
   friend class dimeModel;
