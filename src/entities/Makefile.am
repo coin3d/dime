@@ -38,7 +38,7 @@ libentities_la_SOURCES = \
 entities_lst_SOURCES = \
 	$(EntitiesSources)
 
-entities.lst: Makefile $(entites_lst_OBJECTS)
+entities.lst: Makefile $(entities_lst_OBJECTS)
 	@echo "Linking entities.lst..."; \
 	rm -f $@; \
 	for i in $(entities_lst_OBJECTS); do echo $$i >>$@; done

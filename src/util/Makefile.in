@@ -389,9 +389,9 @@ uninstall-am: uninstall-info-am uninstall-libutilincHEADERS
 
 
 util.lst: Makefile $(util_lst_OBJECTS)
-        @echo "Linking util.lst..."; \
-        rm -f $@; \
-        for i in $(util_lst_OBJECTS); do echo $$i >>$@; done
+	@echo "Linking util.lst..."; \
+	rm -f $@; \
+	for i in $(util_lst_OBJECTS); do echo $$i >>$@; done
 
 install-libutilincHEADERS: $(libutilinc_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -24,9 +24,9 @@ util_lst_SOURCES = \
 	$(UtilSources)
 
 util.lst: Makefile $(util_lst_OBJECTS)
-        @echo "Linking util.lst..."; \
-        rm -f $@; \
-        for i in $(util_lst_OBJECTS); do echo $$i >>$@; done
+	@echo "Linking util.lst..."; \
+	rm -f $@; \
+	for i in $(util_lst_OBJECTS); do echo $$i >>$@; done
 
 ## Installation information.
 

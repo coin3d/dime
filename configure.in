@@ -195,6 +195,7 @@ fi
 
 AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
 
+DIME_STATIC=true
 case $enable_static in
 yes | true)  DIME_STATIC=true ;;
 *)           DIME_STATIC=false ;;
