@@ -19,6 +19,3 @@ items will be implemented.
  *) Implement more of the entities, tables, etc. used by AutoCAD
     [medium priority]
 
- *) Add DWG file format support.
-    [low/medium priority]
-

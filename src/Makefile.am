@@ -29,8 +29,7 @@ libdime_la_SOURCES = \
 libdimeincdir = $(includedir)/dime
 
 libdime_la_LDFLAGS = \
-        -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
-        -release $(LT_RELEASE)
+	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 libdimeinc_HEADERS = \
 	$(top_srcdir)/include/dime/Base.h \
@@ -64,3 +63,4 @@ uninstall-libdimeincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libdimeincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libdimeincdir)/$$f; \
 	done
+
