@@ -339,6 +339,7 @@ AC_CONFIG_FILES([
 	src/util/Makefile
 	src/convert/Makefile
 	dxf2vrml/Makefile
+	dxfsphere/Makefile
 ])
 
 AC_OUTPUT
