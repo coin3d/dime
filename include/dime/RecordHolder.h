@@ -49,6 +49,11 @@ public:
 		  const dimeParam * const params,
 		  const int numrecords,
 		  dimeMemHandler * const memhandler = NULL);
+  void setIndexedRecord(const int groupcode, 
+                        const dimeParam &value,
+                        const int index,
+                        dimeMemHandler * const memhandler = NULL);
+  
   virtual bool getRecord(const int groupcode,
 			 dimeParam &param,
 			 const int index = 0) const;
@@ -58,7 +63,7 @@ public:
   virtual bool isOfType(const int thetypeid) const;
   virtual int countRecords() const;
 
-  dimeRecord *findRecord(const int groupcode);
+  dimeRecord *findRecord(const int groupcode, const int index = 0);
 
 protected:
   virtual bool handleRecord(const int groupcode,
@@ -74,6 +79,10 @@ protected:
   dimeRecord **records;
   int numRecords;
   // int separator; // not needed ?
+
+private:
+  void setRecordCommon(const int groupcode, const dimeParam &param,
+                       const int index, dimeMemHandler * const memhandler);
 
 }; // class dimeRecordHolder
 

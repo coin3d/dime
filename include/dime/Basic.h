@@ -47,11 +47,13 @@ typedef float dxfdouble;
 #define DXFDEG2RAD(x) (M_PI*(x)/180.0f)
 #define DXFRAD2DEG(x) (180.0f*(x)/M_PI)
 
+
 #ifdef __sgi
 #define bool int
 #define true 1
 #define false 0
 #endif // __sgi
+
 
 template <class T> inline
 T DXFSQR(const T x)
