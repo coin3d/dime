@@ -48,6 +48,7 @@ usage(char *progname)
 	  "-e <maxerr>  Maximum error when tessellating curves\n"
 	  "-f           Respect the $FILLMODE header variable\n"
           "-vrml2       Write as vrml2. Default is vrml1\n"
+          "-2d          Set z-coordinate to 0 for all vertices\n"
 	  "-l           Use layer color, ignore the color index\n\n",
 	  progname);
   return -1;
@@ -72,6 +73,7 @@ main(int argc, char **argv)
   int fillmode = 0;
   int layercol = 0;
   bool vrml1 = true;
+  bool only2d = false;
 
   while (i < argc) {
     if (argv[i][0] != '-') {
@@ -113,6 +115,10 @@ main(int argc, char **argv)
         break;
       case 'h':
 	return usage(argv[0]);
+      case '2':
+        i++;
+        only2d = true;
+        break;
       default:
 	return usage(argv[0]);
       }
@@ -181,7 +187,7 @@ main(int argc, char **argv)
     return -1;
   }
   
-  converter.writeVrml(out, vrml1);
+  converter.writeVrml(out, vrml1, only2d);
   
   if (out != stdout) fclose(out);
   return 0; // alles in ordnung :-)

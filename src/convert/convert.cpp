@@ -201,7 +201,8 @@ dxfConverter::doConvert(dimeModel &model)
   Writes the internal geometry structures to \a out.
 */
 bool
-dxfConverter::writeVrml(FILE *out, const bool vrml1)
+dxfConverter::writeVrml(FILE *out, const bool vrml1,
+                        const bool only2d)
 {
 #ifndef NOWRLEXPORT
   //
@@ -222,7 +223,7 @@ dxfConverter::writeVrml(FILE *out, const bool vrml1)
   //
   for (int i = 0; i < 255; i++) {
     if (layerData[i] != NULL) {
-      layerData[i]->writeWrl(out, 0, vrml1);
+      layerData[i]->writeWrl(out, 0, vrml1, only2d);
       delete layerData[i]; layerData[i] = NULL;
     }
   }

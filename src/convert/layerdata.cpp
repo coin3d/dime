@@ -196,7 +196,8 @@ dxfLayerData::addQuad(const dimeVec3f &v0,
   Exports this layer's geometry as vrml nodes.
 */
 void 
-dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
+dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1,
+                       const bool only2d)
 {
 #ifndef NOWRLEXPORT
   if (!faceindices.count() && !lineindices.count() && !points.count()) return;
@@ -252,10 +253,11 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
     n = facebsp.numPoints();
     for (i = 0; i < n ; i++) {
       facebsp.getPoint(i, v);
+      if (only2d) v[2] = 0.0f;
       if (i < n-1)
-	fprintf(fp, "            %g %g %g,\n", v[0], v[1], v[2]);
+	fprintf(fp, "            %.8g %.8g %.8g,\n", v[0], v[1], v[2]);
       else 
-	fprintf(fp, "            %g %g %g\n", v[0], v[1], v[2]);
+	fprintf(fp, "            %.8g %.8g %.8g\n", v[0], v[1], v[2]);
     }
     fprintf(fp, 
 	    "          ]\n"
@@ -311,10 +313,11 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
     n = linebsp.numPoints();
     for (i = 0; i < n ; i++) {
       linebsp.getPoint(i, v);
+      if (only2d) v[2] = 0.0f;
       if (i < n-1)
-	fprintf(fp, "            %g %g %g,\n", v[0], v[1], v[2]);
+	fprintf(fp, "            %.8g %.8g %.8g,\n", v[0], v[1], v[2]);
       else 
-	fprintf(fp, "            %g %g %g\n", v[0], v[1], v[2]);
+	fprintf(fp, "            %.8g %.8g %.8g\n", v[0], v[1], v[2]);
     }
     fprintf(fp, 
 	    "          ]\n"
@@ -368,6 +371,7 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
     n = points.count();
     for (i = 0; i < n ; i++) {
       v = points[i];
+      if (only2d) v[2] = 0.0f;
       if (i < n-1)
 	fprintf(fp, "            %g %g %g,\n", v[0], v[1], v[2]);
       else 
