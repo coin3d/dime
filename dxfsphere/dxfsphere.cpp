@@ -407,6 +407,14 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer)
   }
   face->setTriangle(v[0], v[1], v[2]);
 
+  const int BUFSIZE = 1024;
+  char buf[BUFSIZE];
+  const char * handle = model.getUniqueHandle(buf, BUFSIZE);
+  
+  dimeParam param;
+  param.string_data = handle;
+  face->setRecord(5, param);
+
   // DIME: add entity to model
   model.addEntity(face);
 }
