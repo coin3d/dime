@@ -122,6 +122,7 @@ dimeInput::init()
   this->prevposition = 0.0f;
   this->cbcnt = 0;
   this->prevwashandle = false;
+  this->endianSwap = false;
   return true;
 }
 
@@ -195,6 +196,9 @@ dimeInput::setFileHandle(FILE *fp)
   this->fpeof = false;
   this->didOpenFile = false;
   this->filesize = 1;
+  
+  this->binary = checkBinary();
+
   return true;
 }
 
@@ -220,6 +224,9 @@ dimeInput::setFilePointer(const int newfd)
   long startpos = lseek(fd, 0, SEEK_CUR);
   this->filesize = lseek(fd, 0, SEEK_END);
   lseek(fd, startpos, SEEK_SET);
+
+  this->binary = this->checkBinary();
+
   return this->filesize > 0;
 }
 
@@ -265,13 +272,27 @@ dimeInput::readGroupCode(int32 &code)
 	}
       }
     }
-    //
-    // quick fix to ignore comments
-    //
-    ret = readInt32(code);
-    while (ret && code == 999) {
-      readString();
+    
+    if (this->binary) {
+      unsigned char uval; // group code is unsigned int8
+      char *ptr = (char*) &uval;
+      ret = this->get(*ptr);
+      code = (int32) uval;
+      if (code == 255) {
+	int16 val16;
+	ret = this->readInt16(val16);
+	code = (int32) val16; 
+      }
+    }
+    else {
+      //
+      // quick fix to ignore comments
+      //
       ret = readInt32(code);
+      while (ret && code == 999) {
+	readString();
+	ret = readInt32(code);
+      }
     }
   }
   if (code == 5) this->prevwashandle = true;
@@ -301,6 +322,11 @@ dimeInput::putBackGroupCode(const int32 code)
 bool 
 dimeInput::readInt8(int8 &val)
 {
+  if (this->binary) {
+    char *ptr = (char*)&val;
+    return get(*ptr);
+  }
+  
   long tmp;
   bool ok = skipWhiteSpace();
   if (ok && readInteger(tmp) && tmp >= -128 & tmp <= 127) {
@@ -317,6 +343,20 @@ dimeInput::readInt8(int8 &val)
 bool 
 dimeInput::readInt16(int16 &val)
 {
+  if (this->binary) {
+    bool ret;
+    char *ptr = (char*)&val;
+    if (this->endianSwap) {
+      this->get(ptr[1]);
+      ret = this->get(ptr[0]);
+    }
+    else {
+      this->get(ptr[0]);
+      ret = this->get(ptr[1]);
+    }
+    return ret;
+  }
+
   long tmp;
   bool ok = skipWhiteSpace();
   if (ok && readInteger(tmp) && tmp >= -32768 & tmp <= 32767) {
@@ -333,6 +373,24 @@ dimeInput::readInt16(int16 &val)
 bool 
 dimeInput::readInt32(int32 &val)
 {
+  if (this->binary) {
+    bool ret;
+    char *ptr = (char*)&val;
+    if (this->endianSwap) {
+      this->get(ptr[3]);
+      this->get(ptr[2]);
+      this->get(ptr[1]);
+      ret = this->get(ptr[0]);
+    }
+    else {
+      this->get(ptr[0]);
+      this->get(ptr[1]);
+      this->get(ptr[2]);
+      ret = this->get(ptr[3]);
+    }
+    return ret;
+  }
+  
   long tmp;
   if (skipWhiteSpace() && readInteger(tmp)) {
     val = tmp;
@@ -348,6 +406,13 @@ dimeInput::readInt32(int32 &val)
 bool 
 dimeInput::readFloat(float &val)
 {
+  if (this->binary) {
+    // binary files only contains doubles
+    dxfdouble tmp;
+    bool ret = readDouble(tmp);
+    val = (float) tmp;
+    return ret;
+  }
   dxfdouble tmp;
   bool ok = skipWhiteSpace();
   if (ok && readReal(tmp) && tmp >= -FLT_MAX && tmp <= FLT_MAX) {
@@ -364,6 +429,35 @@ dimeInput::readFloat(float &val)
 bool 
 dimeInput::readDouble(dxfdouble &val)
 {
+  if (this->binary) {
+    bool ret;
+    double tmp;
+    assert(sizeof(tmp) == 8);
+    char *ptr = (char*)&tmp;
+    if (this->endianSwap) {
+      this->get(ptr[7]);
+      this->get(ptr[6]);
+      this->get(ptr[5]);
+      this->get(ptr[4]);
+      this->get(ptr[3]);
+      this->get(ptr[2]);
+      this->get(ptr[1]);
+      ret = this->get(ptr[0]);
+      val = (dxfdouble) tmp;
+    }
+    else {
+      this->get(ptr[0]);
+      this->get(ptr[1]);
+      this->get(ptr[2]);
+      this->get(ptr[3]);
+      this->get(ptr[4]);
+      this->get(ptr[5]);
+      this->get(ptr[6]);
+      ret = this->get(ptr[7]);
+      val = (dxfdouble) tmp;
+    }
+    return ret;
+  }
   return skipWhiteSpace() && readReal(val) && nextLine();
 }
 
@@ -380,7 +474,7 @@ dimeInput::readString()
   if (ok) {
     char c;
     int idx = 0;
-    while (get(c) && c != 0xa && c != 0xd && idx < DXF_MAXLINELEN) {
+    while (get(c) && c != 0xa && c != 0xd && c != 0 && idx < DXF_MAXLINELEN) {
       lineBuf[idx++] = c;
     }
     if (c == 0xa) this->putBack(c);
@@ -558,6 +652,9 @@ dimeInput::get(char &c)
     return false;
   }
 #endif
+  if (this->binary) {
+    this->filePosition++;
+  }
   return true;
 }
 
@@ -568,6 +665,8 @@ dimeInput::get(char &c)
 bool
 dimeInput::skipWhiteSpace()
 {
+  if (this->binary) return true;
+
   char c;
   register bool gotChar;
   register char endline = 0xa;
@@ -583,6 +682,8 @@ dimeInput::skipWhiteSpace()
 bool
 dimeInput::nextLine()
 {
+  if (this->binary) return true;
+
   char c;
   register bool gotChar;
   register char endline = 0xa;
@@ -605,6 +706,7 @@ dimeInput::nextLine()
 bool
 dimeInput::readInteger(long &l)
 {
+  assert(!this->binary);
   char str[TMPBUFSIZE];
   char *s = str;
 
@@ -626,6 +728,7 @@ dimeInput::readInteger(long &l)
 bool
 dimeInput::readUnsignedInteger(unsigned long &l)
 {
+  assert(!this->binary);
   char str[TMPBUFSIZE]; 
   if(! readUnsignedIntegerString(str))
     return false;
@@ -638,6 +741,7 @@ dimeInput::readUnsignedInteger(unsigned long &l)
 bool
 dimeInput::readUnsignedIntegerString(char * const str)
 {
+  assert(!this->binary);
   int minSize = 1;
   char *s = str;
 
@@ -666,6 +770,7 @@ dimeInput::readUnsignedIntegerString(char * const str)
 int
 dimeInput::readDigits(char * const string)
 {
+  assert(!this->binary);
   char c, *s = string;
 
   while (get(c)) {
@@ -688,6 +793,8 @@ dimeInput::readDigits(char * const string)
 int
 dimeInput::readChar(char * const string, char charToRead)
 {
+  assert(!this->binary);
+
   char c;
   int ret;
 
@@ -710,6 +817,8 @@ dimeInput::readChar(char * const string, char charToRead)
 int
 dimeInput::readHexDigits(char * const string)
 {
+  assert(!this->binary);
+
   char c, *s = string;
 
   while (get(c)) {
@@ -733,6 +842,8 @@ dimeInput::readHexDigits(char * const string)
 bool
 dimeInput::readReal(dxfdouble &d)
 {
+  assert(!this->binary);
+
   char str[TMPBUFSIZE];
   int n;
   char *s = str;
@@ -785,3 +896,38 @@ dimeInput::readReal(dxfdouble &d)
   return true;
 }
 
+bool 
+dimeInput::checkBinary()
+{
+  { // perform endian-test
+    uint16 val;
+    char *ptr = (char*)&val;
+    ptr[0] = 1;
+    ptr[1] = 0;
+    if (val == 0x0001) this->endianSwap = false;
+    else {
+      assert(val == 0x0100);
+      this->endianSwap = true;
+    }
+  }
+  
+  static char binaryid[] = "AutoCAD Binary DXF";
+  char buf[64];
+  int i;
+  int n = strlen(binaryid);
+  for (i = 0; i < n; i++) {
+    if (!this->get(buf[i])) break;
+    if (buf[i] != binaryid[i]) break;
+  }
+  if (i < n) { // probably ascii
+    this->readbufIndex = 0; // assumes READBUFSIZE > 22, should be safe
+    this->filePosition = 0;
+    return false;
+  }
+  else {
+    // skip next 4 bytes
+    for (i = 0; i < 4; i++) this->get(buf[0]);
+    this->filePosition = 22; // byte position in file
+    return true;
+  }
+}

@@ -99,6 +99,7 @@ private:
   bool aborted;
   bool prevwashandle;
   bool didOpenFile;
+  bool endianSwap;
 
 private:
   bool init();
@@ -116,7 +117,7 @@ private:
   int readHexDigits(char * const string);
   int readChar(char * const string, char charToRead);
   bool readReal(dxfdouble &d);
-    
+  bool checkBinary();
 }; // class dimeInput
 
 #endif // ! DIME_INPUT_H
