@@ -418,8 +418,10 @@ dimeInsert::traverse(const dimeState * const state,
       }
     }
   }
+  else if (!this->isDeleted()) {
+    if (!callback(state, this, userdata)) return false;
+  }
 
-#if 1
   dimeMatrix m = state->getMatrix();
   this->makeMatrix(m);
   newstate.setMatrix(m);
@@ -428,8 +430,6 @@ dimeInsert::traverse(const dimeState * const state,
   for (int i = 0; i < this->numEntities; i++) {
     if (!this->entities[i]->traverse(&newstate, callback, userdata)) return false;
   }
-#endif
-
   return true;
 }
 
