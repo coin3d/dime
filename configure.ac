@@ -29,36 +29,19 @@ VERSION=$DIME_VERSION
 AC_SUBST(DIME_INTERFACE_AGE, 0)
 AC_SUBST(DIME_BINARY_AGE, 0)
 
-AC_ARG_ENABLE([msvc],
-  [AC_HELP_STRING([--disable-msvc], [don't require MS Visual C++ on Cygwin])],
-  [case $enableval in
-  no | false) sim_ac_try_msvc=false ;;
-  *)          sim_ac_try_msvc=true ;;
-  esac],
-  [sim_ac_try_msvc=true])
-
-case $host in
-*-cygwin)
-  if $sim_ac_try_msvc; then
-    SIM_AC_SETUP_MSVC_IFELSE([], [SIM_AC_ERROR([no-msvc++])])
-    if $BUILD_WITH_MSVC; then
-      SIM_AC_SETUP_MSVCRT([
-        CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
-        CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
-        CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
-        LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
-        LIBS="$LIBS $sim_ac_msvcrt_LIBS"
-        # sim_ac_msvcrt_LIBLIBS is set up at the end
-        # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-        AC_SUBST([DIME_MSVC_LIBC], [$sim_ac_msvcrt])
-      ])
-    fi
-  fi
-  ;;
-*)
-  BUILD_WITH_MSVC=false
-  ;;
-esac
+SIM_AC_SETUP_MSVCPP_IFELSE
+if $BUILD_WITH_MSVC; then
+  SIM_AC_SETUP_MSVCRT([
+    CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
+    CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+    # sim_ac_msvcrt_LIBLIBS is set up at the end
+    # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+    AC_SUBST([DIME_MSVC_LIBC], [$sim_ac_msvcrt])
+  ])
+fi
 
 dnl  Locate C++ compiler and set C++ as the default compiler to run
 dnl  in tests.
