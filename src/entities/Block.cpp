@@ -98,8 +98,10 @@ dimeBlock::dimeBlock(dimeMemHandler * const memhandler)
 dimeBlock::~dimeBlock()
 {
   if (!this->memHandler) {
-    for (int i = 0; i < this->entities.count(); i++) 
+    for (int i = 0; i < this->entities.count(); i++) {
       delete this->entities[i];
+    }
+    delete this->endblock;
   }
 }
 
