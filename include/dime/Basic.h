@@ -158,10 +158,13 @@ typedef union {
 #  endif /* DIME_MAKE_DLL */
 # else /* !DIME_INTERNAL */
 #  ifdef DIME_DLL
+#   ifdef DIME_NOT_DLL
+#    error Do not define both DIME_DLL and DIME_NOT_DLL at the same time
+#   endif
 #   define DIME_DLL_API __declspec(dllimport)
 #  else /* !DIME_DLL */
 #   ifndef DIME_NOT_DLL
-#    error Define either DIME_DLL or DIME_NOT_DLL as appropriate for your linkage! See Inventor/SbBasic.h for further instructions.
+#    error Define either DIME_DLL or DIME_NOT_DLL as appropriate for your linkage! See dime/Basic.h for further instructions.
 #   endif /* DIME_NOT_DLL */
 #  endif /* !DIME_DLL */
 # endif /* !DIME_INTERNAL */
