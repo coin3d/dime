@@ -107,7 +107,13 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-SUBDIRS = src dxf2vrml dxfsphere
+DXF2VRMLDIR = dxf2vrml
+DXFSPHEREDIR = dxfsphere
+
+@BUILD_WITH_MSVC_TRUE@EXAMPLEPROGDIRS = $(DXF2VRMLDIR) $(DXFSPHEREDIR)
+@BUILD_WITH_MSVC_FALSE@EXAMPLEPROGDIRS = 
+
+SUBDIRS = src $(EXAMPLEPROGDIRS)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
@@ -124,7 +130,7 @@ DIST_COMMON = README ./include/config.h.in ./include/stamp-h.in AUTHORS \
 	aclocal.m4 cfg/config.guess cfg/config.sub cfg/depcomp \
 	cfg/install-sh cfg/ltmain.sh cfg/missing cfg/mkinstalldirs \
 	configure configure.ac
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = src dxf2vrml dxfsphere
 all: all-recursive
 
 .SUFFIXES:
@@ -298,7 +304,7 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	for subdir in $(SUBDIRS); do \
+	for subdir in $(DIST_SUBDIRS); do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \

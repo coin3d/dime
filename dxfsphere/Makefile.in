@@ -107,10 +107,11 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_PROGRAMS = dxfsphere
-dxfsphere_SOURCES = dxfsphere.cpp
-
 INCLUDES = -I$(top_srcdir)/include
+
+noinst_PROGRAMS = dxfsphere
+
+dxfsphere_SOURCES = dxfsphere.cpp
 
 @BUILD_WITH_MSVC_TRUE@dxfsphere_LDADD = $(top_builddir)/src/dime0.lib
 @BUILD_WITH_MSVC_FALSE@dxfsphere_LDADD = $(top_builddir)/src/libdime.la
