@@ -204,8 +204,7 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1,
 
   int i, n;
 
-
-  float r,g,b;
+  dxfdouble r,g,b;
   
   dimeLayer::colorToRGB(this->colidx, r, g, b);
 
