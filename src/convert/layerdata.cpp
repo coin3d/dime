@@ -263,11 +263,11 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
     if (vrml1) {
       fprintf(fp,
               "    IndexedFaceSet {\n"
-              "      coordIndex [\n");
+              "      coordIndex [\n          ");
     }
     else {
       fprintf(fp,
-              "        coordIndex [\n");
+              "        coordIndex [\n          ");
     }
     n = faceindices.count();
     int cnt = 1;
@@ -322,10 +322,10 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
     if (vrml1) {
       fprintf(fp,
               "    IndexedLineSet {\n"
-              "      coordIndex [\n");
+              "      coordIndex [\n          ");
     }
     else {
-      fprintf(fp, "        coordIndex [\n");
+      fprintf(fp, "        coordIndex [\n          ");
     }
     
     n = lineindices.count();
@@ -378,8 +378,9 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
 	    "        }\n");
     if (vrml1) {
       fprintf(fp,
-              "    PointSet { }\n"
+              "    PointSet {\n"
               "      numPoints %d\n"
+              "    }\n"  
               "  }\n", points.count());
     }
     else {
