@@ -115,17 +115,18 @@ template <class T> inline void
 dimeArray<T>::prepend(const dimeArray<T> &array)
 {
   int newsize=this->num+array.count();
+  int i;
   if (this->size<=newsize) {
     T *oldarray=this->array;
     this->array=new T[newsize];
     this->size=newsize;
-    for (int i=0;i<array.count(); i++) this->array[i] = array[i];
-    for (int i=0;i<this->num;i++) this->array[i+array.count()] = oldarray[i];
+    for (i=0;i<array.count(); i++) this->array[i] = array[i];
+    for (i=0;i<this->num;i++) this->array[i+array.count()] = oldarray[i];
     delete[] oldarray;
   }
   else {
-    for (int i=0;i<this->num;i++) this->array[array.count()+i]=this->array[i];
-    for (int i=0;i<array.count();i++) this->array[i] = array[i];
+    for (i=0;i<this->num;i++) this->array[array.count()+i]=this->array[i];
+    for (i=0;i<array.count();i++) this->array[i] = array[i];
   }
   this->num+=array.count();
 }

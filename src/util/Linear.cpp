@@ -58,7 +58,12 @@
 #define FP_NZERO _FPCLASS_NZ
 #define FP_PZERO _FPCLASS_PZ
 #define M_PI 3.14159265357989
+#elif defined(__hpux)
+#define fpclass fpclassify
+#define FP_NZERO FP_MINUS_ZERO
+#define FP_PZERO FP_PLUS_ZERO
 #endif
+
 
 #ifdef macintosh
 #include "float.h"
