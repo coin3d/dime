@@ -83,7 +83,6 @@ public:
   virtual bool isOfType(const int thetypeid) const;
   virtual int countRecords() const;
   virtual void print() const {}
-  virtual int typeId() const = 0;
   
   
   bool isDeleted() const;
