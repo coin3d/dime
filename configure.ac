@@ -37,24 +37,28 @@ AC_ARG_ENABLE([msvc],
   esac],
   [sim_ac_try_msvc=true])
 
-if $sim_ac_try_msvc; then
-  SIM_AC_SETUP_MSVC_IFELSE([], [
-    case $host in
-    *-cygwin) SIM_AC_ERROR([no-msvc++]) ;;
-    esac])
-  if $BUILD_WITH_MSVC; then
-    SIM_AC_SETUP_MSVCRT([
-      CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
-      CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
-      CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
-      LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
-      LIBS="$LIBS $sim_ac_msvcrt_LIBS"
-      # sim_ac_msvcrt_LIBLIBS is set up at the end
-      # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-      AC_SUBST([DIME_MSVC_LIBC], [$sim_ac_msvcrt])
-    ])
+case $host in
+*-cygwin)
+  if $sim_ac_try_msvc; then
+    SIM_AC_SETUP_MSVC_IFELSE([], [SIM_AC_ERROR([no-msvc++])])
+    if $BUILD_WITH_MSVC; then
+      SIM_AC_SETUP_MSVCRT([
+        CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
+        CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+        CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+        LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+        LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+        # sim_ac_msvcrt_LIBLIBS is set up at the end
+        # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+        AC_SUBST([DIME_MSVC_LIBC], [$sim_ac_msvcrt])
+      ])
+    fi
   fi
-fi
+  ;;
+*)
+  BUILD_WITH_MSVC=false
+  ;;
+esac
 
 dnl  Locate C++ compiler and set C++ as the default compiler to run
 dnl  in tests.
@@ -89,14 +93,18 @@ AC_SUBST(LT_AGE)
 
 AC_SUBST([SUFFIX], [])
 
+#  These are used for constructing the dime-config file.
+AC_SUBST([DIME_EXTRA_CPPFLAGS], [$CPPFLAGS])
+AC_SUBST([DIME_EXTRA_CFLAGS], [$CFLAGS])
+AC_SUBST([DIME_EXTRA_CXXFLAGS], [$CXXFLAGS])
+AC_SUBST([DIME_EXTRA_LDFLAGS], [$LDFLAGS])
+AC_SUBST([DIME_EXTRA_LIBS], [$LIBS])
+
 dnl *******************************************************************
 dnl * Miscellaneous options and initializations.
 dnl *******************************************************************
 
 AM_INIT_AUTOMAKE(libdime, $VERSION)
-
-dnl  File to cram results from the configure tests into.
-AM_CONFIG_HEADER([include/config.h])
 
 dnl  Default to not building a static library.
 dnl  Can be overridden by the user with --enable-static.
@@ -112,6 +120,8 @@ fi
 
 dnl  Initialize libtool
 AC_PROG_LIBTOOL
+
+CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
 dnl *******************************************************************
 dnl * Enable/disable compilation with debug information.
@@ -172,7 +182,6 @@ if test "x$ac_cv_prog_cxx_g" = "xyes"; then
   fi
 fi
 
-
 dnl *******************************************************************
 dnl * Enable/disable compilation with warnings turned on (g++ only).
 dnl *******************************************************************
@@ -192,22 +201,33 @@ if test "x$ac_cv_prog_gxx" = "xyes"; then
   fi
 fi
 
+# **************************************************************************
 
-AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
+SIM_AC_UNIQIFY_LIST(DIME_EXTRA_CPPFLAGS, -I$includedir $DIME_EXTRA_CPPFLAGS)
+SIM_AC_UNIQIFY_LIST(DIME_EXTRA_LDFLAGS, -L$libdir $DIME_EXTRA_LDFLAGS)
+SIM_AC_UNIQIFY_LIST(DIME_EXTRA_LIBS, $DIME_EXTRA_LIBS)
+SIM_AC_UNIQIFY_LIST(CPPFLAGS, $CPPFLAGS)
+SIM_AC_UNIQIFY_LIST(LDFLAGS, $LDFLAGS)
+SIM_AC_UNIQIFY_LIST(LIBS, $LIBS)
+
+# **************************************************************************
 
 # no DLL setup yet
-DIME_STATIC=true
-# case $enable_static in
-# yes | true)  DIME_STATIC=true ;;
-# *)           DIME_STATIC=false ;;
-# esac
+case $enable_static in
+yes | true)  DIME_STATIC=true ;;
+*)           DIME_STATIC=false ;;
+esac
 
-# case $enable_shared in
-# yes | true)  DIME_STATIC=false ;;
-# *)           DIME_STATIC=true ;;
-# esac
+case $enable_shared in
+yes | true)  DIME_STATIC=false ;;
+*)           DIME_STATIC=true ;;
+esac
 
 AC_SUBST([LIBFLAGS], [])
+
+# **************************************************************************
+
+AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
 
 if $BUILD_WITH_MSVC; then
   rm -f vc60.pdb
@@ -253,10 +273,13 @@ if $BUILD_WITH_MSVC; then
   fi
 fi
 
-dnl *******************************************************************
+# **************************************************************************
 
-AC_OUTPUT([
+AM_CONFIG_HEADER([include/config.h])
+
+AC_CONFIG_FILES([
 	Makefile
+	bin/Makefile
 	src/Makefile
 	src/classes/Makefile
 	src/entities/Makefile
@@ -268,4 +291,16 @@ AC_OUTPUT([
 	src/convert/Makefile
 	dxf2vrml/Makefile
 ])
+
+AC_OUTPUT
+
+# SIM_AC_CONFIGURATION_SUMMARY
+
+if $sim_ac_build_library; then
+  echo ""
+  echo "Now, run 'make install' to build and install Dime."
+  echo ""
+else
+  echo ""
+fi
 
