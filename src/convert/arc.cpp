@@ -95,6 +95,7 @@ convert_arc(const dimeEntity *entity, const dimeState *state,
     fprintf(stderr,"ARC with startAngle == endAngle!\n");
 #endif
     end += 2*M_PI;
+    delta = DXFDEG2RAD(end - arc->getStartAngle());
   }
   
   int ARC_NUMPTS = converter->getNumSub();
