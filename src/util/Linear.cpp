@@ -48,6 +48,8 @@
 #include <dime/util/Linear.h>
 #include <stdio.h>
 
+#if 0 // OBSOLETED, was needed for old inverse() method
+
 #if defined(__sgi) || defined (__sparc)
 #include <ieeefp.h>
 #endif
@@ -64,11 +66,11 @@
 #define FP_PZERO FP_PLUS_ZERO
 #endif
 
-
 #ifdef macintosh
 #include "float.h"
 #define M_PI 3.14159265357989
 #endif
+#endif // OBSOLETED
 
 void 
 dimeVec3f::normalize(void) 
@@ -386,6 +388,7 @@ dimeMatrix::operator*=(const dxfdouble s)
 bool
 dimeMatrix::inverse2()
 {
+#if 0 // OBSOLETED
   dimeMatrix A_;
   dxfdouble detA;
 
@@ -417,6 +420,9 @@ dimeMatrix::inverse2()
   A_*= 1 / detA;
   *this = A_;
   return true;
+#else // OBSOLETED
+  return false;
+#endif // OBSOLETED
 }
 
 dxfdouble
