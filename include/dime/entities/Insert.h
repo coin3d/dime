@@ -44,6 +44,7 @@ public:
   virtual ~dimeInsert();
 
   void setBlock(dimeBlock * const block);
+  dimeBlock * getBlock() const;
 
   virtual dimeEntity *copy(dimeModel * const model) const;
   virtual bool getRecord(const int groupcode,
@@ -58,6 +59,12 @@ public:
 
   void setInsertionPoint(const dimeVec3f &v);
   const dimeVec3f &getInsertionPoint() const;
+
+  void setScale(const dimeVec3f &v);
+  const dimeVec3f & getScale() const;
+  
+  void setRotAngle(dxfdouble angle);
+  dxfdouble getRotAngle() const;
 
   // FIXME: more set and get methods
   
@@ -106,6 +113,36 @@ inline const dimeVec3f &
 dimeInsert::getInsertionPoint() const
 {
   return this->insertionPoint;
+}
+
+inline dimeBlock *
+dimeInsert::getBlock() const
+{
+  return this->block;
+}
+
+inline void 
+dimeInsert::setScale(const dimeVec3f &v)
+{
+  this->scale = v;
+}
+
+inline const dimeVec3f &
+dimeInsert::getScale() const
+{
+  return this->scale;
+}
+
+inline void 
+dimeInsert::setRotAngle(dxfdouble angle)
+{
+  this->rotAngle = angle;
+}
+
+inline dxfdouble
+dimeInsert::getRotAngle() const
+{
+  return this->rotAngle;
 }
 
 
