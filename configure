@@ -1528,6 +1528,7 @@ DIME_INTERFACE_AGE=0
 DIME_BINARY_AGE=0
 
 
+
 # Check whether --enable-msvc or --disable-msvc was given.
 if test "${enable_msvc+set}" = set; then
   enableval="$enable_msvc"
@@ -1539,37 +1540,26 @@ else
   sim_ac_try_msvc=true
 fi;
 
-case $host in
-*-cygwin)
-  if $sim_ac_try_msvc; then
-    # **************************************************************************
-# If the Microsoft Visual C++ cl.exe compiler is available, set us up for
-# compiling with it and to generate an MSWindows .dll file.
-
-: ${BUILD_WITH_MSVC=false}
-sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/wrapmsvc.exe
-if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
 
 
-  CC=$sim_ac_wrapmsvc
-  CXX=$sim_ac_wrapmsvc
-  export CC CXX
-  BUILD_WITH_MSVC=true
-fi
+
+BUILD_WITH_MSVC=false
+if $sim_ac_try_msvc; then
+  sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/wrapmsvc.exe
+  if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
 
 
-case $CXX in
-*wrapmsvc.exe)
-  BUILD_WITH_MSVC=true
-
-  ;;
-*)
-  BUILD_WITH_MSVC=false
-
+    CC=$sim_ac_wrapmsvc
+    CXX=$sim_ac_wrapmsvc
+    export CC CXX
+    BUILD_WITH_MSVC=true
+  else
+    case $host in
+    *-cygwin)
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!no-msvc++$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -1591,12 +1581,20 @@ echo >&2 ""
 { { echo "$as_me:$LINENO: error: aborting" >&5
 echo "$as_me: error: aborting" >&2;}
    { (exit 1); exit 1; }; }
+ ;;
+    esac
+  fi
+fi
 
-  ;;
-esac
 
-    if $BUILD_WITH_MSVC; then
-      sim_ac_msvcrt_LDFLAGS=""
+if $BUILD_WITH_MSVC; then
+  :
+else
+  :
+fi
+
+if $BUILD_WITH_MSVC; then
+  sim_ac_msvcrt_LDFLAGS=""
 sim_ac_msvcrt_LIBS=""
 
 
@@ -1639,7 +1637,7 @@ if test "${with_msvcrt+set}" = set; then
 echo >&2 ""
 
 
-: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
 if test -f $sim_ac_message_file; then
   sim_ac_message="`sed -n -e '/^!invalid-msvcrt$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
   if test x"$sim_ac_message" = x""; then
@@ -1674,24 +1672,18 @@ echo "$as_me:$LINENO: result: $sim_ac_msvcrt" >&5
 echo "${ECHO_T}$sim_ac_msvcrt" >&6
 
 
-        CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
-        CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
-        CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
-        LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
-        LIBS="$LIBS $sim_ac_msvcrt_LIBS"
-        # sim_ac_msvcrt_LIBLIBS is set up at the end
-        # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-        DIME_MSVC_LIBC=$sim_ac_msvcrt
+    CPPFLAGS="$CPPFLAGS $sim_ac_msvcrt_CPPFLAGS"
+    CFLAGS="$CFLAGS $sim_ac_msvcrt_CFLAGS"
+    CXXFLAGS="$CXXFLAGS $sim_ac_msvcrt_CXXFLAGS"
+    LDFLAGS="$LDFLAGS $sim_ac_msvcrt_LDFLAGS"
+    LIBS="$LIBS $sim_ac_msvcrt_LIBS"
+    # sim_ac_msvcrt_LIBLIBS is set up at the end
+    # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
+    DIME_MSVC_LIBC=$sim_ac_msvcrt
 
 
 
-    fi
-  fi
-  ;;
-*)
-  BUILD_WITH_MSVC=false
-  ;;
-esac
+fi
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -4985,7 +4977,7 @@ test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
 case $host in
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 4988 "configure"' > conftest.$ac_ext
+  echo '#line 4980 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -5521,7 +5513,7 @@ chmod -w .
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -o out/conftest2.$ac_objext"
 compiler_c_o=no
-if { (eval echo configure:5524: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
+if { (eval echo configure:5516: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>out/conftest.err; } && test -s out/conftest2.$ac_objext; then
   # The compiler can only warn and ignore the option if not recognized
   # So say no if there are warnings
   if test -s out/conftest.err; then
@@ -7314,7 +7306,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7317 "configure"
+#line 7309 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -7412,7 +7404,7 @@ else
     lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 7415 "configure"
+#line 7407 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -8473,8 +8465,8 @@ else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:dynamic .dll + .pdb"
 fi
 
-        CFLAGS="/Fd$debugfile $CFLAGS"
-        CXXFLAGS="/Fd$debugfile $CXXFLAGS"
+        CFLAGS="/Fd$debugfile -g $CFLAGS"
+        CXXFLAGS="/Fd$debugfile -g $CXXFLAGS"
         LIBFLAGS="$LIBFLAGS /DEBUG /PDB:dime$DIME_MAJOR_VERSION$SUFFIX.pdb"
         ;;
       esac
