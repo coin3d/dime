@@ -55,8 +55,8 @@ public:
 	       const dimeVec3f &v2,
 	       const dimeVec3f &v3,
 	       const dimeMatrix * const matrix = NULL);
- 
-  void writeWrl(FILE *fp, int indent);
+  
+  void writeWrl(FILE *fp, int indent, const bool vrml1);
 
 //private:
 public: // 20011001 thammer - please don't kill me for this ;-)

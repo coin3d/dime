@@ -47,7 +47,7 @@ public:
   }
   void findHeaderVariables(dimeModel &model);
   bool doConvert(dimeModel &model);
-  bool writeVrml(FILE *out);
+  bool writeVrml(FILE *out, const bool vrml1 = false);
 
   void setNumSub(const int num) {
     this->numsub = num;

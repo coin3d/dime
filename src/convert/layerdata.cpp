@@ -196,7 +196,7 @@ dxfLayerData::addQuad(const dimeVec3f &v0,
   Exports this layer's geometry as vrml nodes.
 */
 void 
-dxfLayerData::writeWrl(FILE *fp, int indent)
+dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1)
 {
 #ifndef NOWRLEXPORT
   if (!faceindices.count() && !lineindices.count() && !points.count()) return;
@@ -208,25 +208,46 @@ dxfLayerData::writeWrl(FILE *fp, int indent)
   
   dimeLayer::colorToRGB(this->colidx, r, g, b);
 
-  fprintf(fp, 
-	  "Group {\n"
-	  "  children [\n");
-
-  if (faceindices.count()) {
+  if (vrml1) {
     fprintf(fp, 
-	    "    Shape {\n"
-	    "      appearance Appearance {\n"
-	    "        material Material {\n"
-	    "          diffuseColor %g %g %g\n"
-	    "        }\n"
-	    "      }\n"
-	    "      geometry IndexedFaceSet {\n"
-	    "        convex FALSE\n"
-	    "        solid FALSE\n"
-	    "        creaseAngle 0.5\n" // a good value for most cases
-	    "        coord Coordinate {\n"
-	    "          point [\n", r, g, b);
-    
+            "Separator {\n");
+  }
+  else {
+    fprintf(fp, 
+            "Group {\n"
+            "  children [\n");
+  }
+  if (faceindices.count()) {
+    if (vrml1) {
+      fprintf(fp,
+              "  Separator {\n"
+              "    Material {\n"
+              "      diffuseColor %g %g %g\n"
+              "    }\n"
+              "    ShapeHints {\n"
+              "      creaseAngle 0.5\n"
+              "      vertexOrdering COUNTERCLOCKWISE\n"
+              "      shapeType UNKNOWN_SHAPE_TYPE\n"
+              "      faceType UNKNOWN_FACE_TYPE\n"
+              "    }\n"
+              "    Coordinate3 {\n"
+              "      point [\n", r, g, b);
+    }
+    else {
+      fprintf(fp, 
+              "    Shape {\n"
+              "      appearance Appearance {\n"
+              "        material Material {\n"
+              "          diffuseColor %g %g %g\n"
+              "        }\n"
+              "      }\n"
+              "      geometry IndexedFaceSet {\n"
+              "        convex FALSE\n"
+              "        solid FALSE\n"
+              "        creaseAngle 0.5\n" // a good value for most cases
+              "        coord Coordinate {\n"
+              "          point [\n", r, g, b);
+    }
     dimeVec3f v;
     n = facebsp.numPoints();
     for (i = 0; i < n ; i++) {
@@ -238,9 +259,16 @@ dxfLayerData::writeWrl(FILE *fp, int indent)
     }
     fprintf(fp, 
 	    "          ]\n"
-	    "        }\n"
-	    "        coordIndex [\n          ");
-  
+	    "        }\n");
+    if (vrml1) {
+      fprintf(fp,
+              "    IndexedFaceSet {\n"
+              "      coordIndex [\n");
+    }
+    else {
+      fprintf(fp,
+              "        coordIndex [\n");
+    }
     n = faceindices.count();
     int cnt = 1;
     for (i = 0; i < n; i++) {
@@ -262,17 +290,23 @@ dxfLayerData::writeWrl(FILE *fp, int indent)
     if (lineindices[lineindices.count()-1] != -1) {
       lineindices.append(-1);
     }
-    fprintf(fp, 
-	    "    Shape {\n"
-	    "      appearance Appearance {\n"
-	    "        material Material {\n"
-	    "          diffuseColor %g %g %g\n"
-	    "        }\n"
-	    "      }\n"
-	    "      geometry IndexedLineSet {\n"
-	    "        coord Coordinate {\n"
-	    "          point [\n", r, g, b);
-    
+    if (vrml1) {
+      fprintf(fp,
+              "  Separator {\n"
+              "    Material {\n"
+              "      diffuseColor %g %g %g\n"
+              "    }\n"
+              "    Coordinate3 {\n"
+              "      point [\n", r, g, b);
+    }
+    else {
+      fprintf(fp, 
+              "    Shape {\n"
+              "      geometry IndexedLineSet {\n"
+              "        color Color { color %g %g %g }\n"
+              "        coord Coordinate {\n"
+              "          point [\n", r, g, b);
+    }
     dimeVec3f v;
     n = linebsp.numPoints();
     for (i = 0; i < n ; i++) {
@@ -284,9 +318,16 @@ dxfLayerData::writeWrl(FILE *fp, int indent)
     }
     fprintf(fp, 
 	    "          ]\n"
-	    "        }\n"
-	    "        coordIndex [\n          ");
-  
+	    "        }\n");
+    if (vrml1) {
+      fprintf(fp,
+              "    IndexedLineSet {\n"
+              "      coordIndex [\n");
+    }
+    else {
+      fprintf(fp, "        coordIndex [\n");
+    }
+    
     n = lineindices.count();
     int cnt = 1;
     for (i = 0; i < n; i++) {
@@ -306,17 +347,23 @@ dxfLayerData::writeWrl(FILE *fp, int indent)
 
 
   if (points.count()) {
-    fprintf(fp, 
-	    "    Shape {\n"
-	    "      appearance Appearance {\n"
-	    "        material Material {\n"
-	    "          diffuseColor %g %g %g\n"
-	    "        }\n"
-	    "      }\n"
-	    "      geometry PointSet {\n"
-	    "        coord Coordinate {\n"
-	    "          point [\n", r, g, b);
-    
+    if (vrml1) {
+      fprintf(fp,
+              "  Separator {\n"
+              "    Material {\n"
+              "      diffuseColor %g %g %g\n"
+              "    }\n"
+              "    Coordinate3 {\n"
+              "      point [\n", r, g, b);
+    }
+    else {
+      fprintf(fp, 
+              "    Shape {\n"
+              "      geometry PointSet {\n"
+              "        color Color { color %g %g %g }\n"
+              "        coord Coordinate {\n"
+              "          point [\n", r, g, b);
+    }
     dimeVec3f v;
     n = points.count();
     for (i = 0; i < n ; i++) {
@@ -328,15 +375,29 @@ dxfLayerData::writeWrl(FILE *fp, int indent)
     }
     fprintf(fp, 
 	    "          ]\n"
-	    "        }\n"
-	    "      }\n"
-	    "    }\n");
+	    "        }\n");
+    if (vrml1) {
+      fprintf(fp,
+              "    PointSet { }\n"
+              "      numPoints %d\n"
+              "  }\n", points.count());
+    }
+    else {
+      fprintf(fp,
+              "      }\n"
+              "    }\n");
     
+    }
   }
-  fprintf(fp, 
-	  "  ]\n"
-	  "}\n");
-
+    
+  if (vrml1) {
+    fprintf(fp, "}\n");
+  }
+  else {
+    fprintf(fp, 
+            "  ]\n"
+            "}\n");
+  }
 #endif // NOWRLEXPORT
 }
 

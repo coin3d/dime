@@ -201,22 +201,28 @@ dxfConverter::doConvert(dimeModel &model)
   Writes the internal geometry structures to \a out.
 */
 bool
-dxfConverter::writeVrml(FILE *out)
+dxfConverter::writeVrml(FILE *out, const bool vrml1)
 {
 #ifndef NOWRLEXPORT
   //
   // write header
   //
-  fprintf(out, 
-	  "#VRML V2.0 utf8\n\n");
   
+  if (vrml1) {
+    fprintf(out, 
+            "#VRML V1.0 ascii\n\n");    
+  }
+  else {
+    fprintf(out, 
+            "#VRML V2.0 utf8\n\n");
+  }
 
   //
   // write each used layer/color
   //
   for (int i = 0; i < 255; i++) {
     if (layerData[i] != NULL) {
-      layerData[i]->writeWrl(out, 0);
+      layerData[i]->writeWrl(out, 0, vrml1);
       delete layerData[i]; layerData[i] = NULL;
     }
   }
