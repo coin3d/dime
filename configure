@@ -8224,6 +8224,8 @@ LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 
 CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
+sim_ac_build_library=true
+
 
 # Check whether --enable-debug or --disable-debug was given.
 if test "${enable_debug+set}" = set; then
@@ -8514,66 +8516,123 @@ else
 fi
 
 
-if $BUILD_WITH_MSVC; then
-  rm -f vc60.pdb
-  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
-  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
-  if $DIME_STATIC; then
-    DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_NOT_DLL"
-  else
-    CPPFLAGS="-DDIME_MAKE_DLL $CPPFLAGS"
-    DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_DLL"
-  fi
+if $sim_ac_build_library; then
+  if $BUILD_WITH_MSVC; then
+    rm -f vc60.pdb
+    LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+    LIBFLAGS="$LIBFLAGS" # $sim_ac_msvcrt_LIBLDFLAGS
+    if $DIME_STATIC; then
+      DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_NOT_DLL"
+    else
+      CPPFLAGS="-DDIME_MAKE_DLL $CPPFLAGS"
+      DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_DLL"
+    fi
 
-  debugfile="`pwd`/src/dime${DIME_MAJOR_VERSION}${SUFFIX}.pdb"
-  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+    debugfile="`pwd`/src/dime${DIME_MAJOR_VERSION}${SUFFIX}.pdb"
+    debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
 
-  if $DIME_STATIC; then
-    if test x${sim_ac_configuration_settings+set} != xset; then
+    if $DIME_STATIC; then
+      if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="Dime build type:static .lib"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:static .lib"
 fi
 
-    LIBFLAGS="-LIB $LIBFLAGS"
-    LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.lib"
-  else
-    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
-    case $enable_symbols in
-    no | false)
-      if test x${sim_ac_configuration_settings+set} != xset; then
+      LIBFLAGS="-LIB $LIBFLAGS"
+      LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.lib"
+    else
+      LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
+      case $enable_symbols in
+      no | false)
+        if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="Dime build type:dynamic .dll, no symbols"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:dynamic .dll, no symbols"
 fi
 
-      LIBFLAGS="$LIBFLAGS /RELEASE"
-      ;;
-    *)
-      if test x${sim_ac_configuration_settings+set} != xset; then
+        LIBFLAGS="$LIBFLAGS /RELEASE"
+        ;;
+      *)
+        if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="Dime build type:dynamic .dll + .pdb"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:dynamic .dll + .pdb"
 fi
 
-      CFLAGS="/Fd$debugfile $CFLAGS"
-      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
-      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:dime$DIME_MAJOR_VERSION$SUFFIX.pdb"
-      ;;
-    esac
-    LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.dll"
-  fi
-  if test x${sim_ac_configuration_settings+set} != xset; then
+        CFLAGS="/Fd$debugfile $CFLAGS"
+        CXXFLAGS="/Fd$debugfile $CXXFLAGS"
+        LIBFLAGS="$LIBFLAGS /DEBUG /PDB:dime$DIME_MAJOR_VERSION$SUFFIX.pdb"
+        ;;
+      esac
+      LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.dll"
+    fi
+    if test x${sim_ac_configuration_settings+set} != xset; then
   sim_ac_configuration_settings="C library linkage:$sim_ac_msvcrt"
 else
   sim_ac_configuration_settings="$sim_ac_configuration_settings|C library linkage:$sim_ac_msvcrt"
 fi
 
-  if test -n "$DIME_EXTRA_LIBS"; then
-    DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX} $DIME_EXTRA_LIBS"
+
+    # We use a version suffix on the .dll-file, so several incompatible
+    # (major) versions can be installed on a system.
+    #
+    # BTW, when linking DLLs, the 3rd-party .lib files will be
+    # linked into the .dll file. I believe it is still advisable to
+    # list all libs used upon `dime-config --libs`, as we can then
+    # also use them from "parent" code (remember that their interfaces
+    # is not exposed from the DLL) without any fuss.
+    if test -n "$DIME_EXTRA_LIBS"; then
+      DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX} $DIME_EXTRA_LIBS"
+    else
+      DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX}"
+    fi
   else
-    DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX}"
+    if test -n "$DIME_EXTRA_LIBS"; then
+      DIME_EXTRA_LIBS="-ldime${SUFFIX} $DIME_EXTRA_LIBS"
+    else
+      DIME_EXTRA_LIBS="-ldime${SUFFIX}"
+    fi
   fi
+
+  DIME_COMPILER="$CXX"
+
+  if $BUILD_WITH_MSVC; then
+    # we'll use the installed wrapper when we use the dime-config script later
+    # so we can remove the source code hierarchy
+    DIME_COMPILER="wrapmsvc"
+  fi
+
+
+  sim_ac_path_problem=true # until proven otherwise
+  if test -d "${bindir}"; then
+    # search by inode seems safer than strings because of noncanonical paths
+    ( findinode=`ls -id "$prefix/bin" 2>/dev/null | sed 's/^\( *\)\(0-9*\).*/\2/g'`
+      IFS=:; for dir in $PATH; do
+        inode=`ls -id "$dir" 2>/dev/null | sed 's/^\( *\)\(0-9*\).*/\2/g'`;
+        test x"$inode" = x"$findinode" && exit 0
+      done; exit 1 ) && sim_ac_path_problem=false
+  fi
+  if $sim_ac_path_problem; then
+    ( IFS=:; for dir in $PATH; do
+        test x"$dir" = x"${bindir}" && exit 0
+      done; exit 1 ) && sim_ac_path_problem=false
+  fi
+  if $sim_ac_path_problem; then
+    if test x${sim_ac_configuration_warnings+set} != xset; then
+  sim_ac_configuration_warnings="Your \$PATH variable does not appear to include \"$prefix/bin\""
+else
+  sim_ac_configuration_warnings="$sim_ac_configuration_warnings|Your \$PATH variable does not appear to include \"$prefix/bin\""
+fi
+
+  fi
+
+else
+  if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="Dime build type:build disabled"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:build disabled"
+fi
+
 fi
 
 # **************************************************************************
@@ -9265,6 +9324,7 @@ s,@LIBTOOL@,$LIBTOOL,;t t
 s,@LIBFLAGS@,$LIBFLAGS,;t t
 s,@BUILD_WITH_MSVC_TRUE@,$BUILD_WITH_MSVC_TRUE,;t t
 s,@BUILD_WITH_MSVC_FALSE@,$BUILD_WITH_MSVC_FALSE,;t t
+s,@DIME_COMPILER@,$DIME_COMPILER,;t t
 CEOF
 
 _ACEOF
