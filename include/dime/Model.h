@@ -83,8 +83,8 @@ public:
   const class dimeLayer *getLayer(const int idx) const;
   const class dimeLayer *getLayer(const char * const layername) const;
   const class dimeLayer *addLayer(const char * const layername, 
-			   const int16 colnum = -1,
-			   const int16 flags = 0); 
+				  const int16 colnum = 7,
+				  const int16 flags = 0); 
   
   const char * getDxfVersion() const;
   

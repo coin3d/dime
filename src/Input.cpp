@@ -270,7 +270,14 @@ dimeInput::readGroupCode(int32 &code)
 	}
       }
     }
+    //
+    // quick fix to ignore comments
+    //
     ret = readInt32(code);
+    while (ret && code == 999) {
+      readString();
+      ret = readInt32(code);
+    }
   }
   if (code == 5) this->prevwashandle = true;
   else this->prevwashandle = false;
@@ -546,6 +553,16 @@ dimeInput::get(char &c)
     }
   }
   c = readbuf[readbufIndex++];
+#if 0
+  if (c == 0) {
+#if USE_GZFILE
+    this->gzeof = true;
+#else // ! USE_GZFILE
+    this->fpeof = true;
+#endif
+    return false;
+  }
+#endif
   return true;
 }
 

@@ -317,7 +317,7 @@ dimeModel::getMemHandler()
 
 const dimeLayer *
 dimeModel::addLayer(const char * const name, const int16 colnum,
-                   const int16 flags)
+		    const int16 flags)
 {
   void *temp = NULL;
   if (!this->layerDict->find(name, temp)) {
