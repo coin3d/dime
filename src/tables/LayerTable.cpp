@@ -160,6 +160,11 @@ dimeLayerTable::countRecords() const
 void 
 dimeLayerTable::setLayerName(const char * name, dimeMemHandler * const memhandler)
 {
+  /* FIXME: there are probably other characters aswell that are not
+     allowed in layer names -- we should catch those too. 20030322 mortene */
+  assert((strchr(name, (int)' ') == NULL) &&
+         "space characters not allowed in layer names");
+
   if (this->layerName && memhandler == NULL) {
     delete this->layerName;
   }
