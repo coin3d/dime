@@ -109,12 +109,6 @@ dimeLayer::setFlags(const int16 &flags)
   this->flags = flags;
 }
 
-inline const dimeLayer *
-dimeLayer::getDefaultLayer()
-{
-  return &defaultLayer;
-}
-
 inline bool 
 dimeLayer::isDefaultLayer() const
 {

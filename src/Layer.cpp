@@ -394,9 +394,14 @@ dimeLayer::colorToRGB(const int colornum,
 */
 
 /*!
-  \fn static const dimeLayer *dimeLayer::getDefaultLayer()
   Returns a pointer to the default layer.
 */
+const dimeLayer *
+dimeLayer::getDefaultLayer()
+{
+  return &defaultLayer;
+}
+
 
 
 
