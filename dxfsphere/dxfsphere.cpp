@@ -32,7 +32,6 @@
 #include <ctype.h>
 #include <math.h>
 #include <stdlib.h>
-#include <malloc.h>
 
 // DIME: needed include files.
 #include <dime/Model.h>
