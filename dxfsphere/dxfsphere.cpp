@@ -264,6 +264,7 @@ main(int ac, char ** av)
   /* Subdivide each starting triangle (maxlevel - 1) times */
   for (level = 1; level < maxlevel; level++) {
     /* Allocate a new object */
+    /* FIXME: Valgrind reports an 8-byte memory leak here. 20030404 mortene. */
     newobj = (object *)malloc(sizeof(object));
     if (newobj == NULL) {
       fprintf(stderr, "%s: Out of memory on subdivision level %d\n",
