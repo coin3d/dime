@@ -202,8 +202,8 @@ dimeOutput::writeDouble(const dxfdouble val)
 #else
   // will (hopefully) be optimized by compiler.
   if ( sizeof(dxfdouble) == sizeof(float) )
-    return fprintf(this->fp,"%g\n", (float) val) > 0;
-  return fprintf(this->fp,"%lg\n", (double) val) > 0;
+    return fprintf(this->fp,"%f\n", (double) val) > 0;
+  return fprintf(this->fp,"%f\n", val) > 0;
 #endif
 }
 

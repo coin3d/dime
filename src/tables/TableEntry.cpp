@@ -76,7 +76,7 @@ dimeTableEntry::copyRecords(dimeTableEntry * const table,
 //!
 
 bool 
-dimeTableEntry::write(dimeOutput * const file)
+dimeTableEntry::write(dimeOutput * const /* file */)
 {
   // moved to preWrite()
   //return dimeRecordHolder::write(file);

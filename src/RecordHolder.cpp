@@ -54,7 +54,7 @@
 dimeRecordHolder::dimeRecordHolder(const int sep)
   : records( NULL ), numRecords( 0 )
 {
-  assert(sep == 0);
+  if (sep) assert(false);
   // this->separator = sep;
 }
 
