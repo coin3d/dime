@@ -187,7 +187,7 @@ dimeOutput::writeInt32(const int32 val)
 bool
 dimeOutput::writeFloat(const float val)
 {
-  return fprintf(this->fp,"%f\n", val) > 0;
+  return fprintf(this->fp,"%g\n", val) > 0;
 }
 
 /*!
@@ -198,12 +198,12 @@ bool
 dimeOutput::writeDouble(const dxfdouble val)
 {
 #if defined(__BEOS__)
-  return fprintf(this->fp,"%f\n", val) > 0;
+  return fprintf(this->fp,"%g\n", val) > 0;
 #else
   // will (hopefully) be optimized by compiler.
   if ( sizeof(dxfdouble) == sizeof(float) )
-    return fprintf(this->fp,"%f\n", (float) val) > 0;
-  return fprintf(this->fp,"%lf\n", (double) val) > 0;
+    return fprintf(this->fp,"%g\n", (float) val) > 0;
+  return fprintf(this->fp,"%lg\n", (double) val) > 0;
 #endif
 }
 

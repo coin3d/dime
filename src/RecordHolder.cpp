@@ -248,13 +248,14 @@ dimeRecordHolder::setRecord(const int groupcode, const dimeParam &param,
 //	sim_warning("could not create record for group code: %d\n", groupcode);
 	return;
       }
+      dimeRecord **newarray = ARRAY_NEW(memhandler, dimeRecord*, 
+					this->numRecords+1); 
+      memcpy(newarray, this->records, this->numRecords*sizeof(dimeRecord*));
+      if (!memhandler) delete [] this->records;
+      this->records = newarray;
+      this->records[this->numRecords++] = record;
     }
     record->setValue(param);
-    dimeRecord **newarray = ARRAY_NEW(memhandler, dimeRecord*, this->numRecords); 
-    memcpy(newarray, this->records, this->numRecords*sizeof(dimeRecord*));
-    if (!memhandler) delete [] this->records;
-    this->records = newarray;
-    this->records[this->numRecords++] = record;
   }
 }
 
