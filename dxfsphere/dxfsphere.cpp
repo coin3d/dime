@@ -33,9 +33,14 @@
 // DIME: needed include files.
 #include <dime/Model.h>
 #include <dime/sections/EntitiesSection.h>
+#include <dime/sections/TablesSection.h>
+#include <dime/tables/LayerTable.h>
+#include <dime/tables/Table.h>
 #include <dime/entities/3DFace.h>
 #include <dime/Output.h>
 #include <dime/util/Linear.h>
+
+#define LAYERNAME "My test layer"
 
 class point {
 public:
@@ -164,8 +169,8 @@ object ico(sizeof(icosahedron) / sizeof(icosahedron[0]),
 point *normalize(point * p);
 point *midpoint(point * a, point * b);
 void flip_object(object * obj);
-void print_object(object * obj, int level, dimeModel & model);
-void print_triangle(triangle *t, dimeModel & model);
+void print_object(object * obj, int level, dimeModel & model, const char * layername);
+void print_triangle(triangle *t, dimeModel & model, const dimeLayer * layer);
 
 int
 main(int ac, char ** av)
@@ -214,6 +219,27 @@ main(int ac, char ** av)
   }
   // DIME: create dime model
   dimeModel model;
+
+  // DIME: only needed if you need your object to be in a layer
+  {
+    // DIME: add tables section (needed for layers).
+    dimeTablesSection * tables = new dimeTablesSection;
+    model.insertSection(tables);
+    
+    // DIME: set up our layer
+    dimeLayerTable * layer = new dimeLayerTable;
+    layer->setLayerName(LAYERNAME, NULL);
+    layer->setColorNumber(16);
+    layer->registerLayer(&model); // important, register layer in model
+    
+    // DIME: set up a layer table to store our layer
+    dimeTable * layers = new dimeTable(NULL);
+    layers->insertTableEntry(layer);
+    
+    // DIME: insert the layer in the table
+    tables->insertTable(layers); 
+  }
+
   // DIME: add the entities section.
   dimeEntitiesSection * entities = new dimeEntitiesSection;
   model.insertSection(entities);
@@ -299,7 +325,7 @@ main(int ac, char ** av)
   }
   
   /* Print out resulting approximation */
-  print_object(old, maxlevel, model);
+  print_object(old, maxlevel, model, LAYERNAME);
 
   // DIME: write the model to file
   model.write(&out);
@@ -350,23 +376,28 @@ void flip_object(object * obj)
 }
 
 /* Write out all triangles in an object */
-void print_object(object * obj, int level, dimeModel & model)
+void print_object(object * obj, int level, dimeModel & model, const char * layername)
 {
   int i;
   
+  const dimeLayer * layer = model.getLayer(layername);
+
   for (i = 0; i < obj->npoly; i++) {
-    print_triangle(&obj->poly[i], model);  
+    print_triangle(&obj->poly[i], model, layer);  
   }
 }
 
 
 /* Output a triangle */
-void print_triangle(triangle * t, dimeModel & model)
+void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer)
 {
   int i;
 
   // DIME: create a 3DFACE entity, and set it to contain a triangle
   dime3DFace * face = new dime3DFace;
+  if (layer) {
+    face->setLayer(layer);
+  }
   dimeVec3f v[3];
 
   for (i = 0; i < 3; i++) {
