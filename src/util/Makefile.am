@@ -4,7 +4,7 @@ LIBS =
 INCLUDES = -I$(top_srcdir)/include
 
 if BUILD_WITH_MSVC
-noinst_LTLIBRARIES = util.lst
+noinst_LIBRARIES = util.lst
 else
 noinst_LTLIBRARIES = libutil.la
 endif
