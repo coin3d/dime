@@ -87,3 +87,9 @@ dimeBase::operator new(size_t size, dimeMemHandler *memhandler,
   else return ::operator new(size);
 }
 
+void 
+dimeBase::operator delete(void * ptr)
+{
+  // will only get here if we don't use a memory handler
+  ::operator delete(ptr);
+}

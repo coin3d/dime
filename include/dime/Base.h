@@ -96,6 +96,7 @@ public:
 public:
   void *operator new(size_t size, dimeMemHandler *memhandler = NULL, 
 		     const int alignment = 4);
+  void operator delete(void *ptr);
 
 }; // class dimeBase
 
