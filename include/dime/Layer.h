@@ -56,14 +56,14 @@ public:
   static const dimeLayer *getDefaultLayer();
 
   static void colorToRGB(const int colornum, 
-			 dxfdouble &r, dxfdouble &g, dxfdouble &b);
+                         dxfdouble &r, dxfdouble &g, dxfdouble &b);
 
 private:
   friend class dimeModel;
   
   dimeLayer();
   dimeLayer(const char * const name, const int num, 
-	   const int16 colnum, const int16 flags); 
+            const int16 colnum, const int16 flags); 
   const char *layerName;
   int layerNum;
   int16 colorNum;
