@@ -438,7 +438,7 @@ dimeInsert::traverse(const dimeState * const state,
 void 
 dimeInsert::fixReferences(dimeModel * const model) 
 {
-  if (this->block == NULL) {
+  if (this->block == NULL && this->blockName) {
     this->block = (dimeBlock*)model->findReference(this->blockName);
     if (this->block == NULL) {
       fprintf(stderr,"BLOCK %s not found!\n", blockName);
@@ -453,9 +453,10 @@ dimeInsert::fixReferences(dimeModel * const model)
 void 
 dimeInsert::makeMatrix(dimeMatrix &m) const
 {
-  assert(block != NULL);
-  if (!this->block) return;
-
+  if (!this->block) {
+    m.makeIdentity();
+    return;
+  }
   dimeMatrix m2;
 
   if (this->extrusionDir != dimeVec3f(0,0,1)) {
