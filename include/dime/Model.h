@@ -51,7 +51,7 @@ class dimeRecord;
 class dimeModel
 {
 public:
-  dimeModel();
+  dimeModel(const bool usememhandler = true);
   ~dimeModel();
   
   dimeModel *copy() const;
@@ -111,6 +111,7 @@ private:
   dimeArray <dimeRecord*> headerComments;
 
   int largestHandle;
+  bool usememhandler;
 }; // class dimeModel
 
 #endif // ! DIME_MODEL_H

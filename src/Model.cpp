@@ -74,8 +74,12 @@ dimeModel::getVersion(int &major, int &minor)
   Constructor.
 */
 
-dimeModel::dimeModel()
-  : refDict( NULL ), layerDict( NULL ), memoryHandler( NULL ), largestHandle(0)
+dimeModel::dimeModel(const bool usememhandler)
+  : refDict( NULL ), 
+  layerDict( NULL ), 
+  memoryHandler( NULL ), 
+  largestHandle(0),
+  usememhandler(usememhandler)
 {
 }
 
@@ -104,7 +108,7 @@ dimeModel::~dimeModel()
 dimeModel *
 dimeModel::copy() const
 {
-  dimeModel *newmodel = new dimeModel;
+  dimeModel *newmodel = new dimeModel(this->usememhandler);
   
   if (!newmodel || !newmodel->init()) return NULL;
 
@@ -125,10 +129,14 @@ dimeModel::copy() const
   return newmodel;
 }
 
-//
-// private function used to initialize data structures.
-//
+/*!  
+  Should be called before you start working with the model.  Will
+  be called by read() so if you're reading a model from a file you
+  will not have to worry about this.
 
+  The method cleans up the old data structures and creates
+  new data structures for the new model.  
+*/
 bool
 dimeModel::init()
 {
@@ -144,8 +152,8 @@ dimeModel::init()
   this->memoryHandler = NULL;
   
   this->refDict = new dimeDict;
-  this->layerDict = new dimeDict(101); //relatively small
-  this->memoryHandler = new dimeMemHandler;
+  this->layerDict = new dimeDict(101); // relatively small
+  if (this->usememhandler) this->memoryHandler = new dimeMemHandler;
   
   return true;
 }

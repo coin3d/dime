@@ -88,7 +88,9 @@ public:
     // this should be last
     dimeLastTypeTag
   };
-
+  dimeBase(void);
+  virtual ~dimeBase();
+  
   virtual int typeId() const = 0;
   virtual bool isOfType(const int thetypeid) const;
 public:

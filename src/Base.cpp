@@ -47,6 +47,21 @@
 */
 
 /*!
+  Constructor.
+*/
+dimeBase::dimeBase(void)
+{
+}
+
+/*!
+  virtual destructor.
+*/
+dimeBase::~dimeBase()
+{
+}
+
+
+/*!
   Returns \e true if the object is of type \a typeid or is inherited 
   from it. Function in base class checks whether \a thetypeid 
   equals the virtual dimeBase::typeId() value or equals \e dimeBaseType.
