@@ -40,7 +40,7 @@
 */
 
 // define this to do a sorted split (slower, but more efficient?)
-#define BSP_SORTED_SPLIT
+// #define BSP_SORTED_SPLIT
 
 class dime_bspnode
 {
@@ -68,7 +68,9 @@ private:
   dime_bspnode *left;
   dime_bspnode *right;
   int dimension;   // which dimension?
-  dxfdouble position;  // position in dimension
+  // position in dimension (use double to avoid floating point
+  // precision problems)
+  double position;  
   dimeArray <int> indices;
   dimeArray <dimeVec3f> *pointsArray;
 };
@@ -90,7 +92,7 @@ dime_bspnode::~dime_bspnode()
 inline bool 
 dime_bspnode::leftOf(const dimeVec3f &pt) const
 {
-  return pt[this->dimension] < this->position; 
+  return double(pt[this->dimension]) < this->position; 
 }
 
 int 
@@ -177,7 +179,7 @@ dime_bspnode::split()
   }
   dimeVec3f diag = box.max - box.min;
   int dim;
-  dxfdouble pos;
+  double pos;
 
   if (diag[0] > diag[1]) {
     if (diag[0] > diag[2]) dim = DIM_YZ;
@@ -204,7 +206,7 @@ dime_bspnode::split()
   }
 
 #else
-  pos = (box.min[this->dimension]+box.max[this->dimension]) / 2.0f;
+  pos = (double(box.min[this->dimension])+double(box.max[this->dimension])) / 2.0;
 #endif // BSP_SORTED_SPLIT
   
   this->position = pos;
