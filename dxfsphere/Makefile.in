@@ -107,23 +107,24 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
+noinst_PROGRAMS = dxfsphere
+dxfsphere_SOURCES = dxfsphere.cpp
+
 INCLUDES = -I$(top_srcdir)/include
 
-@BUILD_WITH_MSVC_FALSE@noinst_PROGRAMS = dxfsphere
-@BUILD_WITH_MSVC_FALSE@dxfsphere_SOURCES = dxfsphere.cpp
+@BUILD_WITH_MSVC_TRUE@dxfsphere_LDADD = $(top_builddir)/src/dime.lst
 @BUILD_WITH_MSVC_FALSE@dxfsphere_LDADD = $(top_builddir)/src/libdime.la
 subdir = dxfsphere
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES =
-@BUILD_WITH_MSVC_TRUE@noinst_PROGRAMS =
-@BUILD_WITH_MSVC_FALSE@noinst_PROGRAMS = dxfsphere$(EXEEXT)
+noinst_PROGRAMS = dxfsphere$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
-@BUILD_WITH_MSVC_TRUE@am_dxfsphere_OBJECTS =
-@BUILD_WITH_MSVC_FALSE@am_dxfsphere_OBJECTS = dxfsphere.$(OBJEXT)
+am_dxfsphere_OBJECTS = dxfsphere.$(OBJEXT)
 dxfsphere_OBJECTS = $(am_dxfsphere_OBJECTS)
-@BUILD_WITH_MSVC_TRUE@dxfsphere_DEPENDENCIES =
+@BUILD_WITH_MSVC_TRUE@dxfsphere_DEPENDENCIES = \
+@BUILD_WITH_MSVC_TRUE@	$(top_builddir)/src/dime.lst
 @BUILD_WITH_MSVC_FALSE@dxfsphere_DEPENDENCIES = \
 @BUILD_WITH_MSVC_FALSE@	$(top_builddir)/src/libdime.la
 dxfsphere_LDFLAGS =

@@ -1,11 +1,12 @@
 ## Process this file with automake to generate Makefile.in.
+noinst_PROGRAMS = dxf2vrml
+dxf2vrml_SOURCES = dxf2vrml.cpp
 
 INCLUDES = -I$(top_srcdir)/include
 
 if BUILD_WITH_MSVC
+dxf2vrml_LDADD = $(top_builddir)/src/dime.lst
 else
-noinst_PROGRAMS = dxf2vrml
-dxf2vrml_SOURCES = dxf2vrml.cpp
 dxf2vrml_LDADD = $(top_builddir)/src/libdime.la
 endif
 
