@@ -413,3 +413,23 @@ dimeRecordHolder::setRecordCommon(const int groupcode, const dimeParam &param,
   }
 }
 
+/*!
+  Returns the number of records stored in this record holder.
+*/
+int 
+dimeRecordHolder::getNumRecordsInRecordHolder(void) const
+{
+  return this->numRecords;
+}
+
+/*!
+  Returns the \a idx'th record in the record holder.
+  \sa getNumRecordsInRecordHolder().
+*/
+dimeRecord * 
+dimeRecordHolder::getRecordInRecordHolder(const int idx) const
+{
+  assert(idx < this->numRecords);
+  return this->records[idx];
+}
+

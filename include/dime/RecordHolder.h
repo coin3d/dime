@@ -65,6 +65,9 @@ public:
 
   dimeRecord *findRecord(const int groupcode, const int index = 0);
 
+  int getNumRecordsInRecordHolder(void) const;
+  dimeRecord * getRecordInRecordHolder(const int idx) const;
+
 protected:
   virtual bool handleRecord(const int groupcode,
 			    const dimeParam &param,
