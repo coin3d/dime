@@ -50,6 +50,17 @@ libdime@SUFFIX@_la_SOURCES = \
 dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(DimeSources)
 
+libdimeincdir = $(includedir)/dime
+libdimeinc_HEADERS = \
+	../include/dime/Base.h \
+	../include/dime/Basic.h \
+	../include/dime/Input.h \
+	../include/dime/Layer.h \
+	../include/dime/Model.h \
+	../include/dime/Output.h \
+	../include/dime/RecordHolder.h \
+	../include/dime/State.h
+
 # Custom rule for linking a Visual C++ (MS Windows) library.
 
 dime@DIME_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
@@ -64,17 +75,6 @@ dime@DIME_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
 	$(CC) $(LDFLAGS) $(LIBFLAGS) \
 	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
 	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS);
-
-libdimeincdir = $(includedir)/dime
-libdimeinc_HEADERS = \
-	../include/dime/Base.h \
-	../include/dime/Basic.h \
-	../include/dime/Input.h \
-	../include/dime/Layer.h \
-	../include/dime/Model.h \
-	../include/dime/Output.h \
-	../include/dime/RecordHolder.h \
-	../include/dime/State.h
 
 install-data-local:
 	@$(NORMAL_INSTALL)
