@@ -51,7 +51,7 @@ class dimeRecord;
 class DIME_DLL_API dimeModel
 {
 public:
-  dimeModel(const bool usememhandler = true);
+  dimeModel(const bool usememhandler = false);
   ~dimeModel();
   
   dimeModel *copy() const;
