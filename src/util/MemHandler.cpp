@@ -40,7 +40,7 @@
   If you plan to use DIME in a way that requires lots of dynamic allocation
   / deallocation of for instance entities, you should not use the memory
   manager - the standard new / delete operators should be used instead.
-  The most common use of DXFLIB is to import and export DXF files, so
+  The most common use of dime is to import and export DXF files, so
   the data structure is just built and then freed up all at once.  For this
   kind of usage, the special-purpose memory manager is far superior to the
   system memory manager.

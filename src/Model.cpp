@@ -30,6 +30,25 @@
 /*!
   \class dimeModel dime/Model.h
   \brief The dimeModel class organizes a model.
+
+  The constructor accepts a boolean value which specifies whether or not a 
+  memory handler should be used. The special purpose memory handler used
+  in Coin can be used if you're just going to read a file and write the
+  file, and not do too much dynamic work on the model. The memory handler
+  yields very fast allocation/deallocation, and has virtually no overhead
+  when allocating. This is important if you have large files with millions
+  of records. The disadvantage is that memory will not be freed until the
+  model is destructed, so if you modify your model, e.g. remove or replace
+  an entity, the memory for the now unused entity will not be freed until
+  the model is destructed. Then all used memory will be freed at once.
+
+  Also, if you plan to implement your own entities, it takes a bit of extra
+  care to support the memory handler. In short, you should always check
+  if a memory allocator should be used before allocating memory, since 
+  the destructor for entities will never be called when a memory
+  handler is used. See the documentation in dimeEntity for more information
+  about how to create your own entities and how to support the memory
+  handler.
 */
 
 #include <dime/Model.h>
@@ -71,9 +90,9 @@ dimeModel::getVersion(int &major, int &minor)
 #define EOFID     "EOF"
 
 /*!
-  Constructor.
+  Constructor. If \a usememhandler is \e TRUE, the dimeMemHandler will
+  be used to allocate entities and records.
 */
-
 dimeModel::dimeModel(const bool usememhandler)
   : refDict( NULL ), 
   layerDict( NULL ), 
