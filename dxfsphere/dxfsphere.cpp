@@ -235,6 +235,15 @@ main(int ac, char ** av)
     dimeLayerTable * layer = new dimeLayerTable;
     layer->setLayerName(LAYERNAME, NULL);
     layer->setColorNumber(16); // the color numbers are defined in dime/Layer.cpp.
+
+    // need to set some extra records so that AutoCAD will stop
+    // complaining
+    dimeParam param;
+    param.string_data = "CONTINUOUS";
+    layer->setRecord(6, param);
+    param.int16_data = 64;
+    layer->setRecord(70, param);
+
     layer->registerLayer(&model); // important, register layer in model
     
     // DIME: set up a layer table to store our layer
