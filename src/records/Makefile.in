@@ -10,7 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -58,11 +57,19 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+
+@SET_MAKE@
 host_alias = @host_alias@
 host_triplet = @host@
+AMDEP = @AMDEP@
+AMTAR = @AMTAR@
 AS = @AS@
+AWK = @AWK@
 CC = @CC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
+DEPDIR = @DEPDIR@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -70,7 +77,6 @@ DIME_MICRO_VERSION = @DIME_MICRO_VERSION@
 DIME_MINOR_VERSION = @DIME_MINOR_VERSION@
 DIME_VERSION = @DIME_VERSION@
 DLLTOOL = @DLLTOOL@
-LD = @LD@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LT_AGE = @LT_AGE@
@@ -79,11 +85,12 @@ LT_RELEASE = @LT_RELEASE@
 LT_REVISION = @LT_REVISION@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
-NM = @NM@
+OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
-USE_SYMBOL_UNDERSCORE = @USE_SYMBOL_UNDERSCORE@
 VERSION = @VERSION@
+install_sh = @install_sh@
+
 
 noinst_LTLIBRARIES = librecords.la
 
@@ -91,13 +98,30 @@ LIBS =
 
 INCLUDES = -I$(top_srcdir)/include
 
-librecords_la_SOURCES =  	DoubleRecord.cpp DoubleRecord.h 	FloatRecord.cpp FloatRecord.h 	HexRecord.cpp HexRecord.h 	Int16Record.cpp Int16Record.h 	Int32Record.cpp Int32Record.h 	Int8Record.cpp Int8Record.h 	Record.cpp Record.h 	StringRecord.cpp StringRecord.h
+librecords_la_SOURCES = \
+	DoubleRecord.cpp DoubleRecord.h \
+	FloatRecord.cpp FloatRecord.h \
+	HexRecord.cpp HexRecord.h \
+	Int16Record.cpp Int16Record.h \
+	Int32Record.cpp Int32Record.h \
+	Int8Record.cpp Int8Record.h \
+	Record.cpp Record.h \
+	StringRecord.cpp StringRecord.h
 
 
 librecordsincdir = $(includedir)/dime/records
 
-librecordsinc_HEADERS =  	$(top_srcdir)/include/dime/records/DoubleRecord.h 	$(top_srcdir)/include/dime/records/FloatRecord.h 	$(top_srcdir)/include/dime/records/HexRecord.h 	$(top_srcdir)/include/dime/records/Int16Record.h 	$(top_srcdir)/include/dime/records/Int32Record.h 	$(top_srcdir)/include/dime/records/Int8Record.h 	$(top_srcdir)/include/dime/records/Record.h 	$(top_srcdir)/include/dime/records/StringRecord.h
+librecordsinc_HEADERS = \
+	$(top_srcdir)/include/dime/records/DoubleRecord.h \
+	$(top_srcdir)/include/dime/records/FloatRecord.h \
+	$(top_srcdir)/include/dime/records/HexRecord.h \
+	$(top_srcdir)/include/dime/records/Int16Record.h \
+	$(top_srcdir)/include/dime/records/Int32Record.h \
+	$(top_srcdir)/include/dime/records/Int8Record.h \
+	$(top_srcdir)/include/dime/records/Record.h \
+	$(top_srcdir)/include/dime/records/StringRecord.h
 
+subdir = src/records
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
@@ -109,37 +133,44 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 librecords_la_LDFLAGS = 
 librecords_la_LIBADD = 
-librecords_la_OBJECTS =  DoubleRecord.lo FloatRecord.lo HexRecord.lo \
+am_librecords_la_OBJECTS =  DoubleRecord.lo FloatRecord.lo HexRecord.lo \
 Int16Record.lo Int32Record.lo Int8Record.lo Record.lo StringRecord.lo
-CXXFLAGS = @CXXFLAGS@
+librecords_la_OBJECTS =  $(am_librecords_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXFLAGS = @CXXFLAGS@
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES =  $(librecords_la_SOURCES)
 HEADERS =  $(librecordsinc_HEADERS)
 
-DIST_COMMON =  Makefile.am Makefile.in
+DIST_COMMON =  $(librecordsinc_HEADERS) Makefile.am Makefile.in
 
 
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
 GZIP_ENV = --best
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+DEP_FILES =  @AMDEP@ $(DEPDIR)/DoubleRecord.Plo \
+$(DEPDIR)/FloatRecord.Plo $(DEPDIR)/HexRecord.Plo \
+$(DEPDIR)/Int16Record.Plo $(DEPDIR)/Int32Record.Plo \
+$(DEPDIR)/Int8Record.Plo $(DEPDIR)/Record.Plo \
+$(DEPDIR)/StringRecord.Plo
 SOURCES = $(librecords_la_SOURCES)
-OBJECTS = $(librecords_la_OBJECTS)
+OBJECTS = $(am_librecords_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .cpp .lo .o .s
+.SUFFIXES: .c .cpp .h .lo .o
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps src/records/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/records/Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -153,15 +184,6 @@ distclean-noinstLTLIBRARIES:
 
 maintainer-clean-noinstLTLIBRARIES:
 
-.c.o:
-	$(COMPILE) -c $<
-
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
@@ -171,15 +193,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 maintainer-clean-compile:
-
-.c.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.s.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.S.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -193,30 +206,30 @@ maintainer-clean-libtool:
 
 librecords.la: $(librecords_la_OBJECTS) $(librecords_la_DEPENDENCIES)
 	$(CXXLINK)  $(librecords_la_LDFLAGS) $(librecords_la_OBJECTS) $(librecords_la_LIBADD) $(LIBS)
-.cpp.o:
-	$(CXXCOMPILE) -c $<
-.cpp.lo:
-	$(LTCXXCOMPILE) -c $<
 
 tags: TAGS
 
-ID: $(HEADERS) $(SOURCES) $(LISP)
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $$unique $(LISP)
+	mkid -f$$here/ID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
 mostlyclean-tags:
 
@@ -229,19 +242,51 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/records
-
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/records
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pR $$d/$$file $(distdir); \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+
+@AMDEP@include $(DEPDIR)/DoubleRecord.Plo
+@AMDEP@include $(DEPDIR)/FloatRecord.Plo
+@AMDEP@include $(DEPDIR)/HexRecord.Plo
+@AMDEP@include $(DEPDIR)/Int16Record.Plo
+@AMDEP@include $(DEPDIR)/Int32Record.Plo
+@AMDEP@include $(DEPDIR)/Int8Record.Plo
+@AMDEP@include $(DEPDIR)/Record.Plo
+@AMDEP@include $(DEPDIR)/StringRecord.Plo
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+maintainer-clean-depend:
+
+@AMDEP@CXXDEPMODE = @CXXDEPMODE@
+
+.cpp.o:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ $<
+
+.cpp.lo:
+@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ $<
+
 info-am:
 info: info-am
 dvi-am:
@@ -278,28 +323,29 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	-rm -f Makefile.in
 mostlyclean-am:  mostlyclean-noinstLTLIBRARIES mostlyclean-compile \
-		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
 		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
 clean-am:  clean-noinstLTLIBRARIES clean-compile clean-libtool \
-		clean-tags clean-generic mostlyclean-am
+		clean-tags clean-depend clean-generic mostlyclean-am
 
 clean: clean-am
 
 distclean-am:  distclean-noinstLTLIBRARIES distclean-compile \
-		distclean-libtool distclean-tags distclean-generic \
-		clean-am
+		distclean-libtool distclean-tags distclean-depend \
+		distclean-generic clean-am
 	-rm -f libtool
 
 distclean: distclean-am
 
 maintainer-clean-am:  maintainer-clean-noinstLTLIBRARIES \
 		maintainer-clean-compile maintainer-clean-libtool \
-		maintainer-clean-tags maintainer-clean-generic \
-		distclean-am
+		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -311,12 +357,13 @@ mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile mostlyclean-libtool distclean-libtool \
 clean-libtool maintainer-clean-libtool uninstall-librecordsincHEADERS \
 install-librecordsincHEADERS tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
-check-am installcheck-am installcheck install-exec-am install-exec \
-install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+clean-tags maintainer-clean-tags distdir mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all install-strip \
+installdirs mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 install-librecordsincHEADERS: $(librecordsinc_HEADERS)

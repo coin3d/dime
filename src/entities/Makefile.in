@@ -10,7 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -58,11 +57,19 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+
+@SET_MAKE@
 host_alias = @host_alias@
 host_triplet = @host@
+AMDEP = @AMDEP@
+AMTAR = @AMTAR@
 AS = @AS@
+AWK = @AWK@
 CC = @CC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
+DEPDIR = @DEPDIR@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -70,7 +77,6 @@ DIME_MICRO_VERSION = @DIME_MICRO_VERSION@
 DIME_MINOR_VERSION = @DIME_MINOR_VERSION@
 DIME_VERSION = @DIME_VERSION@
 DLLTOOL = @DLLTOOL@
-LD = @LD@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LT_AGE = @LT_AGE@
@@ -79,11 +85,12 @@ LT_RELEASE = @LT_RELEASE@
 LT_REVISION = @LT_REVISION@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
-NM = @NM@
+OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
-USE_SYMBOL_UNDERSCORE = @USE_SYMBOL_UNDERSCORE@
 VERSION = @VERSION@
+install_sh = @install_sh@
+
 
 noinst_LTLIBRARIES = libentities.la
 
@@ -91,13 +98,50 @@ LIBS =
 
 INCLUDES = -I$(top_srcdir)/include
 
-libentities_la_SOURCES =  	3DFace.cpp 3DFace.h 	Arc.cpp Arc.h 	Block.cpp Block.h 	Circle.cpp Circle.h 	Ellipse.cpp Ellipse.h 	Entity.cpp Entity.h 	ExtrusionEntity.cpp ExtrusionEntity.h 	FaceEntity.cpp FaceEntity.h 	Insert.cpp Insert.h 	LWPolyline.cpp LWPolyline.h 	Line.cpp Line.h 	Point.cpp Point.h 	Polyline.cpp Polyline.h 	Solid.cpp Solid.h 	Spline.cpp Spline.h 	Trace.cpp Trace.h 	UnknownEntity.cpp UnknownEntity.h 	Vertex.cpp Vertex.h
+libentities_la_SOURCES = \
+	3DFace.cpp 3DFace.h \
+	Arc.cpp Arc.h \
+	Block.cpp Block.h \
+	Circle.cpp Circle.h \
+	Ellipse.cpp Ellipse.h \
+	Entity.cpp Entity.h \
+	ExtrusionEntity.cpp ExtrusionEntity.h \
+	FaceEntity.cpp FaceEntity.h \
+	Insert.cpp Insert.h \
+	LWPolyline.cpp LWPolyline.h \
+	Line.cpp Line.h \
+	Point.cpp Point.h \
+	Polyline.cpp Polyline.h \
+	Solid.cpp Solid.h \
+	Spline.cpp Spline.h \
+	Trace.cpp Trace.h \
+	UnknownEntity.cpp UnknownEntity.h \
+	Vertex.cpp Vertex.h
 
 
 libentitiesincdir = $(includedir)/dime/entities
 
-libentitiesinc_HEADERS =  	$(top_srcdir)/include/dime/entities/3DFace.h 	$(top_srcdir)/include/dime/entities/Arc.h 	$(top_srcdir)/include/dime/entities/Block.h 	$(top_srcdir)/include/dime/entities/Circle.h 	$(top_srcdir)/include/dime/entities/Ellipse.h 	$(top_srcdir)/include/dime/entities/Entity.h 	$(top_srcdir)/include/dime/entities/ExtrusionEntity.h 	$(top_srcdir)/include/dime/entities/FaceEntity.h 	$(top_srcdir)/include/dime/entities/Insert.h 	$(top_srcdir)/include/dime/entities/LWPolyline.h 	$(top_srcdir)/include/dime/entities/Line.h 	$(top_srcdir)/include/dime/entities/Point.h 	$(top_srcdir)/include/dime/entities/Polyline.h 	$(top_srcdir)/include/dime/entities/Solid.h 	$(top_srcdir)/include/dime/entities/Spline.h 	$(top_srcdir)/include/dime/entities/Trace.h 	$(top_srcdir)/include/dime/entities/UnknownEntity.h 	$(top_srcdir)/include/dime/entities/Vertex.h
+libentitiesinc_HEADERS = \
+	$(top_srcdir)/include/dime/entities/3DFace.h \
+	$(top_srcdir)/include/dime/entities/Arc.h \
+	$(top_srcdir)/include/dime/entities/Block.h \
+	$(top_srcdir)/include/dime/entities/Circle.h \
+	$(top_srcdir)/include/dime/entities/Ellipse.h \
+	$(top_srcdir)/include/dime/entities/Entity.h \
+	$(top_srcdir)/include/dime/entities/ExtrusionEntity.h \
+	$(top_srcdir)/include/dime/entities/FaceEntity.h \
+	$(top_srcdir)/include/dime/entities/Insert.h \
+	$(top_srcdir)/include/dime/entities/LWPolyline.h \
+	$(top_srcdir)/include/dime/entities/Line.h \
+	$(top_srcdir)/include/dime/entities/Point.h \
+	$(top_srcdir)/include/dime/entities/Polyline.h \
+	$(top_srcdir)/include/dime/entities/Solid.h \
+	$(top_srcdir)/include/dime/entities/Spline.h \
+	$(top_srcdir)/include/dime/entities/Trace.h \
+	$(top_srcdir)/include/dime/entities/UnknownEntity.h \
+	$(top_srcdir)/include/dime/entities/Vertex.h
 
+subdir = src/entities
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
@@ -109,39 +153,48 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 libentities_la_LDFLAGS = 
 libentities_la_LIBADD = 
-libentities_la_OBJECTS =  3DFace.lo Arc.lo Block.lo Circle.lo Ellipse.lo \
-Entity.lo ExtrusionEntity.lo FaceEntity.lo Insert.lo LWPolyline.lo \
-Line.lo Point.lo Polyline.lo Solid.lo Spline.lo Trace.lo \
+am_libentities_la_OBJECTS =  3DFace.lo Arc.lo Block.lo Circle.lo \
+Ellipse.lo Entity.lo ExtrusionEntity.lo FaceEntity.lo Insert.lo \
+LWPolyline.lo Line.lo Point.lo Polyline.lo Solid.lo Spline.lo Trace.lo \
 UnknownEntity.lo Vertex.lo
-CXXFLAGS = @CXXFLAGS@
+libentities_la_OBJECTS =  $(am_libentities_la_OBJECTS)
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXFLAGS = @CXXFLAGS@
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES =  $(libentities_la_SOURCES)
 HEADERS =  $(libentitiesinc_HEADERS)
 
-DIST_COMMON =  Makefile.am Makefile.in
+DIST_COMMON =  $(libentitiesinc_HEADERS) Makefile.am Makefile.in
 
 
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
 GZIP_ENV = --best
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+DEP_FILES =  @AMDEP@ $(DEPDIR)/3DFace.Plo $(DEPDIR)/Arc.Plo \
+$(DEPDIR)/Block.Plo $(DEPDIR)/Circle.Plo $(DEPDIR)/Ellipse.Plo \
+$(DEPDIR)/Entity.Plo $(DEPDIR)/ExtrusionEntity.Plo \
+$(DEPDIR)/FaceEntity.Plo $(DEPDIR)/Insert.Plo $(DEPDIR)/LWPolyline.Plo \
+$(DEPDIR)/Line.Plo $(DEPDIR)/Point.Plo $(DEPDIR)/Polyline.Plo \
+$(DEPDIR)/Solid.Plo $(DEPDIR)/Spline.Plo $(DEPDIR)/Trace.Plo \
+$(DEPDIR)/UnknownEntity.Plo $(DEPDIR)/Vertex.Plo
 SOURCES = $(libentities_la_SOURCES)
-OBJECTS = $(libentities_la_OBJECTS)
+OBJECTS = $(am_libentities_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .cpp .lo .o .s
+.SUFFIXES: .c .cpp .h .lo .o
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps src/entities/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/entities/Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -155,15 +208,6 @@ distclean-noinstLTLIBRARIES:
 
 maintainer-clean-noinstLTLIBRARIES:
 
-.c.o:
-	$(COMPILE) -c $<
-
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
 mostlyclean-compile:
 	-rm -f *.o core *.core
 
@@ -173,15 +217,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 maintainer-clean-compile:
-
-.c.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.s.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
-
-.S.lo:
-	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -195,30 +230,30 @@ maintainer-clean-libtool:
 
 libentities.la: $(libentities_la_OBJECTS) $(libentities_la_DEPENDENCIES)
 	$(CXXLINK)  $(libentities_la_LDFLAGS) $(libentities_la_OBJECTS) $(libentities_la_LIBADD) $(LIBS)
-.cpp.o:
-	$(CXXCOMPILE) -c $<
-.cpp.lo:
-	$(LTCXXCOMPILE) -c $<
 
 tags: TAGS
 
-ID: $(HEADERS) $(SOURCES) $(LISP)
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $$unique $(LISP)
+	mkid -f$$here/ID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
 mostlyclean-tags:
 
@@ -231,19 +266,61 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/entities
-
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/entities
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pR $$d/$$file $(distdir); \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+
+@AMDEP@include $(DEPDIR)/3DFace.Plo
+@AMDEP@include $(DEPDIR)/Arc.Plo
+@AMDEP@include $(DEPDIR)/Block.Plo
+@AMDEP@include $(DEPDIR)/Circle.Plo
+@AMDEP@include $(DEPDIR)/Ellipse.Plo
+@AMDEP@include $(DEPDIR)/Entity.Plo
+@AMDEP@include $(DEPDIR)/ExtrusionEntity.Plo
+@AMDEP@include $(DEPDIR)/FaceEntity.Plo
+@AMDEP@include $(DEPDIR)/Insert.Plo
+@AMDEP@include $(DEPDIR)/LWPolyline.Plo
+@AMDEP@include $(DEPDIR)/Line.Plo
+@AMDEP@include $(DEPDIR)/Point.Plo
+@AMDEP@include $(DEPDIR)/Polyline.Plo
+@AMDEP@include $(DEPDIR)/Solid.Plo
+@AMDEP@include $(DEPDIR)/Spline.Plo
+@AMDEP@include $(DEPDIR)/Trace.Plo
+@AMDEP@include $(DEPDIR)/UnknownEntity.Plo
+@AMDEP@include $(DEPDIR)/Vertex.Plo
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+	-rm -rf $(DEPDIR)
+
+maintainer-clean-depend:
+
+@AMDEP@CXXDEPMODE = @CXXDEPMODE@
+
+.cpp.o:
+@AMDEP@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(CXXCOMPILE) -c -o $@ $<
+
+.cpp.lo:
+@AMDEP@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
+@AMDEP@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(LTCXXCOMPILE) -c -o $@ $<
+
 info-am:
 info: info-am
 dvi-am:
@@ -280,28 +357,29 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
+	-rm -f Makefile.in
 mostlyclean-am:  mostlyclean-noinstLTLIBRARIES mostlyclean-compile \
-		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
 		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
 clean-am:  clean-noinstLTLIBRARIES clean-compile clean-libtool \
-		clean-tags clean-generic mostlyclean-am
+		clean-tags clean-depend clean-generic mostlyclean-am
 
 clean: clean-am
 
 distclean-am:  distclean-noinstLTLIBRARIES distclean-compile \
-		distclean-libtool distclean-tags distclean-generic \
-		clean-am
+		distclean-libtool distclean-tags distclean-depend \
+		distclean-generic clean-am
 	-rm -f libtool
 
 distclean: distclean-am
 
 maintainer-clean-am:  maintainer-clean-noinstLTLIBRARIES \
 		maintainer-clean-compile maintainer-clean-libtool \
-		maintainer-clean-tags maintainer-clean-generic \
-		distclean-am
+		maintainer-clean-tags maintainer-clean-depend \
+		maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -313,12 +391,13 @@ mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile mostlyclean-libtool distclean-libtool \
 clean-libtool maintainer-clean-libtool uninstall-libentitiesincHEADERS \
 install-libentitiesincHEADERS tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
-check-am installcheck-am installcheck install-exec-am install-exec \
-install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+clean-tags maintainer-clean-tags distdir mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend info-am info \
+dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+install-exec install-data-am install-data install-am install \
+uninstall-am uninstall all-redirect all-am all install-strip \
+installdirs mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 install-libentitiesincHEADERS: $(libentitiesinc_HEADERS)
