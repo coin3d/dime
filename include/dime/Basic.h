@@ -40,6 +40,7 @@
 // we prefer to use floats to save mem. Applications needing
 // scientific calculations should typedef this to double
 typedef float dxfdouble;
+// typedef double dxfdouble;
 
 #include <float.h>
 
@@ -175,6 +176,10 @@ typedef union {
 #ifndef DIME_DLL_API
 # define DIME_DLL_API
 #endif /* !DIME_DLL_API */
+
+int DIME_DLL_API dime_isnan(double value);
+int DIME_DLL_API dime_isinf(double value);
+int DIME_DLL_API dime_finite(double value);
 
 /* ********************************************************************** */
 
