@@ -114,7 +114,7 @@ LIBS =
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libconvert.la
 
 ConvertSources = \
-	3dface.cpp \
+	convert3dface.cpp \
 	arc.cpp \
 	circle.cpp \
 	convert.cpp \
@@ -152,17 +152,17 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 convert_lst_AR = $(AR) cru
 convert_lst_LIBADD =
-am_convert_lst_OBJECTS = 3dface.$(OBJEXT) arc.$(OBJEXT) circle.$(OBJEXT) \
-	convert.$(OBJEXT) ellipse.$(OBJEXT) layerdata.$(OBJEXT) \
-	line.$(OBJEXT) linesegment.$(OBJEXT) lwpolyline.$(OBJEXT) \
-	point.$(OBJEXT) polyline.$(OBJEXT) solid.$(OBJEXT) \
-	trace.$(OBJEXT)
+am_convert_lst_OBJECTS = convert3dface.$(OBJEXT) arc.$(OBJEXT) \
+	circle.$(OBJEXT) convert.$(OBJEXT) ellipse.$(OBJEXT) \
+	layerdata.$(OBJEXT) line.$(OBJEXT) linesegment.$(OBJEXT) \
+	lwpolyline.$(OBJEXT) point.$(OBJEXT) polyline.$(OBJEXT) \
+	solid.$(OBJEXT) trace.$(OBJEXT)
 convert_lst_OBJECTS = $(am_convert_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libconvert_la_LDFLAGS =
 libconvert_la_LIBADD =
-am_libconvert_la_OBJECTS = 3dface.lo arc.lo circle.lo convert.lo \
+am_libconvert_la_OBJECTS = convert3dface.lo arc.lo circle.lo convert.lo \
 	ellipse.lo layerdata.lo line.lo linesegment.lo lwpolyline.lo \
 	point.lo polyline.lo solid.lo trace.lo
 libconvert_la_OBJECTS = $(am_libconvert_la_OBJECTS)
@@ -172,19 +172,20 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/include
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/3dface.Plo $(DEPDIR)/3dface.Po \
-@AMDEP_TRUE@	$(DEPDIR)/arc.Plo $(DEPDIR)/arc.Po \
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/arc.Plo $(DEPDIR)/arc.Po \
 @AMDEP_TRUE@	$(DEPDIR)/circle.Plo $(DEPDIR)/circle.Po \
 @AMDEP_TRUE@	$(DEPDIR)/convert.Plo $(DEPDIR)/convert.Po \
-@AMDEP_TRUE@	$(DEPDIR)/ellipse.Plo $(DEPDIR)/ellipse.Po \
-@AMDEP_TRUE@	$(DEPDIR)/layerdata.Plo $(DEPDIR)/layerdata.Po \
-@AMDEP_TRUE@	$(DEPDIR)/line.Plo $(DEPDIR)/line.Po \
-@AMDEP_TRUE@	$(DEPDIR)/linesegment.Plo $(DEPDIR)/linesegment.Po \
-@AMDEP_TRUE@	$(DEPDIR)/lwpolyline.Plo $(DEPDIR)/lwpolyline.Po \
-@AMDEP_TRUE@	$(DEPDIR)/point.Plo $(DEPDIR)/point.Po \
-@AMDEP_TRUE@	$(DEPDIR)/polyline.Plo $(DEPDIR)/polyline.Po \
-@AMDEP_TRUE@	$(DEPDIR)/solid.Plo $(DEPDIR)/solid.Po \
-@AMDEP_TRUE@	$(DEPDIR)/trace.Plo $(DEPDIR)/trace.Po
+@AMDEP_TRUE@	$(DEPDIR)/convert3dface.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/convert3dface.Po $(DEPDIR)/ellipse.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ellipse.Po $(DEPDIR)/layerdata.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/layerdata.Po $(DEPDIR)/line.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/line.Po $(DEPDIR)/linesegment.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/linesegment.Po $(DEPDIR)/lwpolyline.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/lwpolyline.Po $(DEPDIR)/point.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/point.Po $(DEPDIR)/polyline.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/polyline.Po $(DEPDIR)/solid.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/solid.Po $(DEPDIR)/trace.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/trace.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -245,14 +246,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/3dface.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/3dface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circle.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert3dface.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert3dface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipse.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/layerdata.Plo@am__quote@
