@@ -33,9 +33,9 @@ class dimeState;
 class dxfLayerData;
 class dxfConverter;
 
-#ifdef _WIN32
+#ifndef M_PI
 #define M_PI 3.14159265358979323846
-#endif
+#endif // M_PI
 
 void convert_3dface(const dimeEntity *, const dimeState *, 
 		    dxfLayerData *, dxfConverter *);
