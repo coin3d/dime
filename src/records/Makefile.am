@@ -1,17 +1,15 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = librecords.la
-
-## Remove any linklibraries detected by configure, as they are not
-## needed in the submodules -- only in the toplevel libdime build.
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
 
-## All source files used when building this submodule, including all
-## headers.
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = records.lst
+else
+noinst_LTLIBRARIES = librecords.la
+endif
 
-librecords_la_SOURCES = \
+RecordsSources = \
 	DoubleRecord.cpp DoubleRecord.h \
 	FloatRecord.cpp FloatRecord.h \
 	HexRecord.cpp HexRecord.h \
@@ -21,24 +19,30 @@ librecords_la_SOURCES = \
 	Record.cpp Record.h \
 	StringRecord.cpp StringRecord.h
 
+librecords_la_SOURCES = \
+	$(RecordsSources)
+
+records_lst_SOURCES = \
+	$(RecordsSources)
+
+records.lst: Makefile $(records_lst_OBJECTS)
+	@echo "Linking records.lst..."; \
+	rm -f $@; \
+	for i in $(records_lst_OBJECTS); do echo $$i >>$@; done
+
+
 ## Installation information.
 
 librecordsincdir = $(includedir)/dime/records
-
 librecordsinc_HEADERS = \
-	$(top_srcdir)/include/dime/records/DoubleRecord.h \
-	$(top_srcdir)/include/dime/records/FloatRecord.h \
-	$(top_srcdir)/include/dime/records/HexRecord.h \
-	$(top_srcdir)/include/dime/records/Int16Record.h \
-	$(top_srcdir)/include/dime/records/Int32Record.h \
-	$(top_srcdir)/include/dime/records/Int8Record.h \
-	$(top_srcdir)/include/dime/records/Record.h \
-	$(top_srcdir)/include/dime/records/StringRecord.h
-
-
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
+	../../include/dime/records/DoubleRecord.h \
+	../../include/dime/records/FloatRecord.h \
+	../../include/dime/records/HexRecord.h \
+	../../include/dime/records/Int16Record.h \
+	../../include/dime/records/Int32Record.h \
+	../../include/dime/records/Int8Record.h \
+	../../include/dime/records/Record.h \
+	../../include/dime/records/StringRecord.h
 
 install-librecordsincHEADERS: $(librecordsinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -57,3 +61,4 @@ uninstall-librecordsincHEADERS:
 	  echo " rm -f $(DESTDIR)$(librecordsincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(librecordsincdir)/$$f; \
 	done
+

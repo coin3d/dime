@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,32 +94,46 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = libclasses.la
-
+INCLUDES = -I$(top_srcdir)/include
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/include
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = classes.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libclasses.la
 
-libclasses_la_SOURCES = \
+ClassesSources = \
 	Class.cpp Class.h \
 	UnknownClass.cpp UnknownClass.h
 
 
-libclassesincdir = $(includedir)/dime/classes
+libclasses_la_SOURCES = \
+	$(ClassesSources)
 
-libclassesinc_HEADERS = \
-	$(top_srcdir)/include/dime/classes/Class.h \
-	$(top_srcdir)/include/dime/classes/UnknownClass.h
+
+classes_lst_SOURCES = \
+	$(ClassesSources)
+
+
+classesincdir = $(includedir)/dime/classes
+classesinc_HEADERS = \
+	../../include/dime/classes/Class.h \
+	../../include/dime/classes/UnknownClass.h
 
 subdir = src/classes
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+classes_lst_AR = $(AR) cru
+classes_lst_LIBADD =
+am_classes_lst_OBJECTS = Class.$(OBJEXT) UnknownClass.$(OBJEXT)
+classes_lst_OBJECTS = $(am_classes_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libclasses_la_LDFLAGS =
@@ -126,8 +145,10 @@ DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Class.Plo $(DEPDIR)/UnknownClass.Plo
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Class.Plo $(DEPDIR)/Class.Po \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownClass.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownClass.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -145,11 +166,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libclasses_la_SOURCES)
-HEADERS = $(libclassesinc_HEADERS)
+DIST_SOURCES = $(classes_lst_SOURCES) $(libclasses_la_SOURCES)
+HEADERS = $(classesinc_HEADERS)
 
-DIST_COMMON = $(libclassesinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libclasses_la_SOURCES)
+DIST_COMMON = $(classesinc_HEADERS) Makefile.am Makefile.in
+SOURCES = $(classes_lst_SOURCES) $(libclasses_la_SOURCES)
 
 all: all-am
 
@@ -172,6 +193,11 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 libclasses.la: $(libclasses_la_OBJECTS) $(libclasses_la_DEPENDENCIES) 
@@ -184,7 +210,9 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Class.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Class.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownClass.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownClass.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -247,7 +275,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/classes
+	$(mkinstalldirs) $(distdir)/../../include/dime/classes
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -265,10 +293,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(libclassesincdir)
+	$(mkinstalldirs) $(DESTDIR)$(classesincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -295,8 +323,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 
@@ -311,7 +339,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-libclassesincHEADERS
+install-data-am: install-classesincHEADERS
 
 install-exec-am:
 
@@ -330,37 +358,42 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am uninstall-libclassesincHEADERS
+uninstall-am: uninstall-classesincHEADERS uninstall-info-am
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
-	info-am install install-am install-data install-data-am \
-	install-exec install-exec-am install-info install-info-am \
-	install-libclassesincHEADERS install-man install-strip \
+	info-am install install-am install-classesincHEADERS \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-am uninstall-info-am uninstall-libclassesincHEADERS
+	uninstall-am uninstall-classesincHEADERS uninstall-info-am
 
 
-install-libclassesincHEADERS: $(libclassesinc_HEADERS)
+classes.lst: Makefile $(classes_lst_OBJECTS)
+	@echo "Linking classes.lst..."; \
+	rm -f $@; \
+	for i in $(classes_lst_OBJECTS); do echo $$i >>$@; done
+
+install-classesincHEADERS: $(classesinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libclassesincdir)
-	@list='$(libclassesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(classesincdir)
+	@list='$(classesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libclassesincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libclassesincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(classesincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(classesincdir)/$$f; \
 	done
 
-uninstall-libclassesincHEADERS:
+uninstall-classesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libclassesinc_HEADERS)'; for p in $$list; do \
+	@list='$(classesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libclassesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libclassesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(classesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(classesincdir)/$$f; \
 	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

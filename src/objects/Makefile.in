@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,32 +94,46 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = libobjects.la
-
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
 
-libobjects_la_SOURCES = \
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = objects.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libobjects.la
+
+ObjectsSources = \
 	Object.cpp Object.h \
 	UnknownObject.cpp UnknownObject.h
 
 
-libobjectsincdir = $(includedir)/dime/objects
+libobjects_la_SOURCES = \
+	$(ObjectsSources)
 
+
+objects_lst_SOURCES = \
+	$(ObjectsSources)
+
+
+libobjectsincdir = $(includedir)/dime/objects
 libobjectsinc_HEADERS = \
-	$(top_srcdir)/include/dime/objects/Object.h \
-	$(top_srcdir)/include/dime/objects/UnknownObject.h
+	../../include/dime/objects/Object.h \
+	../../include/dime/objects/UnknownObject.h
 
 subdir = src/objects
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+objects_lst_AR = $(AR) cru
+objects_lst_LIBADD =
+am_objects_lst_OBJECTS = Object.$(OBJEXT) UnknownObject.$(OBJEXT)
+objects_lst_OBJECTS = $(am_objects_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libobjects_la_LDFLAGS =
@@ -126,8 +145,10 @@ DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Object.Plo $(DEPDIR)/UnknownObject.Plo
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Object.Plo $(DEPDIR)/Object.Po \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownObject.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownObject.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -145,11 +166,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libobjects_la_SOURCES)
+DIST_SOURCES = $(objects_lst_SOURCES) $(libobjects_la_SOURCES)
 HEADERS = $(libobjectsinc_HEADERS)
 
 DIST_COMMON = $(libobjectsinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libobjects_la_SOURCES)
+SOURCES = $(objects_lst_SOURCES) $(libobjects_la_SOURCES)
 
 all: all-am
 
@@ -172,6 +193,11 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 libobjects.la: $(libobjects_la_OBJECTS) $(libobjects_la_DEPENDENCIES) 
@@ -184,7 +210,9 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Object.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Object.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownObject.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownObject.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -247,7 +275,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/objects
+	$(mkinstalldirs) $(distdir)/../../include/dime/objects
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -265,7 +293,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
 	$(mkinstalldirs) $(DESTDIR)$(libobjectsincdir)
@@ -295,8 +323,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 
@@ -333,8 +361,8 @@ mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 uninstall-am: uninstall-info-am uninstall-libobjectsincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
@@ -344,6 +372,11 @@ uninstall-am: uninstall-info-am uninstall-libobjectsincHEADERS
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
 	uninstall-am uninstall-info-am uninstall-libobjectsincHEADERS
 
+
+objects.lst: Makefile $(objects_lst_OBJECTS)
+	@echo "Linking objects.lst..."; \
+	rm -f $@; \
+	for i in $(objects_lst_OBJECTS); do echo $$i >>$@; done
 
 install-libobjectsincHEADERS: $(libobjectsinc_HEADERS)
 	@$(NORMAL_INSTALL)

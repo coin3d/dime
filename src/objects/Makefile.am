@@ -1,32 +1,39 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libobjects.la
-
-## Remove any linklibraries detected by configure, as they are not
-## needed in the submodules -- only in the toplevel libdime build.
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
+
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = objects.lst
+else
+noinst_LTLIBRARIES = libobjects.la
+endif
 
 ## All source files used when building this submodule, including all
 ## headers.
 
-libobjects_la_SOURCES = \
+ObjectsSources = \
 	Object.cpp Object.h \
 	UnknownObject.cpp UnknownObject.h
+
+libobjects_la_SOURCES = \
+	$(ObjectsSources)
+
+objects_lst_SOURCES = \
+	$(ObjectsSources)
+
+objects.lst: Makefile $(objects_lst_OBJECTS)
+	@echo "Linking objects.lst..."; \
+	rm -f $@; \
+	for i in $(objects_lst_OBJECTS); do echo $$i >>$@; done
+
 
 ## Installation information.
 
 libobjectsincdir = $(includedir)/dime/objects
-
 libobjectsinc_HEADERS = \
-	$(top_srcdir)/include/dime/objects/Object.h \
-	$(top_srcdir)/include/dime/objects/UnknownObject.h
-
-
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
+	../../include/dime/objects/Object.h \
+	../../include/dime/objects/UnknownObject.h
 
 install-libobjectsincHEADERS: $(libobjectsinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -45,3 +52,4 @@ uninstall-libobjectsincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libobjectsincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libobjectsincdir)/$$f; \
 	done
+

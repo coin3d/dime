@@ -1,20 +1,16 @@
 ## Process this file with automake to generate Makefile.in.
 
-lib_LTLIBRARIES = libdime.la
-
-libdime_la_LIBADD = \
-	classes/libclasses.la entities/libentities.la objects/libobjects.la \
-	records/librecords.la sections/libsections.la tables/libtables.la \
-	util/libutil.la convert/libconvert.la
-
 SUBDIRS = classes entities objects records sections tables util convert .
 
 INCLUDES = -I$(top_srcdir)/include
 
-## All source files from the base directory used when building the
-## library, including all headers.
+if BUILD_WITH_MSVC
+lib_LIBRARIES = dime@DIME_MAJOR_VERSION@@SUFFIX@.lib
+else
+lib_LTLIBRARIES = libdime@SUFFIX@.la
+endif
 
-libdime_la_SOURCES = \
+DimeSources = \
 	Base.cpp Base.h \
 	Basic.cpp Basic.h \
 	Input.cpp Input.h \
@@ -24,23 +20,41 @@ libdime_la_SOURCES = \
 	RecordHolder.cpp RecordHolder.h \
 	State.cpp State.h
 
+libdime@SUFFIX@_la_LIBADD = \
+	classes/libclasses.la entities/libentities.la objects/libobjects.la \
+	records/librecords.la sections/libsections.la tables/libtables.la \
+	util/libutil.la convert/libconvert.la
+
+libdime@SUFFIX@_la_LDFLAGS = \
+	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
+	classes/libclasses.lst entities/libentities.lst objects/libobjects.lst \
+	records/librecords.lst sections/libsections.lst tables/libtables.lst \
+	util/libutil.lst convert/libconvert.lst
+
+## All source files from the base directory used when building the
+## library, including all headers.
+
+libdime@SUFFIX@_la_SOURCES = \
+	$(DimeSources)
+
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	$(DimeSources)
+
 ## Installation information.
 
 libdimeincdir = $(includedir)/dime
 
-libdime_la_LDFLAGS = \
-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
-
 libdimeinc_HEADERS = \
-	$(top_srcdir)/include/dime/Base.h \
-	$(top_srcdir)/include/dime/Basic.h \
-	$(top_srcdir)/include/dime/Input.h \
-	$(top_srcdir)/include/dime/Layer.h \
-	$(top_srcdir)/include/dime/Model.h \
-	$(top_srcdir)/include/dime/Output.h \
-	$(top_srcdir)/include/dime/RecordHolder.h \
-	$(top_srcdir)/include/dime/State.h
-
+	../include/dime/Base.h \
+	../include/dime/Basic.h \
+	../include/dime/Input.h \
+	../include/dime/Layer.h \
+	../include/dime/Model.h \
+	../include/dime/Output.h \
+	../include/dime/RecordHolder.h \
+	../include/dime/State.h
 
 ## FIXME: this is a temporary workaround for a bug in Automake. The
 ## bug is fixed in the latest Automake CVS, but not in any "official"

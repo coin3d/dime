@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,18 +94,19 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = libtables.la
-
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
 
-libtables_la_SOURCES = \
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = tables.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libtables.la
+
+TablesSources = \
 	LayerTable.cpp LayerTable.h \
 	Table.cpp Table.h \
 	TableEntry.cpp TableEntry.h \
@@ -108,19 +114,33 @@ libtables_la_SOURCES = \
 	UnknownTable.cpp UnknownTable.h
 
 
-libtablesincdir = $(includedir)/dime/tables
+libtables_la_SOURCES = \
+	$(TablesSources)
 
+
+tables_lst_SOURCES = \
+	$(TablesSources)
+
+
+libtablesincdir = $(includedir)/dime/tables
 libtablesinc_HEADERS = \
-	$(top_srcdir)/include/dime/tables/LayerTable.h \
-	$(top_srcdir)/include/dime/tables/Table.h \
-	$(top_srcdir)/include/dime/tables/TableEntry.h \
-	$(top_srcdir)/include/dime/tables/UCSTable.h \
-	$(top_srcdir)/include/dime/tables/UnknownTable.h
+	../../include/dime/tables/LayerTable.h \
+	../../include/dime/tables/Table.h \
+	../../include/dime/tables/TableEntry.h \
+	../../include/dime/tables/UCSTable.h \
+	../../include/dime/tables/UnknownTable.h
 
 subdir = src/tables
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+tables_lst_AR = $(AR) cru
+tables_lst_LIBADD =
+am_tables_lst_OBJECTS = LayerTable.$(OBJEXT) Table.$(OBJEXT) \
+	TableEntry.$(OBJEXT) UCSTable.$(OBJEXT) UnknownTable.$(OBJEXT)
+tables_lst_OBJECTS = $(am_tables_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libtables_la_LDFLAGS =
@@ -133,10 +153,13 @@ DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/LayerTable.Plo $(DEPDIR)/Table.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/TableEntry.Plo $(DEPDIR)/UCSTable.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/UnknownTable.Plo
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/LayerTable.Plo $(DEPDIR)/LayerTable.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Table.Plo $(DEPDIR)/Table.Po \
+@AMDEP_TRUE@	$(DEPDIR)/TableEntry.Plo $(DEPDIR)/TableEntry.Po \
+@AMDEP_TRUE@	$(DEPDIR)/UCSTable.Plo $(DEPDIR)/UCSTable.Po \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownTable.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownTable.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -154,11 +177,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libtables_la_SOURCES)
+DIST_SOURCES = $(tables_lst_SOURCES) $(libtables_la_SOURCES)
 HEADERS = $(libtablesinc_HEADERS)
 
 DIST_COMMON = $(libtablesinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libtables_la_SOURCES)
+SOURCES = $(tables_lst_SOURCES) $(libtables_la_SOURCES)
 
 all: all-am
 
@@ -181,6 +204,15 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+tables.lst: $(tables_lst_OBJECTS) $(tables_lst_DEPENDENCIES) 
+	-rm -f tables.lst
+	$(tables_lst_AR) tables.lst $(tables_lst_OBJECTS) $(tables_lst_LIBADD)
+	$(RANLIB) tables.lst
+
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 libtables.la: $(libtables_la_OBJECTS) $(libtables_la_DEPENDENCIES) 
@@ -193,10 +225,15 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/LayerTable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/LayerTable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Table.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Table.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/TableEntry.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/TableEntry.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UCSTable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UCSTable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownTable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownTable.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -259,7 +296,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/tables
+	$(mkinstalldirs) $(distdir)/../../include/dime/tables
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -277,7 +314,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
 	$(mkinstalldirs) $(DESTDIR)$(libtablesincdir)
@@ -307,8 +344,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 
@@ -345,8 +382,8 @@ mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 uninstall-am: uninstall-info-am uninstall-libtablesincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \

@@ -11,6 +11,179 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+# **************************************************************************
+# SIM_AC_SETUP_MSVC_IFELSE( IF-FOUND, IF-NOT-FOUND )
+#
+# This macro invokes IF-FOUND if the wrapmsvc wrapper can be run, and
+# IF-NOT-FOUND if not.
+#
+# Authors:
+#   Morten Eriksen <mortene@coin3d.org>
+#   Lars J. Aas <larsa@coin3d.org>
+
+# **************************************************************************
+
+AC_DEFUN([SIM_AC_SETUP_MSVC_IFELSE],
+[# **************************************************************************
+# If the Microsoft Visual C++ cl.exe compiler is available, set us up for
+# compiling with it and to generate an MSWindows .dll file.
+
+: ${BUILD_WITH_MSVC=false}
+sim_ac_wrapmsvc=`cd $srcdir; pwd`/cfg/wrapmsvc.exe
+if test -z "$CC" -a -z "$CXX" && $sim_ac_wrapmsvc >/dev/null 2>&1; then
+  m4_ifdef([$0_VISITED],
+    [AC_FATAL([Macro $0 invoked multiple times])])
+  m4_define([$0_VISITED], 1)
+  CC=$sim_ac_wrapmsvc
+  CXX=$sim_ac_wrapmsvc
+  export CC CXX
+  BUILD_WITH_MSVC=true
+fi
+AC_SUBST(BUILD_WITH_MSVC)
+
+case $CXX in
+*wrapmsvc.exe)
+  BUILD_WITH_MSVC=true
+  $1
+  ;;
+*)
+  BUILD_WITH_MSVC=false
+  $2
+  ;;
+esac
+]) # SIM_AC_SETUP_MSVC_IFELSE
+
+# **************************************************************************
+# SIM_AC_SETUP_MSVCRT
+#
+# This macro sets up compiler flags for the MS Visual C++ C library of
+# choice.
+
+AC_DEFUN([SIM_AC_SETUP_MSVCRT],
+[sim_ac_msvcrt_LDFLAGS=""
+sim_ac_msvcrt_LIBS=""
+
+AC_ARG_WITH([msvcrt],
+  [AC_HELP_STRING([--with-msvcrt=<crt>],
+                  [set which C run-time library to build against])],
+  [case `echo "$withval" | tr "[A-Z]" "[a-z]"` in
+  default | singlethread-static | ml | /ml | libc | libc\.lib )
+    sim_ac_msvcrt=singlethread-static
+    sim_ac_msvcrt_CFLAGS="/ML"
+    sim_ac_msvcrt_CXXFLAGS="/ML"
+    sim_ac_msvcrt_LIBLDFLAGS=""
+    sim_ac_msvcrt_LIBLIBS=""
+    ;;
+  default-debug | singlethread-static-debug | mld | /mld | libcd | libcd\.lib )
+    sim_ac_msvcrt=singlethread-static-debug
+    sim_ac_msvcrt_CFLAGS="/MLd"
+    sim_ac_msvcrt_CXXFLAGS="/MLd"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-llibcd"
+    ;;
+  multithread-static | mt | /mt | libcmt | libcmt\.lib )
+    sim_ac_msvcrt=multithread-static
+    sim_ac_msvcrt_CFLAGS="/MT"
+    sim_ac_msvcrt_CXXFLAGS="/MT"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-llibcmt"
+    ;;
+  multithread-static-debug | mtd | /mtd | libcmtd | libcmtd\.lib )
+    sim_ac_msvcrt=multithread-static-debug
+    sim_ac_msvcrt_CFLAGS="/MTd"
+    sim_ac_msvcrt_CXXFLAGS="/MTd"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-llibcmtd"
+    ;;
+  multithread-dynamic | md | /md | msvcrt | msvcrt\.lib )
+    sim_ac_msvcrt=multithread-dynamic
+    sim_ac_msvcrt_CFLAGS=""
+    sim_ac_msvcrt_CXXFLAGS=""
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-lmsvcrt"
+    ;;
+  multithread-dynamic-debug | mdd | /mdd | msvcrtd | msvcrtd\.lib )
+    sim_ac_msvcrt=multithread-dynamic-debug
+    sim_ac_msvcrt_CFLAGS="/MDd"
+    sim_ac_msvcrt_CXXFLAGS="/MDd"
+    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLIBS="-lmsvcrtd"
+    ;;
+  *)
+    SIM_AC_ERROR([invalid-msvcrt])
+    ;;
+  esac],
+  [sim_ac_msvcrt=singlethread-static])
+
+AC_MSG_CHECKING([MSVC++ C library choice])
+AC_MSG_RESULT([$sim_ac_msvcrt])
+
+$1
+]) # SIM_AC_SETUP_MSVCRT
+
+# EOF **********************************************************************
+# EOF **********************************************************************
+
+# **************************************************************************
+# SIM_AC_ERROR_MESSAGE_FILE( FILENAME )
+#   Sets the error message file.  Default is $ac_aux_dir/m4/errors.txt.
+#
+# SIM_AC_ERROR( ERROR [, ERROR ...] )
+#   Fetches the error messages from the error message file and displays
+#   them on stderr.
+#
+# SIM_AC_WITH_ERROR( WITHARG )
+#   Invokes AC_MSG_ERROR in a consistent way for problems with the --with-*
+#   $withval argument.
+#
+# SIM_AC_ENABLE_ERROR( ENABLEARG )
+#   Invokes AC_MSG_ERROR in a consistent way for problems with the --enable-*
+#   $enableval argument.
+#
+# Authors:
+#   Lars J. Aas <larsa@sim.no>
+
+AC_DEFUN([SIM_AC_ERROR_MESSAGE_FILE], [
+sim_ac_message_file=$1
+]) # SIM_AC_ERROR_MESSAGE_FILE
+
+AC_DEFUN([SIM_AC_ONE_MESSAGE], [
+: ${sim_ac_message_file=$ac_aux_dir/m4/errors.txt}
+if test -f $sim_ac_message_file; then
+  sim_ac_message="`sed -n -e '/^!$1$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
+  if test x"$sim_ac_message" = x""; then
+    AC_MSG_ERROR([no message named '$1' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)])
+  else
+    eval "echo >&2 \"$sim_ac_message\""
+  fi
+else
+  AC_MSG_ERROR([file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)])
+fi
+]) # SIM_AC_ONE_MESSAGE
+
+AC_DEFUN([_SIM_AC_ERROR], [
+SIM_AC_ONE_MESSAGE([$1])
+ifelse([$2], , , [
+echo >&2 ""
+_SIM_AC_ERROR(m4_shift($@))])
+]) # _SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_ERROR], [
+echo >&2 ""
+_SIM_AC_ERROR($@)
+echo >&2 ""
+AC_MSG_ERROR([aborting])
+]) # SIM_AC_ERROR
+
+AC_DEFUN([SIM_AC_WITH_ERROR], [
+AC_MSG_ERROR([invalid value "${withval}" for "$1" configure argument])
+]) # SIM_AC_WITH_ERROR
+
+AC_DEFUN([SIM_AC_ENABLE_ERROR], [
+AC_MSG_ERROR([invalid value "${enableval}" for "$1" configure argument])
+]) # SIM_AC_ENABLE_ERROR
+
+
 # Do all the work for Automake.  This macro actually does too much --
 # some checks are only needed if your package does certain things.
 # But this isn't really a big deal.
@@ -2095,7 +2268,7 @@ else
     # FIXME: Relying on posixy $() will cause problems for
     #        cross-compilation, but unfortunately the echo tests do not
     #        yet detect zsh echo's removal of \ escapes.
-    archive_cmds='$nonopt $(test "x$module" = xyes && echo -bundle || echo -dynamiclib) $allow_undefined_flag -o $lib $libobjs $deplibs$linker_flags -install_name $rpath/$soname $verstring'
+    archive_cmds='$nonopt $(test x$module = xyes && echo -bundle || echo -dynamiclib) $allow_undefined_flag -o $lib $libobjs $deplibs$linker_flags -install_name $rpath/$soname $verstring'
     # We need to add '_' to the symbols in $export_symbols first
     #archive_expsym_cmds="$archive_cmds"' && strip -s $export_symbols'
     hardcode_direct=yes

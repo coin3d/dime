@@ -1,17 +1,15 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libutil.la
-
-## Remove any linklibraries detected by configure, as they are not
-## needed in the submodules -- only in the toplevel libdime build.
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
 
-## All source files used when building this submodule, including all
-## headers.
+if BUILD_WITH_MSVC
+noinst_LTLIBRARIES = util.lst
+else
+noinst_LTLIBRARIES = libutil.la
+endif
 
-libutil_la_SOURCES = \
+UtilSources = \
 	Array.cpp Array.h \
 	BSPTree.cpp BSPTree.h \
 	Box.cpp Box.h \
@@ -19,22 +17,22 @@ libutil_la_SOURCES = \
 	Linear.cpp Linear.h \
 	MemHandler.cpp MemHandler.h
 
+libutil_la_SOURCES = \
+	$(UtilSources)
+
+util_lst_SOURCES = \
+	$(UtilSources)
+
 ## Installation information.
 
 libutilincdir = $(includedir)/dime/util
-
 libutilinc_HEADERS = \
-	$(top_srcdir)/include/dime/util/Array.h \
-	$(top_srcdir)/include/dime/util/BSPTree.h \
-	$(top_srcdir)/include/dime/util/Box.h \
-	$(top_srcdir)/include/dime/util/Dict.h \
-	$(top_srcdir)/include/dime/util/Linear.h \
-	$(top_srcdir)/include/dime/util/MemHandler.h
-
-
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
+	../../include/dime/util/Array.h \
+	../../include/dime/util/BSPTree.h \
+	../../include/dime/util/Box.h \
+	../../include/dime/util/Dict.h \
+	../../include/dime/util/Linear.h \
+	../../include/dime/util/MemHandler.h
 
 install-libutilincHEADERS: $(libutilinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -53,3 +51,4 @@ uninstall-libutilincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libutilincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libutilincdir)/$$f; \
 	done
+

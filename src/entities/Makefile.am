@@ -1,17 +1,18 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libentities.la
-
-## Remove any linklibraries detected by configure, as they are not
-## needed in the submodules -- only in the toplevel libdime build.
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
+
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = entities.lst
+else
+noinst_LTLIBRARIES = libentities.la
+endif
 
 ## All source files used when building this submodule, including all
 ## headers.
 
-libentities_la_SOURCES = \
+EntitiesSources = \
 	3DFace.cpp 3DFace.h \
 	Arc.cpp Arc.h \
 	Block.cpp Block.h \
@@ -31,34 +32,40 @@ libentities_la_SOURCES = \
 	UnknownEntity.cpp UnknownEntity.h \
 	Vertex.cpp Vertex.h
 
+libentities_la_SOURCES = \
+	$(EntitiesSources)
+
+entities_lst_SOURCES = \
+	$(EntitiesSources)
+
+entities.lst: Makefile $(entites_lst_OBJECTS)
+	@echo "Linking entities.lst..."; \
+	rm -f $@; \
+	for i in $(entities_lst_OBJECTS); do echo $$i >>$@; done
+
 ## Installation information.
 
 libentitiesincdir = $(includedir)/dime/entities
 
 libentitiesinc_HEADERS = \
-	$(top_srcdir)/include/dime/entities/3DFace.h \
-	$(top_srcdir)/include/dime/entities/Arc.h \
-	$(top_srcdir)/include/dime/entities/Block.h \
-	$(top_srcdir)/include/dime/entities/Circle.h \
-	$(top_srcdir)/include/dime/entities/Ellipse.h \
-	$(top_srcdir)/include/dime/entities/Entity.h \
-	$(top_srcdir)/include/dime/entities/ExtrusionEntity.h \
-	$(top_srcdir)/include/dime/entities/FaceEntity.h \
-	$(top_srcdir)/include/dime/entities/Insert.h \
-	$(top_srcdir)/include/dime/entities/LWPolyline.h \
-	$(top_srcdir)/include/dime/entities/Line.h \
-	$(top_srcdir)/include/dime/entities/Point.h \
-	$(top_srcdir)/include/dime/entities/Polyline.h \
-	$(top_srcdir)/include/dime/entities/Solid.h \
-	$(top_srcdir)/include/dime/entities/Spline.h \
-	$(top_srcdir)/include/dime/entities/Trace.h \
-	$(top_srcdir)/include/dime/entities/UnknownEntity.h \
-	$(top_srcdir)/include/dime/entities/Vertex.h
-
-
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
+	../../include/dime/entities/3DFace.h \
+	../../include/dime/entities/Arc.h \
+	../../include/dime/entities/Block.h \
+	../../include/dime/entities/Circle.h \
+	../../include/dime/entities/Ellipse.h \
+	../../include/dime/entities/Entity.h \
+	../../include/dime/entities/ExtrusionEntity.h \
+	../../include/dime/entities/FaceEntity.h \
+	../../include/dime/entities/Insert.h \
+	../../include/dime/entities/LWPolyline.h \
+	../../include/dime/entities/Line.h \
+	../../include/dime/entities/Point.h \
+	../../include/dime/entities/Polyline.h \
+	../../include/dime/entities/Solid.h \
+	../../include/dime/entities/Spline.h \
+	../../include/dime/entities/Trace.h \
+	../../include/dime/entities/UnknownEntity.h \
+	../../include/dime/entities/Vertex.h
 
 install-libentitiesincHEADERS: $(libentitiesinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -77,3 +84,4 @@ uninstall-libentitiesincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libentitiesincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libentitiesincdir)/$$f; \
 	done
+

@@ -1,17 +1,18 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libsections.la
-
-## Remove any linklibraries detected by configure, as they are not
-## needed in the submodules -- only in the toplevel libdime build.
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
+
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = sections.lst
+else
+noinst_LTLIBRARIES = libsections.la
+endif
 
 ## All source files used when building this submodule, including all
 ## headers.
 
-libsections_la_SOURCES = \
+SectionsSources = \
 	BlocksSection.cpp BlocksSection.h \
 	ClassesSection.cpp ClassesSection.h \
 	EntitiesSection.cpp EntitiesSection.h \
@@ -21,24 +22,24 @@ libsections_la_SOURCES = \
 	TablesSection.cpp TablesSection.h \
 	UnknownSection.cpp UnknownSection.h
 
+libsections_la_SOURCES = \
+	$(SectionsSources)
+
+sections_lst_SOURCES = \
+	$(SectionsSources)
+
 ## Installation information.
 
 libsectionsincdir = $(includedir)/dime/sections
-
 libsectionsinc_HEADERS = \
-	$(top_srcdir)/include/dime/sections/BlocksSection.h \
-	$(top_srcdir)/include/dime/sections/ClassesSection.h \
-	$(top_srcdir)/include/dime/sections/EntitiesSection.h \
-	$(top_srcdir)/include/dime/sections/HeaderSection.h \
-	$(top_srcdir)/include/dime/sections/ObjectsSection.h \
-	$(top_srcdir)/include/dime/sections/Section.h \
-	$(top_srcdir)/include/dime/sections/TablesSection.h \
-	$(top_srcdir)/include/dime/sections/UnknownSection.h
-
-
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
+	../../include/dime/sections/BlocksSection.h \
+	../../include/dime/sections/ClassesSection.h \
+	../../include/dime/sections/EntitiesSection.h \
+	../../include/dime/sections/HeaderSection.h \
+	../../include/dime/sections/ObjectsSection.h \
+	../../include/dime/sections/Section.h \
+	../../include/dime/sections/TablesSection.h \
+	../../include/dime/sections/UnknownSection.h
 
 install-libsectionsincHEADERS: $(libsectionsinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -57,3 +58,4 @@ uninstall-libsectionsincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libsectionsincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libsectionsincdir)/$$f; \
 	done
+

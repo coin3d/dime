@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,18 +94,19 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = libsections.la
-
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
 
-libsections_la_SOURCES = \
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = sections.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libsections.la
+
+SectionsSources = \
 	BlocksSection.cpp BlocksSection.h \
 	ClassesSection.cpp ClassesSection.h \
 	EntitiesSection.cpp EntitiesSection.h \
@@ -111,22 +117,39 @@ libsections_la_SOURCES = \
 	UnknownSection.cpp UnknownSection.h
 
 
-libsectionsincdir = $(includedir)/dime/sections
+libsections_la_SOURCES = \
+	$(SectionsSources)
 
+
+sections_lst_SOURCES = \
+	$(SectionsSources)
+
+
+libsectionsincdir = $(includedir)/dime/sections
 libsectionsinc_HEADERS = \
-	$(top_srcdir)/include/dime/sections/BlocksSection.h \
-	$(top_srcdir)/include/dime/sections/ClassesSection.h \
-	$(top_srcdir)/include/dime/sections/EntitiesSection.h \
-	$(top_srcdir)/include/dime/sections/HeaderSection.h \
-	$(top_srcdir)/include/dime/sections/ObjectsSection.h \
-	$(top_srcdir)/include/dime/sections/Section.h \
-	$(top_srcdir)/include/dime/sections/TablesSection.h \
-	$(top_srcdir)/include/dime/sections/UnknownSection.h
+	../../include/dime/sections/BlocksSection.h \
+	../../include/dime/sections/ClassesSection.h \
+	../../include/dime/sections/EntitiesSection.h \
+	../../include/dime/sections/HeaderSection.h \
+	../../include/dime/sections/ObjectsSection.h \
+	../../include/dime/sections/Section.h \
+	../../include/dime/sections/TablesSection.h \
+	../../include/dime/sections/UnknownSection.h
 
 subdir = src/sections
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+sections_lst_AR = $(AR) cru
+sections_lst_LIBADD =
+am_sections_lst_OBJECTS = BlocksSection.$(OBJEXT) \
+	ClassesSection.$(OBJEXT) EntitiesSection.$(OBJEXT) \
+	HeaderSection.$(OBJEXT) ObjectsSection.$(OBJEXT) \
+	Section.$(OBJEXT) TablesSection.$(OBJEXT) \
+	UnknownSection.$(OBJEXT)
+sections_lst_OBJECTS = $(am_sections_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libsections_la_LDFLAGS =
@@ -140,14 +163,21 @@ DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/BlocksSection.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/BlocksSection.Po \
 @AMDEP_TRUE@	$(DEPDIR)/ClassesSection.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ClassesSection.Po \
 @AMDEP_TRUE@	$(DEPDIR)/EntitiesSection.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/EntitiesSection.Po \
 @AMDEP_TRUE@	$(DEPDIR)/HeaderSection.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/ObjectsSection.Plo $(DEPDIR)/Section.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/TablesSection.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/UnknownSection.Plo
+@AMDEP_TRUE@	$(DEPDIR)/HeaderSection.Po \
+@AMDEP_TRUE@	$(DEPDIR)/ObjectsSection.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ObjectsSection.Po $(DEPDIR)/Section.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Section.Po $(DEPDIR)/TablesSection.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/TablesSection.Po \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownSection.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/UnknownSection.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -165,11 +195,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libsections_la_SOURCES)
+DIST_SOURCES = $(sections_lst_SOURCES) $(libsections_la_SOURCES)
 HEADERS = $(libsectionsinc_HEADERS)
 
 DIST_COMMON = $(libsectionsinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libsections_la_SOURCES)
+SOURCES = $(sections_lst_SOURCES) $(libsections_la_SOURCES)
 
 all: all-am
 
@@ -192,6 +222,15 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+sections.lst: $(sections_lst_OBJECTS) $(sections_lst_DEPENDENCIES) 
+	-rm -f sections.lst
+	$(sections_lst_AR) sections.lst $(sections_lst_OBJECTS) $(sections_lst_LIBADD)
+	$(RANLIB) sections.lst
+
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 libsections.la: $(libsections_la_OBJECTS) $(libsections_la_DEPENDENCIES) 
@@ -204,13 +243,21 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/BlocksSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/BlocksSection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ClassesSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ClassesSection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/EntitiesSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/EntitiesSection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/HeaderSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/HeaderSection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ObjectsSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ObjectsSection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Section.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Section.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/TablesSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/TablesSection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownSection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownSection.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -273,7 +320,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/sections
+	$(mkinstalldirs) $(distdir)/../../include/dime/sections
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -291,7 +338,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
 	$(mkinstalldirs) $(DESTDIR)$(libsectionsincdir)
@@ -321,8 +368,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 
@@ -359,8 +406,8 @@ mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 uninstall-am: uninstall-info-am uninstall-libsectionsincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \

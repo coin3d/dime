@@ -1,47 +1,49 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libclasses.la
-
-## Remove any linklibraries detected by configure, as they are not
-## needed in the submodules -- only in the toplevel libdime build.
+INCLUDES = -I$(top_srcdir)/include
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/include
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = classes.lst
+else
+noinst_LTLIBRARIES = libclasses.la
+endif
 
-## All source files used when building this submodule, including all
-## headers.
-
-libclasses_la_SOURCES = \
+ClassesSources = \
 	Class.cpp Class.h \
 	UnknownClass.cpp UnknownClass.h
 
-## Installation information.
+libclasses_la_SOURCES = \
+	$(ClassesSources)
 
-libclassesincdir = $(includedir)/dime/classes
+classes_lst_SOURCES = \
+	$(ClassesSources)
 
-libclassesinc_HEADERS = \
-	$(top_srcdir)/include/dime/classes/Class.h \
-	$(top_srcdir)/include/dime/classes/UnknownClass.h
+classes.lst: Makefile $(classes_lst_OBJECTS)
+	@echo "Linking classes.lst..."; \
+	rm -f $@; \
+	for i in $(classes_lst_OBJECTS); do echo $$i >>$@; done
 
+classesincdir = $(includedir)/dime/classes
+classesinc_HEADERS = \
+	../../include/dime/classes/Class.h \
+	../../include/dime/classes/UnknownClass.h
 
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
-
-install-libclassesincHEADERS: $(libclassesinc_HEADERS)
+install-classesincHEADERS: $(classesinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libclassesincdir)
-	@list='$(libclassesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(classesincdir)
+	@list='$(classesinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libclassesincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libclassesincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(classesincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(classesincdir)/$$f; \
 	done
 
-uninstall-libclassesincHEADERS:
+uninstall-classesincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libclassesinc_HEADERS)'; for p in $$list; do \
+	@list='$(classesinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libclassesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libclassesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(classesincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(classesincdir)/$$f; \
 	done
+

@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,18 +94,19 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = libconvert.la
-
+INCLUDES = -I$(top_srcdir)/include
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/include
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = convert.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libconvert.la
 
-libconvert_la_SOURCES = \
+ConvertSources = \
 	3dface.cpp \
 	arc.cpp \
 	circle.cpp \
@@ -118,16 +124,33 @@ libconvert_la_SOURCES = \
 	trace.cpp
 
 
-libconvertincdir = $(includedir)/dime/convert
+libconvert_la_SOURCES = \
+	$(ConvertSources)
 
+
+convert_lst_SOURCES = \
+	$(ConvertSources)
+
+
+libconvertincdir = $(includedir)/dime/convert
 libconvertinc_HEADERS = \
 	$(top_srcdir)/include/dime/convert/convert.h \
 	$(top_srcdir)/include/dime/convert/layerdata.h
 
 subdir = src/convert
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+convert_lst_AR = $(AR) cru
+convert_lst_LIBADD =
+am_convert_lst_OBJECTS = 3dface.$(OBJEXT) arc.$(OBJEXT) circle.$(OBJEXT) \
+	convert.$(OBJEXT) ellipse.$(OBJEXT) layerdata.$(OBJEXT) \
+	line.$(OBJEXT) linesegment.$(OBJEXT) lwpolyline.$(OBJEXT) \
+	point.$(OBJEXT) polyline.$(OBJEXT) solid.$(OBJEXT) \
+	trace.$(OBJEXT)
+convert_lst_OBJECTS = $(am_convert_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libconvert_la_LDFLAGS =
@@ -141,14 +164,20 @@ DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/3dface.Plo $(DEPDIR)/arc.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/circle.Plo $(DEPDIR)/convert.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/ellipse.Plo $(DEPDIR)/layerdata.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/line.Plo $(DEPDIR)/linesegment.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/lwpolyline.Plo $(DEPDIR)/point.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/polyline.Plo $(DEPDIR)/solid.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/trace.Plo
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/3dface.Plo $(DEPDIR)/3dface.Po \
+@AMDEP_TRUE@	$(DEPDIR)/arc.Plo $(DEPDIR)/arc.Po \
+@AMDEP_TRUE@	$(DEPDIR)/circle.Plo $(DEPDIR)/circle.Po \
+@AMDEP_TRUE@	$(DEPDIR)/convert.Plo $(DEPDIR)/convert.Po \
+@AMDEP_TRUE@	$(DEPDIR)/ellipse.Plo $(DEPDIR)/ellipse.Po \
+@AMDEP_TRUE@	$(DEPDIR)/layerdata.Plo $(DEPDIR)/layerdata.Po \
+@AMDEP_TRUE@	$(DEPDIR)/line.Plo $(DEPDIR)/line.Po \
+@AMDEP_TRUE@	$(DEPDIR)/linesegment.Plo $(DEPDIR)/linesegment.Po \
+@AMDEP_TRUE@	$(DEPDIR)/lwpolyline.Plo $(DEPDIR)/lwpolyline.Po \
+@AMDEP_TRUE@	$(DEPDIR)/point.Plo $(DEPDIR)/point.Po \
+@AMDEP_TRUE@	$(DEPDIR)/polyline.Plo $(DEPDIR)/polyline.Po \
+@AMDEP_TRUE@	$(DEPDIR)/solid.Plo $(DEPDIR)/solid.Po \
+@AMDEP_TRUE@	$(DEPDIR)/trace.Plo $(DEPDIR)/trace.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -166,11 +195,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libconvert_la_SOURCES)
+DIST_SOURCES = $(convert_lst_SOURCES) $(libconvert_la_SOURCES)
 HEADERS = $(libconvertinc_HEADERS)
 
 DIST_COMMON = $(libconvertinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libconvert_la_SOURCES)
+SOURCES = $(convert_lst_SOURCES) $(libconvert_la_SOURCES)
 
 all: all-am
 
@@ -193,6 +222,11 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 libconvert.la: $(libconvert_la_OBJECTS) $(libconvert_la_DEPENDENCIES) 
@@ -205,18 +239,31 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/3dface.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/3dface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circle.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipse.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/layerdata.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/layerdata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/line.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/line.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/linesegment.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/linesegment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lwpolyline.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lwpolyline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/point.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/point.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/polyline.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/polyline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/solid.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/solid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trace.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trace.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -297,7 +344,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
 	$(mkinstalldirs) $(DESTDIR)$(libconvertincdir)
@@ -327,8 +374,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 
@@ -365,8 +412,8 @@ mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 uninstall-am: uninstall-info-am uninstall-libconvertincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
@@ -376,6 +423,11 @@ uninstall-am: uninstall-info-am uninstall-libconvertincHEADERS
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
 	uninstall-am uninstall-info-am uninstall-libconvertincHEADERS
 
+
+convert.lst: Makefile $(convert_lst_OBJECTS)
+	@echo "Linking convert.lst..."; \
+	rm -f $@; \
+	for i in $(convert_lst_OBJECTS); do echo $$i >>$@; done
 
 install-libconvertincHEADERS: $(libconvertinc_HEADERS)
 	@$(NORMAL_INSTALL)

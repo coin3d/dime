@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,24 +94,20 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-lib_LTLIBRARIES = libdime.la
-
-libdime_la_LIBADD = \
-	classes/libclasses.la entities/libentities.la objects/libobjects.la \
-	records/librecords.la sections/libsections.la tables/libtables.la \
-	util/libutil.la convert/libconvert.la
-
-
 SUBDIRS = classes entities objects records sections tables util convert .
 
 INCLUDES = -I$(top_srcdir)/include
 
-libdime_la_SOURCES = \
+@BUILD_WITH_MSVC_TRUE@lib_LIBRARIES = dime@DIME_MAJOR_VERSION@@SUFFIX@.lib
+@BUILD_WITH_MSVC_FALSE@lib_LTLIBRARIES = libdime@SUFFIX@.la
+
+DimeSources = \
 	Base.cpp Base.h \
 	Basic.cpp Basic.h \
 	Input.cpp Input.h \
@@ -117,46 +118,84 @@ libdime_la_SOURCES = \
 	State.cpp State.h
 
 
-libdimeincdir = $(includedir)/dime
+libdime@SUFFIX@_la_LIBADD = \
+	classes/libclasses.la entities/libentities.la objects/libobjects.la \
+	records/librecords.la sections/libsections.la tables/libtables.la \
+	util/libutil.la convert/libconvert.la
 
-libdime_la_LDFLAGS = \
+
+libdime@SUFFIX@_la_LDFLAGS = \
 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD = \
+	classes/libclasses.lst entities/libentities.lst objects/libobjects.lst \
+	records/librecords.lst sections/libsections.lst tables/libtables.lst \
+	util/libutil.lst convert/libconvert.lst
+
+
+libdime@SUFFIX@_la_SOURCES = \
+	$(DimeSources)
+
+
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
+	$(DimeSources)
+
+
+libdimeincdir = $(includedir)/dime
+
 libdimeinc_HEADERS = \
-	$(top_srcdir)/include/dime/Base.h \
-	$(top_srcdir)/include/dime/Basic.h \
-	$(top_srcdir)/include/dime/Input.h \
-	$(top_srcdir)/include/dime/Layer.h \
-	$(top_srcdir)/include/dime/Model.h \
-	$(top_srcdir)/include/dime/Output.h \
-	$(top_srcdir)/include/dime/RecordHolder.h \
-	$(top_srcdir)/include/dime/State.h
+	../include/dime/Base.h \
+	../include/dime/Basic.h \
+	../include/dime/Input.h \
+	../include/dime/Layer.h \
+	../include/dime/Model.h \
+	../include/dime/Output.h \
+	../include/dime/RecordHolder.h \
+	../include/dime/State.h
 
 subdir = src
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(lib_LIBRARIES)
+
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_AR = $(AR) cru
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES = \
+	classes/libclasses.lst entities/libentities.lst \
+	objects/libobjects.lst records/librecords.lst \
+	sections/libsections.lst tables/libtables.lst util/libutil.lst \
+	convert/libconvert.lst
+am_dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = Base.$(OBJEXT) \
+	Basic.$(OBJEXT) Input.$(OBJEXT) Layer.$(OBJEXT) Model.$(OBJEXT) \
+	Output.$(OBJEXT) RecordHolder.$(OBJEXT) State.$(OBJEXT)
+dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS = \
+	$(am_dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
-libdime_la_DEPENDENCIES = classes/libclasses.la entities/libentities.la \
-	objects/libobjects.la records/librecords.la \
-	sections/libsections.la tables/libtables.la util/libutil.la \
-	convert/libconvert.la
-am_libdime_la_OBJECTS = Base.lo Basic.lo Input.lo Layer.lo Model.lo \
-	Output.lo RecordHolder.lo State.lo
-libdime_la_OBJECTS = $(am_libdime_la_OBJECTS)
+libdime@SUFFIX@_la_DEPENDENCIES = classes/libclasses.la \
+	entities/libentities.la objects/libobjects.la \
+	records/librecords.la sections/libsections.la \
+	tables/libtables.la util/libutil.la convert/libconvert.la
+am_libdime@SUFFIX@_la_OBJECTS = Base.lo Basic.lo Input.lo Layer.lo \
+	Model.lo Output.lo RecordHolder.lo State.lo
+libdime@SUFFIX@_la_OBJECTS = $(am_libdime@SUFFIX@_la_OBJECTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Base.Plo $(DEPDIR)/Basic.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Input.Plo $(DEPDIR)/Layer.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Model.Plo $(DEPDIR)/Output.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/RecordHolder.Plo $(DEPDIR)/State.Plo
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Base.Plo $(DEPDIR)/Base.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Basic.Plo $(DEPDIR)/Basic.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Input.Plo $(DEPDIR)/Input.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Layer.Plo $(DEPDIR)/Layer.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Model.Plo $(DEPDIR)/Model.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Output.Plo $(DEPDIR)/Output.Po \
+@AMDEP_TRUE@	$(DEPDIR)/RecordHolder.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/RecordHolder.Po $(DEPDIR)/State.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/State.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -174,7 +213,8 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libdime_la_SOURCES)
+DIST_SOURCES = $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) \
+	$(libdime@SUFFIX@_la_SOURCES)
 HEADERS = $(libdimeinc_HEADERS)
 
 
@@ -184,7 +224,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = $(libdimeinc_HEADERS) Makefile.am Makefile.in
 DIST_SUBDIRS = $(SUBDIRS)
-SOURCES = $(libdime_la_SOURCES)
+SOURCES = $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_SOURCES) $(libdime@SUFFIX@_la_SOURCES)
 
 all: all-recursive
 
@@ -206,6 +246,38 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+
+AR = ar
+install-libLIBRARIES: $(lib_LIBRARIES)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libdir)
+	@list='$(lib_LIBRARIES)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p; \
+	  else :; fi; \
+	done
+	@$(POST_INSTALL)
+	@list='$(lib_LIBRARIES)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo " $(RANLIB) $(DESTDIR)$(libdir)/$$p"; \
+	    $(RANLIB) $(DESTDIR)$(libdir)/$$p; \
+	  else :; fi; \
+	done
+
+uninstall-libLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LIBRARIES)'; for p in $$list; do \
+	  echo " rm -f $(DESTDIR)$(libdir)/$$p"; \
+	  rm -f $(DESTDIR)$(libdir)/$$p; \
+	done
+
+clean-libLIBRARIES:
+	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
+dime@DIME_MAJOR_VERSION@@SUFFIX@.lib: $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES) 
+	-rm -f dime@DIME_MAJOR_VERSION@@SUFFIX@.lib
+	$(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_AR) dime@DIME_MAJOR_VERSION@@SUFFIX@.lib $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD)
+	$(RANLIB) dime@DIME_MAJOR_VERSION@@SUFFIX@.lib
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
@@ -225,8 +297,8 @@ uninstall-libLTLIBRARIES:
 
 clean-libLTLIBRARIES:
 	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-libdime.la: $(libdime_la_OBJECTS) $(libdime_la_DEPENDENCIES) 
-	$(CXXLINK) -rpath $(libdir) $(libdime_la_LDFLAGS) $(libdime_la_OBJECTS) $(libdime_la_LIBADD) $(LIBS)
+libdime@SUFFIX@.la: $(libdime@SUFFIX@_la_OBJECTS) $(libdime@SUFFIX@_la_DEPENDENCIES) 
+	$(CXXLINK) -rpath $(libdir) $(libdime@SUFFIX@_la_LDFLAGS) $(libdime@SUFFIX@_la_OBJECTS) $(libdime@SUFFIX@_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -235,13 +307,21 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Base.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Base.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Basic.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Basic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Input.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Input.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Layer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Layer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Model.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Model.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Output.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Output.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RecordHolder.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/RecordHolder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/State.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/State.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -364,7 +444,7 @@ top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime
+	$(mkinstalldirs) $(distdir)/../include/dime
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -395,10 +475,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(libdir) $(DESTDIR)$(libdimeincdir)
+	$(mkinstalldirs) $(DESTDIR)$(libdir) $(DESTDIR)$(libdir) $(DESTDIR)$(libdimeincdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -425,8 +505,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
-	mostlyclean-am
+clean-am: clean-generic clean-libLIBRARIES clean-libLTLIBRARIES \
+	clean-libtool mostlyclean-am
 
 distclean: distclean-recursive
 
@@ -443,7 +523,7 @@ info-am:
 
 install-data-am: install-libdimeincHEADERS
 
-install-exec-am: install-libLTLIBRARIES
+install-exec-am: install-libLIBRARIES install-libLTLIBRARIES
 
 install-info: install-info-recursive
 
@@ -460,20 +540,21 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am uninstall-libLTLIBRARIES \
-	uninstall-libdimeincHEADERS
+uninstall-am: uninstall-info-am uninstall-libLIBRARIES \
+	uninstall-libLTLIBRARIES uninstall-libdimeincHEADERS
 
 uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) GTAGS all all-am check check-am clean \
-	clean-generic clean-libLTLIBRARIES clean-libtool \
-	clean-recursive distclean distclean-compile distclean-depend \
-	distclean-generic distclean-libtool distclean-recursive \
-	distclean-tags distdir dvi dvi-am dvi-recursive info info-am \
-	info-recursive install install-am install-data install-data-am \
-	install-data-recursive install-exec install-exec-am \
-	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-libLTLIBRARIES \
+	clean-generic clean-libLIBRARIES clean-libLTLIBRARIES \
+	clean-libtool clean-recursive distclean distclean-compile \
+	distclean-depend distclean-generic distclean-libtool \
+	distclean-recursive distclean-tags distdir dvi dvi-am \
+	dvi-recursive info info-am info-recursive install install-am \
+	install-data install-data-am install-data-recursive \
+	install-exec install-exec-am install-exec-recursive \
+	install-info install-info-am install-info-recursive \
+	install-libLIBRARIES install-libLTLIBRARIES \
 	install-libdimeincHEADERS install-man install-recursive \
 	install-strip installcheck installcheck-am installdirs \
 	installdirs-am installdirs-recursive maintainer-clean \
@@ -481,8 +562,8 @@ uninstall-info: uninstall-info-recursive
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	mostlyclean-recursive tags tags-recursive uninstall \
 	uninstall-am uninstall-info-am uninstall-info-recursive \
-	uninstall-libLTLIBRARIES uninstall-libdimeincHEADERS \
-	uninstall-recursive
+	uninstall-libLIBRARIES uninstall-libLTLIBRARIES \
+	uninstall-libdimeincHEADERS uninstall-recursive
 
 
 install-libdimeincHEADERS: $(libdimeinc_HEADERS)

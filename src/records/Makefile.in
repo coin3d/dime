@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,18 +94,19 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = librecords.la
-
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
 
-librecords_la_SOURCES = \
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = records.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = librecords.la
+
+RecordsSources = \
 	DoubleRecord.cpp DoubleRecord.h \
 	FloatRecord.cpp FloatRecord.h \
 	HexRecord.cpp HexRecord.h \
@@ -111,22 +117,37 @@ librecords_la_SOURCES = \
 	StringRecord.cpp StringRecord.h
 
 
-librecordsincdir = $(includedir)/dime/records
+librecords_la_SOURCES = \
+	$(RecordsSources)
 
+
+records_lst_SOURCES = \
+	$(RecordsSources)
+
+
+librecordsincdir = $(includedir)/dime/records
 librecordsinc_HEADERS = \
-	$(top_srcdir)/include/dime/records/DoubleRecord.h \
-	$(top_srcdir)/include/dime/records/FloatRecord.h \
-	$(top_srcdir)/include/dime/records/HexRecord.h \
-	$(top_srcdir)/include/dime/records/Int16Record.h \
-	$(top_srcdir)/include/dime/records/Int32Record.h \
-	$(top_srcdir)/include/dime/records/Int8Record.h \
-	$(top_srcdir)/include/dime/records/Record.h \
-	$(top_srcdir)/include/dime/records/StringRecord.h
+	../../include/dime/records/DoubleRecord.h \
+	../../include/dime/records/FloatRecord.h \
+	../../include/dime/records/HexRecord.h \
+	../../include/dime/records/Int16Record.h \
+	../../include/dime/records/Int32Record.h \
+	../../include/dime/records/Int8Record.h \
+	../../include/dime/records/Record.h \
+	../../include/dime/records/StringRecord.h
 
 subdir = src/records
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+records_lst_AR = $(AR) cru
+records_lst_LIBADD =
+am_records_lst_OBJECTS = DoubleRecord.$(OBJEXT) FloatRecord.$(OBJEXT) \
+	HexRecord.$(OBJEXT) Int16Record.$(OBJEXT) Int32Record.$(OBJEXT) \
+	Int8Record.$(OBJEXT) Record.$(OBJEXT) StringRecord.$(OBJEXT)
+records_lst_OBJECTS = $(am_records_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 librecords_la_LDFLAGS =
@@ -140,12 +161,16 @@ DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/DoubleRecord.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/FloatRecord.Plo $(DEPDIR)/HexRecord.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Int16Record.Plo $(DEPDIR)/Int32Record.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Int8Record.Plo $(DEPDIR)/Record.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/StringRecord.Plo
+@AMDEP_TRUE@	$(DEPDIR)/DoubleRecord.Po $(DEPDIR)/FloatRecord.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/FloatRecord.Po $(DEPDIR)/HexRecord.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/HexRecord.Po $(DEPDIR)/Int16Record.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Int16Record.Po $(DEPDIR)/Int32Record.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Int32Record.Po $(DEPDIR)/Int8Record.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Int8Record.Po $(DEPDIR)/Record.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/Record.Po $(DEPDIR)/StringRecord.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/StringRecord.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -163,11 +188,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(librecords_la_SOURCES)
+DIST_SOURCES = $(records_lst_SOURCES) $(librecords_la_SOURCES)
 HEADERS = $(librecordsinc_HEADERS)
 
 DIST_COMMON = $(librecordsinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(librecords_la_SOURCES)
+SOURCES = $(records_lst_SOURCES) $(librecords_la_SOURCES)
 
 all: all-am
 
@@ -190,6 +215,11 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 librecords.la: $(librecords_la_OBJECTS) $(librecords_la_DEPENDENCIES) 
@@ -202,13 +232,21 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/DoubleRecord.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/DoubleRecord.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/FloatRecord.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/FloatRecord.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/HexRecord.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/HexRecord.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Int16Record.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Int16Record.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Int32Record.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Int32Record.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Int8Record.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Int8Record.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Record.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Record.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/StringRecord.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/StringRecord.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -271,7 +309,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/records
+	$(mkinstalldirs) $(distdir)/../../include/dime/records
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -289,7 +327,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
 	$(mkinstalldirs) $(DESTDIR)$(librecordsincdir)
@@ -319,8 +357,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 
@@ -357,8 +395,8 @@ mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 uninstall-am: uninstall-info-am uninstall-librecordsincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
@@ -368,6 +406,11 @@ uninstall-am: uninstall-info-am uninstall-librecordsincHEADERS
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
 	uninstall-am uninstall-info-am uninstall-librecordsincHEADERS
 
+
+records.lst: Makefile $(records_lst_OBJECTS)
+	@echo "Linking records.lst..."; \
+	rm -f $@; \
+	for i in $(records_lst_OBJECTS); do echo $$i >>$@; done
 
 install-librecordsincHEADERS: $(librecordsinc_HEADERS)
 	@$(NORMAL_INSTALL)

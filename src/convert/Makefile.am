@@ -1,17 +1,18 @@
 ## Process this file with automake to generate Makefile.in.
 
-noinst_LTLIBRARIES = libconvert.la
-
-## Remove any linklibraries detected by configure, as they are not
-## needed in the submodules -- only in the toplevel libdime build.
+INCLUDES = -I$(top_srcdir)/include
 LIBS = 
 
-INCLUDES = -I$(top_srcdir)/include
+if BUILD_WITH_MSVC
+noinst_LIBRARIES = convert.lst
+else
+noinst_LTLIBRARIES = libconvert.la
+endif
 
 ## All source files used when building this submodule, including all
 ## headers.
 
-libconvert_la_SOURCES = \
+ConvertSources = \
 	3dface.cpp \
 	arc.cpp \
 	circle.cpp \
@@ -28,18 +29,23 @@ libconvert_la_SOURCES = \
 	solid.cpp \
 	trace.cpp
 
+libconvert_la_SOURCES = \
+	$(ConvertSources)
+
+convert_lst_SOURCES = \
+	$(ConvertSources)
+
+convert.lst: Makefile $(convert_lst_OBJECTS)
+	@echo "Linking convert.lst..."; \
+	rm -f $@; \
+	for i in $(convert_lst_OBJECTS); do echo $$i >>$@; done
+
 ## Installation information.
 
 libconvertincdir = $(includedir)/dime/convert
-
 libconvertinc_HEADERS = \
 	$(top_srcdir)/include/dime/convert/convert.h \
 	$(top_srcdir)/include/dime/convert/layerdata.h
-
-
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
 
 install-libconvertincHEADERS: $(libconvertinc_HEADERS)
 	@$(NORMAL_INSTALL)
@@ -58,3 +64,4 @@ uninstall-libconvertincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libconvertincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libconvertincdir)/$$f; \
 	done
+

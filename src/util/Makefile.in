@@ -64,9 +64,14 @@ target_triplet = @target@
 AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
+BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
+COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
+CPP = @CPP@
 CXX = @CXX@
+CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
+DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
@@ -89,18 +94,19 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+SUFFIX = @SUFFIX@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = libutil.la
-
 LIBS = 
-
 INCLUDES = -I$(top_srcdir)/include
 
-libutil_la_SOURCES = \
+@BUILD_WITH_MSVC_TRUE@noinst_LTLIBRARIES = util.lst
+@BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libutil.la
+
+UtilSources = \
 	Array.cpp Array.h \
 	BSPTree.cpp BSPTree.h \
 	Box.cpp Box.h \
@@ -109,18 +115,25 @@ libutil_la_SOURCES = \
 	MemHandler.cpp MemHandler.h
 
 
-libutilincdir = $(includedir)/dime/util
+libutil_la_SOURCES = \
+	$(UtilSources)
 
+
+util_lst_SOURCES = \
+	$(UtilSources)
+
+
+libutilincdir = $(includedir)/dime/util
 libutilinc_HEADERS = \
-	$(top_srcdir)/include/dime/util/Array.h \
-	$(top_srcdir)/include/dime/util/BSPTree.h \
-	$(top_srcdir)/include/dime/util/Box.h \
-	$(top_srcdir)/include/dime/util/Dict.h \
-	$(top_srcdir)/include/dime/util/Linear.h \
-	$(top_srcdir)/include/dime/util/MemHandler.h
+	../../include/dime/util/Array.h \
+	../../include/dime/util/BSPTree.h \
+	../../include/dime/util/Box.h \
+	../../include/dime/util/Dict.h \
+	../../include/dime/util/Linear.h \
+	../../include/dime/util/MemHandler.h
 
 subdir = src/util
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -130,15 +143,23 @@ libutil_la_LIBADD =
 am_libutil_la_OBJECTS = Array.lo BSPTree.lo Box.lo Dict.lo Linear.lo \
 	MemHandler.lo
 libutil_la_OBJECTS = $(am_libutil_la_OBJECTS)
+util_lst_LDFLAGS =
+util_lst_LIBADD =
+am_util_lst_OBJECTS = Array.$(OBJEXT) BSPTree.$(OBJEXT) Box.$(OBJEXT) \
+	Dict.$(OBJEXT) Linear.$(OBJEXT) MemHandler.$(OBJEXT)
+util_lst_OBJECTS = $(am_util_lst_OBJECTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Array.Plo $(DEPDIR)/BSPTree.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Box.Plo $(DEPDIR)/Dict.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/Linear.Plo $(DEPDIR)/MemHandler.Plo
+depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Array.Plo $(DEPDIR)/Array.Po \
+@AMDEP_TRUE@	$(DEPDIR)/BSPTree.Plo $(DEPDIR)/BSPTree.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Box.Plo $(DEPDIR)/Box.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Dict.Plo $(DEPDIR)/Dict.Po \
+@AMDEP_TRUE@	$(DEPDIR)/Linear.Plo $(DEPDIR)/Linear.Po \
+@AMDEP_TRUE@	$(DEPDIR)/MemHandler.Plo $(DEPDIR)/MemHandler.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -156,11 +177,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libutil_la_SOURCES)
+DIST_SOURCES = $(libutil_la_SOURCES) $(util_lst_SOURCES)
 HEADERS = $(libutilinc_HEADERS)
 
 DIST_COMMON = $(libutilinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libutil_la_SOURCES)
+SOURCES = $(libutil_la_SOURCES) $(util_lst_SOURCES)
 
 all: all-am
 
@@ -187,6 +208,8 @@ clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 libutil.la: $(libutil_la_OBJECTS) $(libutil_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libutil_la_LDFLAGS) $(libutil_la_OBJECTS) $(libutil_la_LIBADD) $(LIBS)
+util.lst: $(util_lst_OBJECTS) $(util_lst_DEPENDENCIES) 
+	$(CXXLINK)  $(util_lst_LDFLAGS) $(util_lst_OBJECTS) $(util_lst_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -195,11 +218,17 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Array.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Array.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/BSPTree.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/BSPTree.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Box.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Box.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Dict.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Dict.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Linear.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Linear.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/MemHandler.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/MemHandler.Po@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -262,7 +291,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/util
+	$(mkinstalldirs) $(distdir)/../../include/dime/util
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
