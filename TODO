@@ -16,9 +16,6 @@ items will be implemented.
  *) Implement a (better) debug/warning/error system with callbacks
     [high priority]
 
- *) Use autoconf or some other configuration system
-    [medium priority]
-
  *) Implement more of the entities, tables, etc. used by AutoCAD
     [medium priority]
 
