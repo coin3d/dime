@@ -64,6 +64,7 @@ HEADERS            = ../include/Basic.h \
                      ../include/tables/LayerTable.h
 
 SOURCES            = ../src/Base.cpp \
+                     ../src/Basic.cpp \
                      ../src/Input.cpp \
                      ../src/Output.cpp \
                      ../src/Model.cpp \
