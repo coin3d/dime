@@ -66,6 +66,7 @@ clean: makefile.dime makefile.release makefile.dime_mt makefile.release_mt
 	@$(MAKE) -f makefile.release clean
 	@$(MAKE) -f makefile.dime_mt clean
 	@$(MAKE) -f makefile.release_mt clean
-
-veryclean: clean
-	rm makefile.dime makefile.release
+	@$(RM) makefile.dime
+	@$(RM) makefile.release
+	@$(RM) makefile.dime_mt
+	@$(RM) makefile.release_mt
