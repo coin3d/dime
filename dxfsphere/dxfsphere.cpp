@@ -45,7 +45,7 @@
 #include <dime/Output.h>
 #include <dime/util/Linear.h>
 
-#define LAYERNAME "My test layer"
+#define LAYERNAME "MYLAYER" // Layernames can't have spaces
 
 class point {
 public:
