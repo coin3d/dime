@@ -33,6 +33,7 @@
 */
 
 #include <dime/Output.h>
+#include <math.h>
 
 /*!
   \fn bool dimeOutput::writeHeader()
@@ -136,18 +137,14 @@ dimeOutput::writeGroupCode(const int groupcode)
 {
   if (this->aborted) return false;
   if (this->callback && this->numrecords) {
-    if ((this->numwrites & 256) == 0) { 
-      this->aborted = !(bool)
-	callback((float)this->numwrites/(float)this->numrecords, 
-		 this->callbackdata);
+    if ((this->numwrites & 255) == 0) {
+      float val = float(this->numwrites) / float(this->numrecords);
+      if (val > 1.0f) val = 1.0f;
+      this->aborted = !(bool) callback(val, this->callbackdata);
     }
     this->numwrites++;
   }
-#ifdef NDEBUG
-  return fprintf(this->fp, "%d\n", groupcode) > 0;
-#else // easier to read
-  return fprintf(this->fp, "   %d\n", groupcode) > 0;
-#endif
+  return fprintf(this->fp, "%3d\n", groupcode) > 0;
 }
 
 /*!
@@ -157,7 +154,7 @@ dimeOutput::writeGroupCode(const int groupcode)
 bool
 dimeOutput::writeInt8(const int8 val)
 {
-  return fprintf(this->fp,"%d\n", (int)val) > 0;
+  return fprintf(this->fp,"%6d\n", (int)val) > 0;
 }
 
 /*!
@@ -167,7 +164,7 @@ dimeOutput::writeInt8(const int8 val)
 bool
 dimeOutput::writeInt16(const int16 val)
 {
-  return fprintf(this->fp,"%d\n", (int)val) > 0;
+  return fprintf(this->fp,"%6d\n", (int)val) > 0;
 }
 
 /*!
@@ -177,7 +174,7 @@ dimeOutput::writeInt16(const int16 val)
 bool
 dimeOutput::writeInt32(const int32 val)
 {
-  return fprintf(this->fp,"%d\n", (int)val) > 0;
+  return fprintf(this->fp,"%6d\n", val) > 0;
 }
 
 /*!
@@ -187,7 +184,7 @@ dimeOutput::writeInt32(const int32 val)
 bool
 dimeOutput::writeFloat(const float val)
 {
-  return fprintf(this->fp,"%g\n", val) > 0;
+  return fprintf(this->fp, "%g\n", val);
 }
 
 /*!
@@ -197,14 +194,7 @@ dimeOutput::writeFloat(const float val)
 bool
 dimeOutput::writeDouble(const dxfdouble val)
 {
-#if defined(__BEOS__)
   return fprintf(this->fp,"%g\n", val) > 0;
-#else
-  // will (hopefully) be optimized by compiler.
-  if ( sizeof(dxfdouble) == sizeof(float) )
-    return fprintf(this->fp,"%f\n", (double) val) > 0;
-  return fprintf(this->fp,"%f\n", val) > 0;
-#endif
 }
 
 /*!

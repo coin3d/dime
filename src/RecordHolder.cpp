@@ -32,7 +32,7 @@
   \brief The dimeRecordHolder class is a superclass for objects that store
   records.
 
-  This class makes it very easy to add new classes to dxflib, as it handles
+  This class makes it very easy to add new classes to dime, as it handles
   all of the reading, error checking and storing of records of no use to the
   subclass.  Subclasses will only need to implement the
   dimeRecordHolder::handleRecord() and dimeRecordHolder::getRecord() methods.
@@ -173,7 +173,9 @@ dimeRecordHolder::write(dimeOutput * const file)
 {
   int i, n = this->numRecords;
   for (i = 0; i < n; i++) {
-    if (!this->records[i]->write(file)) break;
+    if (this->shouldWriteRecord(this->records[i]->getGroupCode())) {
+      if (!this->records[i]->write(file)) break;
+    }
   }
   if (i == n) return true;
   return false;
@@ -374,5 +376,16 @@ dimeRecordHolder::findRecord(const int groupcode)
       return this->records[i];
   }
   return NULL;
+}
+
+/*!
+  Can be overloaded by subclasses that want the record holder to
+  store a record, but handles writing themselves. Default
+  method returns \a true for all group codes.
+*/
+bool 
+dimeRecordHolder::shouldWriteRecord(const int /*groupcode*/) const
+{
+  return true;
 }
 

@@ -84,10 +84,12 @@ dimeSection::createSection(const char * const sectionname,
 {
   if (!strcmp(sectionname, "HEADER"))
     return new dimeHeaderSection(memhandler);
-//   if (!strcmp(sectionname, "CLASSES"))
-//     return new dimeClassesSection(memhandler);
-//   if (!strcmp(sectionname, "OBJECTS"))
-//     return new dimeObjectsSection(memhandler);
+#if 0 // passthrough for the moment. I can't imaging anybody is using them 
+  if (!strcmp(sectionname, "CLASSES"))
+    return new dimeClassesSection(memhandler);
+  if (!strcmp(sectionname, "OBJECTS"))
+    return new dimeObjectsSection(memhandler);
+#endif
   if (!strcmp(sectionname, "TABLES"))
     return new dimeTablesSection(memhandler);
   if (!strcmp(sectionname, "BLOCKS"))

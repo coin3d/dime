@@ -38,13 +38,18 @@
 
 
 // misc flag values used in entityFlags.
-#define FLAG_DELETED         0x0001 // used by dimeEntity
-#define FLAG_TMP_BUFFER_SET  0x0002 // see dimeEntity::read()
-#define FLAG_VERTICES_FOLLOW 0x0004 // used by dimePolyline
-#define FLAG_TAGGED          0x0008 // used by dimeEntity
-#define FLAG_COLOR_NUMBER    0x0010 // signals a color number was read 
-
-#define FLAG_FIRST_FREE      0x0020 // use this if you want to define your own flags
+#define FLAG_DELETED          0x0001 // used by dimeEntity
+#define FLAG_TMP_BUFFER_SET   0x0002 // see dimeEntity::read()
+#define FLAG_VERTICES_FOLLOW  0x0004 // used by dimePolyline
+#define FLAG_TAGGED           0x0008 // used by dimeEntity
+#define FLAG_COLOR_NUMBER     0x0010 // signals a color number was read 
+#define FLAG_SUBCLASS_MARKER  0x0020 // will subclass marker need to be written
+#define FLAG_HANDLE           0x0040 // entity has handle in RecordHolder
+#define FLAG_ACAD_REACTORS    0x0080 // ACAD reactors in entity
+#define FLAG_ACAD_XDICTIONARY 0x0100 // ACAD xdictionary in entity
+#define FLAG_PAPERSPACE       0x0200 // entity is in paperspace
+#define FLAG_LINETYPE         0x0400 // linetype specified in entity
+#define FLAG_FIRST_FREE       0x0800 // use this if you want to define your own flags
 
 class dimeLayer;
 
@@ -78,7 +83,8 @@ public:
   virtual bool isOfType(const int thetypeid) const;
   virtual int countRecords() const;
   virtual void print() const {}
-
+  
+  
   bool isDeleted() const;
   void setDeleted(const bool onOff = true);
 
@@ -103,7 +109,7 @@ public:
 protected:
 
   bool preWrite(dimeOutput * const file);
-  
+
   virtual bool traverse(const dimeState * const state, 
 			dimeCallback callback,
 			void *userdata);
@@ -112,6 +118,7 @@ protected:
   virtual bool handleRecord(const int groupcode,
 			    const dimeParam &param,
 			    dimeMemHandler * const memhandler);
+  virtual bool shouldWriteRecord(const int groupcode) const;
   
 public:
   static dimeEntity *createEntity(const char * const name,
@@ -138,7 +145,6 @@ private:
   const dimeLayer *layer;
   int16 entityFlags;
   int16 colorNumber;
- 
 }; // class dimeEntity
 
 inline const dimeLayer *

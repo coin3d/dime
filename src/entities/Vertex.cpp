@@ -96,11 +96,11 @@ dimeVertex::write(dimeOutput * const file)
     file->writeDouble(this->coords[1]);
     file->writeGroupCode(30);
     file->writeDouble(this->coords[2]);
-    
+
     for (int i = 0; i < this->numIndices(); i++) {
       file->writeGroupCode(i+71);
 #ifdef DIME_FIXBIG
-      file->writeInt16(this->indices[i]);
+      file->writeInt32(this->indices[i]);
 #else
       file->writeInt16(this->indices[i]);
 #endif

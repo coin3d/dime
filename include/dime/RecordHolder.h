@@ -67,7 +67,9 @@ protected:
   
   bool copyRecords(dimeRecordHolder * const rh, 
 		   dimeMemHandler * const memhandler) const;
-  
+
+  virtual bool shouldWriteRecord(const int groupcode) const;
+
 protected:
   dimeRecord **records;
   int numRecords;

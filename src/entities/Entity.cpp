@@ -103,7 +103,7 @@
 */
 
 dimeEntity::dimeEntity() 
-  : dimeRecordHolder(0), entityFlags( 0 ), colorNumber( 256 )
+  : dimeRecordHolder(0), entityFlags(0), colorNumber(256) 
 {
   this->layer = dimeLayer::getDefaultLayer();
 }
@@ -194,19 +194,7 @@ dimeEntity::setTagged(const bool onOff)
 bool 
 dimeEntity::write(dimeOutput * const file)
 {
-  // FIXME: move layer write to preWrite()
-  if (this->layer) {
-    if (!file->writeGroupCode(8) || 
-	!file->writeString(this->layer->getLayerName()))
-      return false;
-  }
-  if (this->colorNumber != 256) { //256 = default
-    file->writeGroupCode(62);
-    if (!file->writeInt16(this->colorNumber)) return false;
-  }
-  // moved to preWrite()
-  //  return dimeRecordHolder::write(file);
-  return true;
+  return dimeRecordHolder::write(file);
 }
 
 /*!
@@ -215,10 +203,10 @@ dimeEntity::write(dimeOutput * const file)
 
 dimeEntity *
 dimeEntity::createEntity(const char * const name, 
-                        dimeMemHandler * const memhandler)
+			 dimeMemHandler * const memhandler)
 {
 #ifndef NDEBUG
-  //  fprintf(stderr,"Entity: %s\n", name);
+  //fprintf(stderr,"Entity: %s\n", name);
 #endif
   //
   // TODO: optimize 
@@ -230,6 +218,7 @@ dimeEntity::createEntity(const char * const name,
   // pointers to static methods that returns a new instance
   // of the correct type.
   //
+
   if (!strcmp(name, "3DFACE"))
     return new(memhandler) dime3DFace;
   if (!strcmp(name, "VERTEX"))
@@ -238,10 +227,10 @@ dimeEntity::createEntity(const char * const name,
     return new(memhandler) dimePolyline;
   if (!strcmp(name, "LINE"))
     return new(memhandler) dimeLine;
-  if (!strcmp(name, "BLOCK"))
-    return new(memhandler) dimeBlock(memhandler);
   if (!strcmp(name, "INSERT"))
     return new(memhandler) dimeInsert;
+  if (!strcmp(name, "BLOCK"))
+    return new(memhandler) dimeBlock(memhandler);
   if (!strcmp(name, "SOLID"))
     return new(memhandler) dimeSolid;   
   if (!strcmp(name, "TRACE"))
@@ -593,7 +582,7 @@ dimeEntity::setLayer(const dimeLayer * const layer)
 bool 
 dimeEntity::handleRecord(const int groupcode,
 			const dimeParam &param,
-			dimeMemHandler * const)
+			dimeMemHandler * const memhandler)
 {
   if (groupcode == 8) {
     // Should only arrive her during read(). this->layer is then used
@@ -614,13 +603,36 @@ dimeEntity::handleRecord(const int groupcode,
     return true;
   }
   else if (groupcode == 67) {
-    // paperspace is not supported in extractGeometry
-    fprintf(stderr,"paperspace (%s): %d\n", 
-	    this->getEntityName(),
-	    param.int16_data);
+    this->entityFlags |= FLAG_PAPERSPACE;
     return true;
   }
-
+  else if (groupcode == 100) {
+    this->entityFlags |= FLAG_SUBCLASS_MARKER;
+    if (strcmp(param.string_data, "AcDbEntity") != 0) {
+      return false; // store in record-holder
+    }
+    return true;
+  }
+  else if (groupcode == 102) {
+    // ignore these, don't store
+    return true;
+  }
+  else if (groupcode == 330) {
+    this->entityFlags |= FLAG_ACAD_REACTORS;
+    return false; // store in recordholder
+  }
+  else if (groupcode == 360) {
+    this->entityFlags |= FLAG_ACAD_XDICTIONARY;
+    return false; // store in recordholder
+  }
+  else if (groupcode == 5) {
+    this->entityFlags |= FLAG_HANDLE;
+    return false; // store in recordholder
+  }
+  else if (groupcode == 6) {
+    this->entityFlags |= FLAG_LINETYPE;
+    return false; // store in recordholder
+  }
   return false;
 }
 
@@ -653,6 +665,97 @@ bool
 dimeEntity::preWrite(dimeOutput * const file)
 {
   file->writeGroupCode(0);
-  file->writeString(this->getEntityName()) ;
-  return dimeRecordHolder::write(file);
+  bool ret = file->writeString(this->getEntityName()) ;
+
+  // write stupid handle?
+  if (this->entityFlags & FLAG_HANDLE) {
+    dimeParam param;
+    if (this->getRecord(5, param)) {
+      file->writeGroupCode(5);
+      file->writeString(param.string_data);
+    }
+  }
+
+#if 1
+  if (this->entityFlags & FLAG_ACAD_REACTORS) {
+    file->writeGroupCode(102);
+    file->writeString("{ACAD_REACTORS");
+    dimeParam param;
+    if (this->getRecord(330, param)) {
+      file->writeGroupCode(330);
+      file->writeString(param.string_data);
+    }
+    file->writeGroupCode(102);
+    file->writeString("}");
+  }
+  if (this->entityFlags & FLAG_ACAD_XDICTIONARY) {
+    file->writeGroupCode(102);
+    file->writeString("{ACAD_XDICTIONARY");
+    dimeParam param;
+    if (this->getRecord(360, param)) {
+      file->writeGroupCode(360);
+      file->writeString(param.string_data);
+    }
+    file->writeGroupCode(102);
+    file->writeString("}");
+  }
+#endif
+
+  // write stupid subclass marker data?
+  if (this->entityFlags & FLAG_SUBCLASS_MARKER) {
+    file->writeGroupCode(100);
+    file->writeString("AcDbEntity");
+  }
+  if (this->entityFlags & FLAG_PAPERSPACE) {
+    file->writeGroupCode(67);
+    file->writeInt16(1);
+  }
+
+  // write layer
+  file->writeGroupCode(8);
+  ret = file->writeString(this->layer->getLayerName());
+
+  // write linetype
+  if (this->entityFlags & FLAG_LINETYPE) {
+    dimeParam param;
+    if (this->getRecord(6, param)) {
+      file->writeGroupCode(6);
+      file->writeString(param.string_data);
+    }
+  }
+  
+  // write color number
+  if (this->colorNumber != 256) {
+    file->writeGroupCode(62);
+    ret = file->writeInt16(this->colorNumber);
+  }
+
+#if 1
+  if ((this->entityFlags & FLAG_SUBCLASS_MARKER)) {
+    dimeParam param;
+    int idx = 0;
+    while (this->getRecord(100, param, idx)) {
+      file->writeGroupCode(100);
+      file->writeString(param.string_data);
+      idx++;
+    }
+  }
+#endif
+  return ret;
+}
+
+//!
+bool 
+dimeEntity::shouldWriteRecord(const int groupcode) const
+{
+  switch (groupcode) {
+  case 5:
+  case 6:
+  case 100:
+  case 330:
+  case 360:
+    return false;
+  default:
+    return true;
+  }
 }

@@ -258,7 +258,21 @@ dimePolyline::write(dimeOutput * const file)
 {
   if (this->isDeleted()) return true;
 
+#if 0
+  static int dummycnt = -1;
+  dummycnt++;
+  if (dummycnt != 70) return true;
+#endif
+
   dimeEntity::preWrite(file);
+
+  assert(this->coordCnt == this->numCoordVertices());
+  assert(this->indexCnt == this->numIndexVertices());
+  
+  if (this->coordCnt || this->indexCnt || this->frameCnt) {
+    file->writeGroupCode(66); // vertices follow flag
+    file->writeInt16(1);
+  }
 
   file->writeGroupCode(10);
   file->writeDouble(elevation[0]);
@@ -326,12 +340,7 @@ dimePolyline::write(dimeOutput * const file)
   }
   bool ret = dimeEntity::write(file); // write unknown records
   if (!ret) return false; // too lazy to check every write
-  
-  if (this->coordCnt || this->indexCnt || this->frameCnt) {
-    file->writeGroupCode(66); // vertices follow flag
-    file->writeInt16(1);
-  }
-  
+    
   int i;
   // write all spline frame control points
   for (i = 0; i < this->frameCnt; i++) {
