@@ -4,7 +4,7 @@
 #
 # Usage:
 #       make 			Makes Dime release version
-#	make shared		Makes Dime development version
+#	make debug		Makes Dime development version
 #
 #***************************************************************************
 
@@ -13,7 +13,7 @@ SYMLINK = ln -sf
 
 release: makefile.release .release
 
-shared: makefile.dime .dime
+debug: makefile.dime .dime
 
 objects:
 	mkdir $@
