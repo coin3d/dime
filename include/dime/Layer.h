@@ -69,7 +69,8 @@ private:
   int16 colorNum;
   int16 flags;
 
-  static dimeLayer defaultLayer;
+  static void cleanup_default_layer(void);
+  static dimeLayer * defaultLayer;
 
 }; // class dimeLayer
 
@@ -112,7 +113,7 @@ dimeLayer::setFlags(const int16 &flags)
 inline bool 
 dimeLayer::isDefaultLayer() const
 {
-  return this == &defaultLayer;
+  return this == dimeLayer::getDefaultLayer();
 }
 
 #endif // ! DIME_LAYER_H

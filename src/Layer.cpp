@@ -43,6 +43,7 @@
 */
 
 #include <dime/Layer.h>
+#include <stdlib.h>
 
 // palette for color indices 1-255
 static dxfdouble colortable[] = {
@@ -303,28 +304,18 @@ static dxfdouble colortable[] = {
   1,1,1};
 
 
-dimeLayer dimeLayer::defaultLayer;
+dimeLayer * dimeLayer::defaultLayer;
 static char defaultName[] = "Default DIME layer";
 
 dimeLayer::dimeLayer()
   : layerName( NULL ), layerNum( -1 ), colorNum( -1 ), flags( 0 )
 {
-  if (defaultLayer.layerName == NULL) {
-    defaultLayer.layerName = defaultName;
-    defaultLayer.layerNum = 0;
-    defaultLayer.colorNum = 7; // white...
-  }
 }
 
 dimeLayer::dimeLayer(const char * const name, const int num, 
 		     const int16 colnum, const int16 flagmask) 
   : layerName( name ), layerNum( num ), colorNum( colnum ), flags( flagmask )
 {
-  if (defaultLayer.layerName == NULL) {
-    defaultLayer.layerName = defaultName;
-    defaultLayer.layerNum = 0;
-    defaultLayer.colorNum = 7; // white...
-  }
 }
 
 /*!
@@ -393,13 +384,28 @@ dimeLayer::colorToRGB(const int colornum,
   Returns true if this is the default layer.
 */
 
+
+void 
+dimeLayer::cleanup_default_layer(void)
+{
+  delete defaultLayer;
+  defaultLayer = NULL;
+}
+
 /*!
   Returns a pointer to the default layer.
 */
 const dimeLayer *
 dimeLayer::getDefaultLayer()
 {
-  return &defaultLayer;
+  if (defaultLayer == NULL) {
+    defaultLayer = new dimeLayer;
+    defaultLayer->layerName = defaultName;
+    defaultLayer->layerNum = 0;
+    defaultLayer->colorNum = 7; // white...
+    atexit(cleanup_default_layer);
+  }
+  return defaultLayer;
 }
 
 
