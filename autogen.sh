@@ -8,9 +8,9 @@ DIE=false
 PROJECT=Dime
 
 # Autoconf snapshot from ftp://alpha.gnu.org/gnu/autoconf/autoconf-2.49a.tar.gz
-AUTOCONF_VER=2.49a
-AUTOMAKE_VER=1.4a    # CVS development version
-LIBTOOL_VER=1.3.5
+AUTOCONF_VER=2.52
+AUTOMAKE_VER=1.5    # CVS development version
+LIBTOOL_VER=1.4.2
 
 if test -z "`autoconf --version | grep \" $AUTOCONF_VER\" 2> /dev/null`"; then
   cat <<EOF

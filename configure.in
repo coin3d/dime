@@ -154,4 +154,6 @@ dnl *******************************************************************
 
 AC_OUTPUT(Makefile src/Makefile src/classes/Makefile src/entities/Makefile \
 	src/objects/Makefile src/records/Makefile src/sections/Makefile \
-	src/tables/Makefile src/util/Makefile dxf2vrml/Makefile)
+	src/tables/Makefile src/util/Makefile src/convert/Makefile \
+	dxf2vrml/Makefile)
+

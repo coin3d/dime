@@ -5,9 +5,9 @@ lib_LTLIBRARIES = libdime.la
 libdime_la_LIBADD = \
 	classes/libclasses.la entities/libentities.la objects/libobjects.la \
 	records/librecords.la sections/libsections.la tables/libtables.la \
-	util/libutil.la
+	util/libutil.la convert/libconvert.la
 
-SUBDIRS = classes entities objects records sections tables util .
+SUBDIRS = classes entities objects records sections tables util convert .
 
 INCLUDES = -I$(top_srcdir)/include
 

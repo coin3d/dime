@@ -94,40 +94,61 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-noinst_LTLIBRARIES = libclasses.la
+noinst_LTLIBRARIES = libconvert.la
 
 LIBS = 
 
 INCLUDES = -I$(top_srcdir)/include
 
-libclasses_la_SOURCES = \
-	Class.cpp Class.h \
-	UnknownClass.cpp UnknownClass.h
+libconvert_la_SOURCES = \
+	3dface.cpp \
+	arc.cpp \
+	circle.cpp \
+	convert.cpp \
+	convert_funcs.h \
+	ellipse.cpp \
+	layerdata.cpp \
+	line.cpp \
+	linesegment.cpp \
+	linesegment.h \
+	lwpolyline.cpp \
+	point.cpp \
+	polyline.cpp \
+	solid.cpp \
+	trace.cpp
 
 
-libclassesincdir = $(includedir)/dime/classes
+libconvertincdir = $(includedir)/dime/convert
 
-libclassesinc_HEADERS = \
-	$(top_srcdir)/include/dime/classes/Class.h \
-	$(top_srcdir)/include/dime/classes/UnknownClass.h
+libconvertinc_HEADERS = \
+	$(top_srcdir)/include/dime/convert/convert.h \
+	$(top_srcdir)/include/dime/convert/layerdata.h
 
-subdir = src/classes
+subdir = src/convert
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
-libclasses_la_LDFLAGS =
-libclasses_la_LIBADD =
-am_libclasses_la_OBJECTS = Class.lo UnknownClass.lo
-libclasses_la_OBJECTS = $(am_libclasses_la_OBJECTS)
+libconvert_la_LDFLAGS =
+libconvert_la_LIBADD =
+am_libconvert_la_OBJECTS = 3dface.lo arc.lo circle.lo convert.lo \
+	ellipse.lo layerdata.lo line.lo linesegment.lo lwpolyline.lo \
+	point.lo polyline.lo solid.lo trace.lo
+libconvert_la_OBJECTS = $(am_libconvert_la_OBJECTS)
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Class.Plo $(DEPDIR)/UnknownClass.Plo
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/3dface.Plo $(DEPDIR)/arc.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/circle.Plo $(DEPDIR)/convert.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/ellipse.Plo $(DEPDIR)/layerdata.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/line.Plo $(DEPDIR)/linesegment.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/lwpolyline.Plo $(DEPDIR)/point.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/polyline.Plo $(DEPDIR)/solid.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/trace.Plo
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -145,11 +166,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libclasses_la_SOURCES)
-HEADERS = $(libclassesinc_HEADERS)
+DIST_SOURCES = $(libconvert_la_SOURCES)
+HEADERS = $(libconvertinc_HEADERS)
 
-DIST_COMMON = $(libclassesinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libclasses_la_SOURCES)
+DIST_COMMON = $(libconvertinc_HEADERS) Makefile.am Makefile.in
+SOURCES = $(libconvert_la_SOURCES)
 
 all: all-am
 
@@ -166,7 +187,7 @@ distclean-libtool:
 	-rm -f libtool
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  src/classes/Makefile
+	  $(AUTOMAKE) --gnu  src/convert/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
@@ -174,8 +195,8 @@ Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.s
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
-libclasses.la: $(libclasses_la_OBJECTS) $(libclasses_la_DEPENDENCIES) 
-	$(CXXLINK)  $(libclasses_la_LDFLAGS) $(libclasses_la_OBJECTS) $(libclasses_la_LIBADD) $(LIBS)
+libconvert.la: $(libconvert_la_OBJECTS) $(libconvert_la_DEPENDENCIES) 
+	$(CXXLINK)  $(libconvert_la_LDFLAGS) $(libconvert_la_OBJECTS) $(libconvert_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -183,8 +204,19 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Class.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/UnknownClass.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/3dface.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/arc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/circle.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/convert.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ellipse.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/layerdata.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/line.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/linesegment.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/lwpolyline.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/point.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/polyline.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/solid.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/trace.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -247,7 +279,7 @@ top_distdir = ../..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/classes
+	$(mkinstalldirs) $(distdir)/$(top_srcdir)/include/dime/convert
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -268,7 +300,7 @@ check: check-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(libclassesincdir)
+	$(mkinstalldirs) $(DESTDIR)$(libconvertincdir)
 
 install: install-am
 install-exec: install-exec-am
@@ -311,7 +343,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-libclassesincHEADERS
+install-data-am: install-libconvertincHEADERS
 
 install-exec-am:
 
@@ -330,7 +362,7 @@ mostlyclean: mostlyclean-am
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-uninstall-am: uninstall-info-am uninstall-libclassesincHEADERS
+uninstall-am: uninstall-info-am uninstall-libconvertincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
 	clean-libtool clean-noinstLTLIBRARIES distclean \
@@ -338,29 +370,29 @@ uninstall-am: uninstall-info-am uninstall-libclassesincHEADERS
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \
-	install-libclassesincHEADERS install-man install-strip \
+	install-libconvertincHEADERS install-man install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
-	uninstall-am uninstall-info-am uninstall-libclassesincHEADERS
+	uninstall-am uninstall-info-am uninstall-libconvertincHEADERS
 
 
-install-libclassesincHEADERS: $(libclassesinc_HEADERS)
+install-libconvertincHEADERS: $(libconvertinc_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(libclassesincdir)
-	@list='$(libclassesinc_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(libconvertincdir)
+	@list='$(libconvertinc_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libclassesincdir)/$$f"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libclassesincdir)/$$f; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libconvertincdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libconvertincdir)/$$f; \
 	done
 
-uninstall-libclassesincHEADERS:
+uninstall-libconvertincHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libclassesinc_HEADERS)'; for p in $$list; do \
+	@list='$(libconvertinc_HEADERS)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(libclassesincdir)/$$f"; \
-	  rm -f $(DESTDIR)$(libclassesincdir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(libconvertincdir)/$$f"; \
+	  rm -f $(DESTDIR)$(libconvertincdir)/$$f; \
 	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
