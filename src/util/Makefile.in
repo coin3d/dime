@@ -104,7 +104,7 @@ install_sh = @install_sh@
 LIBS = 
 INCLUDES = -I$(top_srcdir)/include
 
-@BUILD_WITH_MSVC_TRUE@noinst_LTLIBRARIES = util.lst
+@BUILD_WITH_MSVC_TRUE@noinst_LIBRARIES = util.lst
 @BUILD_WITH_MSVC_FALSE@noinst_LTLIBRARIES = libutil.la
 
 UtilSources = \
@@ -135,8 +135,15 @@ libutilinc_HEADERS = \
 
 subdir = src/util
 mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+
+util_lst_AR = $(AR) cru
+util_lst_LIBADD =
+am_util_lst_OBJECTS = Array.$(OBJEXT) BSPTree.$(OBJEXT) Box.$(OBJEXT) \
+	Dict.$(OBJEXT) Linear.$(OBJEXT) MemHandler.$(OBJEXT)
+util_lst_OBJECTS = $(am_util_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 
 libutil_la_LDFLAGS =
@@ -144,14 +151,9 @@ libutil_la_LIBADD =
 am_libutil_la_OBJECTS = Array.lo BSPTree.lo Box.lo Dict.lo Linear.lo \
 	MemHandler.lo
 libutil_la_OBJECTS = $(am_libutil_la_OBJECTS)
-util_lst_LDFLAGS =
-util_lst_LIBADD =
-am_util_lst_OBJECTS = Array.$(OBJEXT) BSPTree.$(OBJEXT) Box.$(OBJEXT) \
-	Dict.$(OBJEXT) Linear.$(OBJEXT) MemHandler.$(OBJEXT)
-util_lst_OBJECTS = $(am_util_lst_OBJECTS)
 
 DEFS = @DEFS@
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/include
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 depcomp = $(SHELL) $(top_srcdir)/cfg/depcomp
@@ -178,11 +180,11 @@ LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
 CCLD = $(CC)
 LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libutil_la_SOURCES) $(util_lst_SOURCES)
+DIST_SOURCES = $(util_lst_SOURCES) $(libutil_la_SOURCES)
 HEADERS = $(libutilinc_HEADERS)
 
 DIST_COMMON = $(libutilinc_HEADERS) Makefile.am Makefile.in
-SOURCES = $(libutil_la_SOURCES) $(util_lst_SOURCES)
+SOURCES = $(util_lst_SOURCES) $(libutil_la_SOURCES)
 
 all: all-am
 
@@ -197,13 +199,18 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  src/util/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && \
 	  CONFIG_HEADERS= CONFIG_LINKS= \
 	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+
+AR = ar
+
+clean-noinstLIBRARIES:
+	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -308,7 +315,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(HEADERS)
+all-am: Makefile $(LIBRARIES) $(LTLIBRARIES) $(HEADERS)
 
 installdirs:
 	$(mkinstalldirs) $(DESTDIR)$(libutilincdir)
@@ -338,8 +345,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-libtool clean-noinstLIBRARIES \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 
@@ -376,8 +383,8 @@ mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 uninstall-am: uninstall-info-am uninstall-libutilincHEADERS
 
 .PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-libtool clean-noinstLTLIBRARIES distclean \
-	distclean-compile distclean-depend distclean-generic \
+	clean-libtool clean-noinstLIBRARIES clean-noinstLTLIBRARIES \
+	distclean distclean-compile distclean-depend distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am info \
 	info-am install install-am install-data install-data-am \
 	install-exec install-exec-am install-info install-info-am \

@@ -1333,14 +1333,14 @@ if test "${with_msvcrt+set}" = set; then
     sim_ac_msvcrt=singlethread-static-debug
     sim_ac_msvcrt_CFLAGS="/MLd"
     sim_ac_msvcrt_CXXFLAGS="/MLd"
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-llibcd"
     ;;
   multithread-static | mt | /mt | libcmt | libcmt\.lib )
     sim_ac_msvcrt=multithread-static
     sim_ac_msvcrt_CFLAGS="/MT"
     sim_ac_msvcrt_CXXFLAGS="/MT"
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-llibcmt"
     ;;
   multithread-static-debug | mtd | /mtd | libcmtd | libcmtd\.lib )
@@ -1354,14 +1354,14 @@ if test "${with_msvcrt+set}" = set; then
     sim_ac_msvcrt=multithread-dynamic
     sim_ac_msvcrt_CFLAGS=""
     sim_ac_msvcrt_CXXFLAGS=""
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-lmsvcrt"
     ;;
   multithread-dynamic-debug | mdd | /mdd | msvcrtd | msvcrtd\.lib )
     sim_ac_msvcrt=multithread-dynamic-debug
     sim_ac_msvcrt_CFLAGS="/MDd"
     sim_ac_msvcrt_CXXFLAGS="/MDd"
-    sim_ac_msvcrt_LIBLDFLAGS="/NODEFAULTLIB:libc"
+    sim_ac_msvcrt_LIBLDFLAGS="/LINK /NODEFAULTLIB:libc"
     sim_ac_msvcrt_LIBLIBS="-lmsvcrtd"
     ;;
   *)
@@ -3276,7 +3276,7 @@ echo "$as_me:3275: result: $am_cv_CXX_dependencies_compiler_type" >&5
 echo "${ECHO_T}$am_cv_CXX_dependencies_compiler_type" >&6
 CXXDEPMODE="depmode=$am_cv_CXX_dependencies_compiler_type"
 
-		    		    		    ac_config_headers="$ac_config_headers config.h"
+		    		    		    ac_config_headers="$ac_config_headers include/config.h"
 
 # Check whether --enable-static or --disable-static was given.
 if test "${enable_static+set}" = set; then
@@ -7828,7 +7828,7 @@ do
   "src/convert/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/convert/Makefile" ;;
   "dxf2vrml/Makefile" ) CONFIG_FILES="$CONFIG_FILES dxf2vrml/Makefile" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
-  "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
+  "include/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS include/config.h" ;;
   *) { { echo "$as_me:7832: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
@@ -8373,8 +8373,8 @@ done; }
   fi
   # Run the commands associated with the file.
   case $ac_file in
-    config.h ) # update the timestamp
-echo timestamp >"./stamp-h1"
+    include/config.h ) # update the timestamp
+echo timestamp >"include/stamp-h1"
  ;;
   esac
 done
