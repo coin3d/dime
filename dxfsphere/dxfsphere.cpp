@@ -206,12 +206,14 @@ main(int ac, char ** av)
     exit(1);
   }
 
-  // initialize dime output
+  // DIME: initialize output file
   dimeOutput out;
   if (!outfile || !out.setFilename(outfile)) {
     out.setFileHandle(stdout);
   }
+  // DIME: create dime model
   dimeModel model;
+  // DIME: add the entities section.
   dimeEntitiesSection * entities = new dimeEntitiesSection;
   model.insertSection(entities);
 
@@ -298,7 +300,10 @@ main(int ac, char ** av)
   /* Print out resulting approximation */
   print_object(old, maxlevel, model);
 
+  // DIME: write the model to file
   model.write(&out);
+
+  return 0;
 }
 
 /* Normalize a point p */
@@ -358,7 +363,8 @@ void print_object(object * obj, int level, dimeModel & model)
 void print_triangle(triangle * t, dimeModel & model)
 {
   int i;
-  
+
+  // DIME: create a 3DFACE entity, and set it to contain a triangle
   dime3DFace * face = new dime3DFace;
   dimeVec3f v[3];
 
@@ -368,6 +374,8 @@ void print_triangle(triangle * t, dimeModel & model)
     v[i].z = t->pt[i].z;
   }
   face->setTriangle(v[0], v[1], v[2]);
+
+  // DIME: add entity to model
   model.addEntity(face);
 }
 
