@@ -1,6 +1,6 @@
 TEMPLATE = lib
-unix:INCLUDEPATH = $(ZLIBDIR)/include;../include;$(SIMBASE)
-win32:INCLUDEPATH = $(ZLIBDIR);../include;$(SIMBASE)
+unix:INCLUDEPATH = $(ZLIBDIR)/include;../include
+win32:INCLUDEPATH = $(ZLIBDIR);../include
 HEADERS = ../include/Basic.h \
           ../include/Base.h \
           ../include/Input.h \
