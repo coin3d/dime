@@ -51,7 +51,7 @@ if $sim_ac_try_msvc; then
       LIBS="$LIBS $sim_ac_msvcrt_LIBS"
       # sim_ac_msvcrt_LIBLIBS is set up at the end
       # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-      AC_SUBST([COIN_MSVC_LIBC], [$sim_ac_msvcrt])
+      AC_SUBST([DIME_MSVC_LIBC], [$sim_ac_msvcrt])
     ])
   fi
 fi
@@ -189,6 +189,62 @@ fi
 
 
 AM_CONDITIONAL([BUILD_WITH_MSVC], [$BUILD_WITH_MSVC])
+
+case $enable_static in
+yes | true)  DIME_STATIC=true ;;
+*)           DIME_STATIC=false ;;
+esac
+
+case $enable_shared in
+yes | true)  DIME_STATIC=false ;;
+*)           DIME_STATIC=true ;;
+esac
+
+AC_SUBST([LIBFLAGS], [])
+
+if $BUILD_WITH_MSVC; then
+  rm -f vc60.pdb
+  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+  if $DIME_STATIC; then
+    DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_NOT_DLL"
+  else
+    CPPFLAGS="-DDIME_MAKE_DLL $CPPFLAGS"
+    DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_DLL"
+  fi
+
+  debugfile="`pwd`/src/dime${DIME_MAJOR_VERSION}${SUFFIX}.pdb"
+  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+
+  if $DIME_STATIC; then
+    SIM_AC_CONFIGURATION_SETTING([Dime build type], [static .lib])
+    LIBFLAGS="-LIB $LIBFLAGS"
+    LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.lib"
+  else
+    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
+    case $enable_symbols in
+    no | false)
+      SIM_AC_CONFIGURATION_SETTING([Dime build type],
+                                   [dynamic .dll, no symbols])
+      LIBFLAGS="$LIBFLAGS /RELEASE"
+      ;;
+    *)
+      SIM_AC_CONFIGURATION_SETTING([Dime build type],
+                                   [dynamic .dll + .pdb])
+      CFLAGS="/Fd$debugfile $CFLAGS"
+      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
+      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:dime$DIME_MAJOR_VERSION$SUFFIX.pdb"
+      ;;
+    esac
+    LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.dll"
+  fi
+  SIM_AC_CONFIGURATION_SETTING([C library linkage], [$sim_ac_msvcrt])
+  if test -n "$DIME_EXTRA_LIBS"; then
+    DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX} $DIME_EXTRA_LIBS"
+  else
+    DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX}"
+  fi
+fi
 
 dnl *******************************************************************
 

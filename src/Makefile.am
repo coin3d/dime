@@ -1,5 +1,13 @@
 ## Process this file with automake to generate Makefile.in.
 
+CLEANFILES = \
+        dime@DIME_MAJOR_VERSION@@SUFFIX@.dll \
+        dime@DIME_MAJOR_VERSION@@SUFFIX@.pdb \
+        dime@DIME_MAJOR_VERSION@@SUFFIX@.exp
+
+DISTCLEANFILES = \
+        ii_files/*.ii
+
 SUBDIRS = classes entities objects records sections tables util convert .
 
 INCLUDES = -I$(top_srcdir)/include
@@ -42,10 +50,22 @@ libdime@SUFFIX@_la_SOURCES = \
 dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 	$(DimeSources)
 
-## Installation information.
+# Custom rule for linking a Visual C++ (MS Windows) library.
+
+dime@DIME_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
+  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
+	@basename="dime@DIME_MAJOR_VERSION@@SUFFIX@"; \
+	rm -f "$$basename.dll" "$$basename.lib"; \
+	echo "Linking $$basename.lib..."; \
+	echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS); \
+	$(CC) $(LDFLAGS) $(LIBFLAGS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS);
 
 libdimeincdir = $(includedir)/dime
-
 libdimeinc_HEADERS = \
 	../include/dime/Base.h \
 	../include/dime/Basic.h \
@@ -55,10 +75,6 @@ libdimeinc_HEADERS = \
 	../include/dime/Output.h \
 	../include/dime/RecordHolder.h \
 	../include/dime/State.h
-
-## FIXME: this is a temporary workaround for a bug in Automake. The
-## bug is fixed in the latest Automake CVS, but not in any "official"
-## release (?). Last checked with Automake 1.4a. 19990912 mortene.
 
 install-libdimeincHEADERS: $(libdimeinc_HEADERS)
 	@$(NORMAL_INSTALL)

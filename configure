@@ -1407,7 +1407,7 @@ echo "${ECHO_T}$sim_ac_msvcrt" >&6
       LIBS="$LIBS $sim_ac_msvcrt_LIBS"
       # sim_ac_msvcrt_LIBLIBS is set up at the end
       # sim_ac_msvcrt_LIBLDFLAGS is set up at the end
-      COIN_MSVC_LIBC=$sim_ac_msvcrt
+      DIME_MSVC_LIBC=$sim_ac_msvcrt
 
   fi
 fi
@@ -7417,6 +7417,78 @@ else
   BUILD_WITH_MSVC_FALSE=
 fi
 
+case $enable_static in
+yes | true)  DIME_STATIC=true ;;
+*)           DIME_STATIC=false ;;
+esac
+
+case $enable_shared in
+yes | true)  DIME_STATIC=false ;;
+*)           DIME_STATIC=true ;;
+esac
+
+if $BUILD_WITH_MSVC; then
+  rm -f vc60.pdb
+  LIBS="$LIBS $sim_ac_msvcrt_LIBLIBS"
+  LIBFLAGS="$LIBFLAGS $sim_ac_msvcrt_LIBLDFLAGS"
+  if $DIME_STATIC; then
+    DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_NOT_DLL"
+  else
+    CPPFLAGS="-DDIME_MAKE_DLL $CPPFLAGS"
+    DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_DLL"
+  fi
+
+  debugfile="`pwd`/src/dime${DIME_MAJOR_VERSION}${SUFFIX}.pdb"
+  debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
+
+  if $DIME_STATIC; then
+    if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="Dime build type:static .lib"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:static .lib"
+fi
+
+    LIBFLAGS="-LIB $LIBFLAGS"
+    LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.lib"
+  else
+    LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
+    case $enable_symbols in
+    no | false)
+      if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="Dime build type:dynamic .dll, no symbols"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:dynamic .dll, no symbols"
+fi
+
+      LIBFLAGS="$LIBFLAGS /RELEASE"
+      ;;
+    *)
+      if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="Dime build type:dynamic .dll + .pdb"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:dynamic .dll + .pdb"
+fi
+
+      CFLAGS="/Fd$debugfile $CFLAGS"
+      CXXFLAGS="/Fd$debugfile $CXXFLAGS"
+      LIBFLAGS="$LIBFLAGS /DEBUG /PDB:dime$DIME_MAJOR_VERSION$SUFFIX.pdb"
+      ;;
+    esac
+    LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.dll"
+  fi
+  if test x${sim_ac_configuration_settings+set} != xset; then
+  sim_ac_configuration_settings="C library linkage:$sim_ac_msvcrt"
+else
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|C library linkage:$sim_ac_msvcrt"
+fi
+
+  if test -n "$DIME_EXTRA_LIBS"; then
+    DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX} $DIME_EXTRA_LIBS"
+  else
+    DIME_EXTRA_LIBS="-ldime${DIME_MAJOR_VERSION}${SUFFIX}"
+  fi
+fi
+
 ac_config_files="$ac_config_files Makefile src/Makefile src/classes/Makefile src/entities/Makefile src/objects/Makefile src/records/Makefile src/sections/Makefile src/tables/Makefile src/util/Makefile src/convert/Makefile dxf2vrml/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -7497,7 +7569,7 @@ DEFS=-DHAVE_CONFIG_H
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
 ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-{ echo "$as_me:7500: creating $CONFIG_STATUS" >&5
+{ echo "$as_me:7572: creating $CONFIG_STATUS" >&5
 echo "$as_me: creating $CONFIG_STATUS" >&6;}
 cat >$CONFIG_STATUS <<_ACEOF
 #! $SHELL
@@ -7673,7 +7745,7 @@ cat >>$CONFIG_STATUS <<\EOF
     echo "$ac_cs_version"; exit 0 ;;
   --he | --h)
     # Conflict between --help and --header
-    { { echo "$as_me:7676: error: ambiguous option: $1
+    { { echo "$as_me:7748: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: ambiguous option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -7692,7 +7764,7 @@ Try \`$0 --help' for more information." >&2;}
     ac_need_defaults=false;;
 
   # This is an error.
-  -*) { { echo "$as_me:7695: error: unrecognized option: $1
+  -*) { { echo "$as_me:7767: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&5
 echo "$as_me: error: unrecognized option: $1
 Try \`$0 --help' for more information." >&2;}
@@ -7750,7 +7822,7 @@ do
   "dxf2vrml/Makefile" ) CONFIG_FILES="$CONFIG_FILES dxf2vrml/Makefile" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
-  *) { { echo "$as_me:7753: error: invalid argument: $ac_config_target" >&5
+  *) { { echo "$as_me:7825: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -7852,7 +7924,7 @@ s,@DIME_VERSION@,$DIME_VERSION,;t t
 s,@DIME_INTERFACE_AGE@,$DIME_INTERFACE_AGE,;t t
 s,@DIME_BINARY_AGE@,$DIME_BINARY_AGE,;t t
 s,@BUILD_WITH_MSVC@,$BUILD_WITH_MSVC,;t t
-s,@COIN_MSVC_LIBC@,$COIN_MSVC_LIBC,;t t
+s,@DIME_MSVC_LIBC@,$DIME_MSVC_LIBC,;t t
 s,@CC@,$CC,;t t
 s,@CFLAGS@,$CFLAGS,;t t
 s,@LDFLAGS@,$LDFLAGS,;t t
@@ -7905,6 +7977,7 @@ s,@ac_ct_STRIP@,$ac_ct_STRIP,;t t
 s,@LIBTOOL@,$LIBTOOL,;t t
 s,@BUILD_WITH_MSVC_TRUE@,$BUILD_WITH_MSVC_TRUE,;t t
 s,@BUILD_WITH_MSVC_FALSE@,$BUILD_WITH_MSVC_FALSE,;t t
+s,@LIBFLAGS@,$LIBFLAGS,;t t
 CEOF
 
 EOF
@@ -8019,7 +8092,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:8022: creating $ac_file" >&5
+    { echo "$as_me:8095: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -8037,7 +8110,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:8040: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:8113: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -8050,7 +8123,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:8053: error: cannot find input file: $f" >&5
+           { { echo "$as_me:8126: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -8111,7 +8184,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:8114: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:8187: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -8122,7 +8195,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:8125: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:8198: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -8135,7 +8208,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:8138: error: cannot find input file: $f" >&5
+           { { echo "$as_me:8211: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -8252,7 +8325,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:8255: $ac_file is unchanged" >&5
+      { echo "$as_me:8328: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \

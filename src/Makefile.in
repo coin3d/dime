@@ -66,7 +66,6 @@ AS = @AS@
 AWK = @AWK@
 BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 CC = @CC@
-COIN_MSVC_LIBC = @COIN_MSVC_LIBC@
 CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
@@ -77,11 +76,13 @@ DIME_INTERFACE_AGE = @DIME_INTERFACE_AGE@
 DIME_MAJOR_VERSION = @DIME_MAJOR_VERSION@
 DIME_MICRO_VERSION = @DIME_MICRO_VERSION@
 DIME_MINOR_VERSION = @DIME_MINOR_VERSION@
+DIME_MSVC_LIBC = @DIME_MSVC_LIBC@
 DIME_VERSION = @DIME_VERSION@
 DLLTOOL = @DLLTOOL@
 ECHO = @ECHO@
 EXEEXT = @EXEEXT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LIBFLAGS = @LIBFLAGS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LT_AGE = @LT_AGE@
@@ -99,6 +100,16 @@ VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
+
+CLEANFILES = \
+        dime@DIME_MAJOR_VERSION@@SUFFIX@.dll \
+        dime@DIME_MAJOR_VERSION@@SUFFIX@.pdb \
+        dime@DIME_MAJOR_VERSION@@SUFFIX@.exp
+
+
+DISTCLEANFILES = \
+        ii_files/*.ii
+
 
 SUBDIRS = classes entities objects records sections tables util convert .
 
@@ -143,7 +154,6 @@ dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_SOURCES = \
 
 
 libdimeincdir = $(includedir)/dime
-
 libdimeinc_HEADERS = \
 	../include/dime/Base.h \
 	../include/dime/Basic.h \
@@ -274,10 +284,6 @@ uninstall-libLIBRARIES:
 
 clean-libLIBRARIES:
 	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
-dime@DIME_MAJOR_VERSION@@SUFFIX@.lib: $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES) 
-	-rm -f dime@DIME_MAJOR_VERSION@@SUFFIX@.lib
-	$(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_AR) dime@DIME_MAJOR_VERSION@@SUFFIX@.lib $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD)
-	$(RANLIB) dime@DIME_MAJOR_VERSION@@SUFFIX@.lib
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
@@ -496,9 +502,11 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -565,6 +573,21 @@ uninstall-info: uninstall-info-recursive
 	uninstall-libLIBRARIES uninstall-libLTLIBRARIES \
 	uninstall-libdimeincHEADERS uninstall-recursive
 
+
+# Custom rule for linking a Visual C++ (MS Windows) library.
+
+dime@DIME_MAJOR_VERSION@@SUFFIX@.lib: Makefile \
+  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_DEPENDENCIES)
+	@basename="dime@DIME_MAJOR_VERSION@@SUFFIX@"; \
+	rm -f "$$basename.dll" "$$basename.lib"; \
+	echo "Linking $$basename.lib..."; \
+	echo $(CC) $(LDFLAGS) $(LIBFLAGS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS); \
+	$(CC) $(LDFLAGS) $(LIBFLAGS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_OBJECTS) \
+	  $(dime@DIME_MAJOR_VERSION@@SUFFIX@_lib_LIBADD) $(LIBS);
 
 install-libdimeincHEADERS: $(libdimeinc_HEADERS)
 	@$(NORMAL_INSTALL)
