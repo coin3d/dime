@@ -25,6 +25,11 @@ libtables_la_SOURCES = \
 tables_lst_SOURCES = \
 	$(TablesSources)
 
+tables.lst: Makefile $(tables_lst_OBJECTS)
+	@echo "Linking tables.lst..."; \
+	rm -f $@; \
+	for i in $(tables_lst_OBJECTS); do echo $$i >>$@; done
+
 libtablesincdir = $(includedir)/dime/tables
 libtablesinc_HEADERS = \
 	../../include/dime/tables/LayerTable.h \

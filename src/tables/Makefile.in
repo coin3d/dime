@@ -209,10 +209,6 @@ AR = ar
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-tables.lst: $(tables_lst_OBJECTS) $(tables_lst_DEPENDENCIES) 
-	-rm -f tables.lst
-	$(tables_lst_AR) tables.lst $(tables_lst_OBJECTS) $(tables_lst_LIBADD)
-	$(RANLIB) tables.lst
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -394,6 +390,11 @@ uninstall-am: uninstall-info-am uninstall-libtablesincHEADERS
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
 	uninstall-am uninstall-info-am uninstall-libtablesincHEADERS
 
+
+tables.lst: Makefile $(tables_lst_OBJECTS)
+	@echo "Linking tables.lst..."; \
+	rm -f $@; \
+	for i in $(tables_lst_OBJECTS); do echo $$i >>$@; done
 
 install-libtablesincHEADERS: $(libtablesinc_HEADERS)
 	@$(NORMAL_INSTALL)

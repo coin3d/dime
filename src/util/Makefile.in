@@ -209,8 +209,6 @@ clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
 libutil.la: $(libutil_la_OBJECTS) $(libutil_la_DEPENDENCIES) 
 	$(CXXLINK)  $(libutil_la_LDFLAGS) $(libutil_la_OBJECTS) $(libutil_la_LIBADD) $(LIBS)
-util.lst: $(util_lst_OBJECTS) $(util_lst_DEPENDENCIES) 
-	$(CXXLINK)  $(util_lst_LDFLAGS) $(util_lst_OBJECTS) $(util_lst_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -389,6 +387,11 @@ uninstall-am: uninstall-info-am uninstall-libutilincHEADERS
 	mostlyclean-generic mostlyclean-libtool tags uninstall \
 	uninstall-am uninstall-info-am uninstall-libutilincHEADERS
 
+
+util.lst: Makefile $(util_lst_OBJECTS)
+        @echo "Linking util.lst..."; \
+        rm -f $@; \
+        for i in $(util_lst_OBJECTS); do echo $$i >>$@; done
 
 install-libutilincHEADERS: $(libutilinc_HEADERS)
 	@$(NORMAL_INSTALL)
