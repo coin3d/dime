@@ -51,7 +51,7 @@ echo "Running automake..."
 echo "(NB: if you're compiling without g++, you probably need to"
 echo "run automake with the --include-deps argument to avoid setting"
 echo "up dependency tracking. 19991006 mortene.)"
-automake --foreign
+automake --foreign --include-deps
 
 echo "Running autoconf"
 autoconf
