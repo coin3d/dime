@@ -1,0 +1,283 @@
+/**************************************************************************\
+ * 
+ *  FILE: Array.h
+ *
+ *  This source file is part of DIME.
+ *  Copyright (C) 1998-1999 by Systems In Motion.  All rights reserved.
+ *
+ *  This library is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License, version 2, as
+ *  published by the Free Software Foundation.  DO NOT MISTAKE THIS LICENSE
+ *  FOR THE GNU LGPL LICENSE.
+ *
+ *  This library is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License (the accompanying file named COPYING) for more
+ *  details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ **************************************************************************
+ *
+ *  If you need DIME for commercial purposes, you can contact Systems In
+ *  Motion about acquiring a commercial license.
+ *
+ *  Systems In Motion                                   http://www.sim.no/
+ *  Prof. Brochs gate 6                                       sales@sim.no
+ *  N-7030 Trondheim                                   Voice: +47 22114160
+ *  NORWAY                                               Fax: +47 67172912
+ *
+\**************************************************************************/
+
+#ifndef DIME_ARRAY_H
+#define DIME_ARRAY_H
+
+#include <stdlib.h>
+
+template <class T>
+class dimeArray
+{
+public:
+  dimeArray(const int initsize = 4);
+  ~dimeArray();
+
+  void append(const T &value);
+  void append(const dimeArray<T> &array);
+  void prepend(const dimeArray<T> &array);
+  void insertElem(const int idx, const T &value);
+  void setElem(const int index, const T &value);
+  T getElem(const int index) const;
+  void getElem(const int index, T &elem) const;
+  T    getLastElem() const;
+  void getLastElem(T &elem) const;
+  T &operator [](const int index);
+  T operator [](const int index) const;
+  void removeElem(const int index);
+  void removeElemFast(const int index);
+  void reverse();
+  void setCount(const int count);
+  void makeEmpty(const int initsize = 4);
+  void freeMemory();
+  int  count() const;
+  int  allocSize() const;
+  T   *arrayPointer();
+  const T *constArrayPointer() const;
+  void shrinkToFit();
+
+private:
+  void growArray();
+  T *array;
+  int num;
+  int size;
+
+}; // class dimeArray<>
+
+template <class T> inline 
+dimeArray<T>::dimeArray(const int size)
+{
+  this->array = new T[size];
+  this->size = size;
+  this->num = 0;
+}
+
+template <class T> inline 
+dimeArray<T>::~dimeArray()
+{
+  delete [] this->array;
+}
+
+template <class T> inline void 
+dimeArray<T>::growArray()
+{
+  int oldsize = this->size;
+  T *oldarray = this->array;
+  this->size <<= 1;
+  this->array = new T[this->size];
+  for (int i = 0; i < oldsize; i++) this->array[i] = oldarray[i];
+  delete [] oldarray;
+}
+
+template <class T> inline void 
+dimeArray<T>::append(const T &elem)
+{
+  if (this->num >= this->size) growArray();
+  this->array[this->num++] = elem;
+}
+
+
+template <class T> inline void 
+dimeArray<T>::append(const dimeArray<T> &array)
+{
+  while (this->size <= this->num+array.count()) growArray();
+  for (int i=0;i<array.count();i++)
+    this->array[this->num++] = array[i];
+}
+
+template <class T> inline void 
+dimeArray<T>::prepend(const dimeArray<T> &array)
+{
+  int newsize=this->num+array.count();
+  if (this->size<=newsize) {
+    T *oldarray=this->array;
+    this->array=new T[newsize];
+    this->size=newsize;
+    for (int i=0;i<array.count(); i++) this->array[i] = array[i];
+    for (int i=0;i<this->num;i++) this->array[i+array.count()] = oldarray[i];
+    delete[] oldarray;
+  }
+  else {
+    for (int i=0;i<this->num;i++) this->array[array.count()+i]=this->array[i];
+    for (int i=0;i<array.count();i++) this->array[i] = array[i];
+  }
+  this->num+=array.count();
+}
+
+template <class T> inline void 
+dimeArray<T>::insertElem(const int idx, const T &elem)
+{
+  int n = this->num;
+  this->append(elem); // make room for one more
+  if (idx < n) {
+    for (int i = n; i > idx; i--) {
+      this->array[i] = this->array[i-1]; 
+    }
+    this->array[idx] = elem;
+  }
+}
+
+template <class T> inline void 
+dimeArray<T>::setElem(const int index, const T &elem)
+{
+  while (index >= this->size) growArray();
+  if (this->num <= index) this->num = index+1;
+  this->array[index] = elem;
+}
+
+template <class T> inline T 
+dimeArray<T>::getElem(const int index) const
+{
+  return this->array[index];
+}
+
+template <class T> inline void 
+dimeArray<T>::getElem(const int index, T &elem) const
+{
+  elem = this->array[index];
+}
+
+template <class T> inline T 
+dimeArray<T>::getLastElem() const
+{
+  return this->array[this->num-1];
+}
+
+template <class T> inline void 
+dimeArray<T>::getLastElem(T &elem) const
+{
+  elem = this->array[this->num-1];
+}
+
+template <class T> inline T &
+dimeArray<T>::operator [](const int index)
+{
+  while (index >= this->size) growArray();   
+  if (this->num <= index) this->num = index + 1;
+  return this->array[index];
+}
+
+template <class T> inline T 
+dimeArray<T>::operator [](const int index) const
+{
+  return this->array[index];
+}
+
+template <class T> inline void 
+dimeArray<T>::removeElem(const int index)
+{
+  if (this->num <= 0 || index >= this->num) return; 
+  for (int i = index; i < this->num-1; i++)
+    this->array[i] = this->array[i+1];
+  this->num--;
+}
+
+template <class T> inline void 
+dimeArray<T>::removeElemFast(const int index)
+{
+  this->array[index] = this->array[--this->num];
+}
+
+template <class T> inline void 
+dimeArray<T>::reverse()
+{
+  T tmp;
+  for (int i=0;i<this->num/2;i++) {
+    tmp=this->array[i];
+    this->array[i]=this->array[this->num-1-i];
+    this->array[this->num-1-i]=tmp;
+  }
+}
+
+template <class T> inline void 
+dimeArray<T>::setCount(const int count)
+{
+  if (count < this->num)
+    this->num = count;  
+}
+
+template <class T> inline int 
+dimeArray<T>::count() const
+{
+  return this->num;
+}
+
+template <class T> inline int 
+dimeArray<T>::allocSize() const
+{
+  return this->size;
+}
+
+template <class T> inline T *
+dimeArray<T>::arrayPointer()
+{
+  return this->array;
+}
+
+template <class T> inline const T *
+dimeArray<T>::constArrayPointer() const
+{
+  return this->array;
+}
+
+template <class T> inline void 
+dimeArray<T>::makeEmpty(const int initsize)
+{
+  delete [] this->array;
+  this->array = new T[initsize];
+  this->size = initsize;
+  this->num = 0; 
+}
+
+template <class T> inline void 
+dimeArray<T>::freeMemory()
+{
+  delete [] this->array;
+  this->array = NULL;
+  this->size = 0;
+  this->num = 0;
+}
+
+template <class T> inline void 
+dimeArray<T>::shrinkToFit()
+{
+  T *oldarray = this->array;
+  this->array = new T[this->num];
+  for (int i = 0; i < this->num; i++) this->array[i] = oldarray[i];
+  this->size = this->num;
+  delete [] oldarray;
+}
+
+#endif // ! DIME_ARRAY_H
+

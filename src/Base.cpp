@@ -1,0 +1,79 @@
+/**************************************************************************\
+ * 
+ *  FILE: Base.cpp
+ *
+ *  This source file is part of DIME.
+ *  Copyright (C) 1998-1999 by Systems In Motion.  All rights reserved.
+ *
+ *  This library is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License, version 2, as
+ *  published by the Free Software Foundation.  DO NOT MISTAKE THIS LICENSE
+ *  FOR THE GNU LGPL LICENSE.
+ *
+ *  This library is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License (the accompanying file named COPYING) for more
+ *  details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ **************************************************************************
+ *
+ *  If you need DIME for commercial purposes, you can contact Systems In
+ *  Motion about acquiring a commercial license.
+ *
+ *  Systems In Motion                                   http://www.sim.no/
+ *  Prof. Brochs gate 6                                       sales@sim.no
+ *  N-7030 Trondheim                                   Voice: +47 22114160
+ *  NORWAY                                               Fax: +47 67172912
+ *
+\**************************************************************************/
+
+/*!
+  \class dimeBase dime/Base.h
+  \brief The dimeBase class is the superclass for most classes in Dime.
+
+  dimeBase implements the \e new operator to enable use of the special-purpose
+  memory manager class, dimeMemHandler.  It also implements a simple run-time
+  type checking system.
+*/
+
+#include <dime/Base.h>
+#include <dime/util/MemHandler.h>
+#include <stdio.h>
+
+/*!
+  \fn int dimeBase::typeId() const
+  Must be implemented by all subclasses, and should return an unique id
+  for that class.
+*/
+
+/*!
+  Returns \e true if the object is of type \a typeid or is inherited 
+  from it. Function in base class checks whether \a thetypeid 
+  equals the virtual dimeBase::typeId() value or equals \e dimeBaseType.
+  Must be implemented by all subclasses that are superclasses of other
+  classes, and should check if \a thetypeid equals its typeId,
+  and then call its parent's isOfType function.  Leaf-classes
+  do not have to implement this method.
+*/
+
+bool 
+dimeBase::isOfType(const int thetypeid) const
+{
+  return this->typeId() == thetypeid ||
+    thetypeid == dimeBaseType;
+}
+
+void *
+dimeBase::operator new(size_t size, dimeMemHandler *memhandler, 
+		      const int alignment)
+{
+  if (memhandler)
+    return memhandler->allocMem(size, alignment);
+  else return ::operator new(size);
+}
+

@@ -1,0 +1,31 @@
+TODO for DIME
+
+Just to clarify something; the order of the items in the list and the
+priority we have given the items do not guarantee when (or even if) the
+items will be implemented.
+
+ *) Write more and better doxygen documentation comments.
+    [high priority]
+
+ *) Make a more robust run-time type checking system.
+    [high priority]
+    - shouldn't require client apps to be recompiled if new types are added
+    - maybe make it possible to override the "built-in" types
+    - must be in place before v1.0
+
+ *) Implement a (better) debug/warning/error system with callbacks
+    [high priority]
+
+ *) Use autoconf or some other configuration system
+    [medium priority]
+
+ *) Implement more of the entities, tables, etc. used by AutoCAD
+    [medium priority]
+
+ *) Add DXB and DWG file format support.
+    [low/medium priority]
+
+ *) Set up an open CVS server system to supplement ftp distribution.
+    [low priority]
+    - this will be a read-only server, most likely
+

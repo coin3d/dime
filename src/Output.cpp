@@ -1,0 +1,212 @@
+/**************************************************************************\
+ * 
+ *  FILE: Output.cpp
+ *
+ *  This source file is part of DIME.
+ *  Copyright (C) 1998-1999 by Systems In Motion.  All rights reserved.
+ *
+ *  This library is free software; you can redistribute it and/or modify it
+ *  under the terms of the GNU General Public License, version 2, as
+ *  published by the Free Software Foundation.  DO NOT MISTAKE THIS LICENSE
+ *  FOR THE GNU LGPL LICENSE.
+ *
+ *  This library is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License (the accompanying file named COPYING) for more
+ *  details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ **************************************************************************
+ *
+ *  If you need DIME for commercial purposes, you can contact Systems In
+ *  Motion about acquiring a commercial license.
+ *
+ *  Systems In Motion                                   http://www.sim.no/
+ *  Prof. Brochs gate 6                                       sales@sim.no
+ *  N-7030 Trondheim                                   Voice: +47 22114160
+ *  NORWAY                                               Fax: +47 67172912
+ *
+\**************************************************************************/
+
+/*!
+  \class dimeOutput dime/Output.h
+  \brief The dimeOutput class handles writing of DXF and DXB files.
+*/
+
+#include <dime/Output.h>
+
+/*!
+  \fn bool dimeOutput::writeHeader()
+  This method does nothing now, but if binary files are supported in the
+  future, it must be called.
+*/
+
+/*!
+  Constructor.
+*/
+
+dimeOutput::dimeOutput()
+  : fp( NULL ), binary( false ), callback( NULL ), callbackdata( NULL ),
+    aborted( false )
+{
+}
+
+/*!
+  Destructor.
+*/
+
+dimeOutput::~dimeOutput()
+{
+  if (this->fp) fclose(this->fp);
+}
+
+/*!
+  This method sets a callback function that is called with progress
+  information.  The first argument of the callback is a float in the
+  range between 0 and 1.  The second argument of the callback is the
+  void * \a cbdata argument.
+*/
+
+void 
+dimeOutput::setCallback(const int num_records, 
+		       int (*cb)(float, void *), void *cbdata)
+{
+  this->callback = cb;
+  this->callbackdata = cbdata;
+  this->numwrites = 0;
+  this->numrecords = num_records;
+}
+
+/*!
+  Sets the filename for the output file. The file will be opened,
+  and \e true is returned if all was ok.
+*/
+
+bool
+dimeOutput::setFilename(const char * const filename)
+{
+  this->fp = fopen(filename, "wb");
+  return (this->fp != NULL);
+}
+
+/*!
+  Sets binary (DXB) or ASCII (DXF) format.
+*/
+
+void
+dimeOutput::setBinary(const bool state)
+{
+  this->binary = state;
+}
+
+/*!
+  Returns if binary or ASCII will be used when writing.
+*/
+
+bool
+dimeOutput::isBinary() const
+{
+  return this->binary;
+}
+
+/*!
+  Writes a record group code to the file.
+*/
+
+bool
+dimeOutput::writeGroupCode(const int groupcode)
+{
+  if (this->aborted) return false;
+  if (this->callback && this->numrecords) {
+    if ((this->numwrites & 256) == 0) { 
+      this->aborted = !(bool)
+	callback((float)this->numwrites/(float)this->numrecords, 
+		 this->callbackdata);
+    }
+    this->numwrites++;
+  }
+#ifdef NDEBUG
+  return fprintf(this->fp, "%d\n", groupcode) > 0;
+#else // easier to read
+  return fprintf(this->fp, "   %d\n", groupcode) > 0;
+#endif
+}
+
+/*!
+  Writes an 8 bit integer to the file.
+*/
+
+bool
+dimeOutput::writeInt8(const int8 val)
+{
+  return fprintf(this->fp,"%d\n", (int)val) > 0;
+}
+
+/*!
+  Writes a 16 bit integer to the file.
+*/
+
+bool
+dimeOutput::writeInt16(const int16 val)
+{
+  return fprintf(this->fp,"%d\n", (int)val) > 0;
+}
+
+/*!
+  Writes a 32 bit integer to the file.
+*/
+
+bool
+dimeOutput::writeInt32(const int32 val)
+{
+  return fprintf(this->fp,"%d\n", (int)val) > 0;
+}
+
+/*!
+  Writes a single precision floating point number to the file.
+*/
+
+bool
+dimeOutput::writeFloat(const float val)
+{
+  return fprintf(this->fp,"%f\n", val) > 0;
+}
+
+/*!
+  Writes a double precision floating point number to the file.  
+*/
+
+bool
+dimeOutput::writeDouble(const dxfdouble val)
+{
+#if defined(__BEOS__)
+  return fprintf(this->fp,"%f\n", val) > 0;
+#else
+  // will (hopefully) be optimized by compiler.
+  if ( sizeof(dxfdouble) == sizeof(float) )
+    return fprintf(this->fp,"%f\n", (float) val) > 0;
+  return fprintf(this->fp,"%lf\n", (double) val) > 0;
+#endif
+}
+
+/*!
+  Writes a nul-terminated string to the file. 
+*/
+
+bool
+dimeOutput::writeString(const char * const str)
+{
+  return fprintf(this->fp, "%s\n", str) > 0;
+}
+
+int
+dimeOutput::getUniqueHandleId()
+{
+  // FIXME
+  return 1;
+}
+

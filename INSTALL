@@ -1,0 +1,46 @@
+This file describes the compilation and installation procedure for Dime.
+
+COMPILATION
+===========
+
+Compilation of DIME is managed through the use of make and makefiles.
+Project files for the various proprietary C/C++ IDEs that exist are not
+included now, and they are not very likely to be included in the future
+either unless there is real demand for it.  Creating one's own project
+file should not be too much of a problem, though, as the compilation is
+very straight-forwards.
+
+In-house development is done through the use of tmake and tmake project
+files.  The setup for tmake is available under the build-tmake/ directory.
+If you have set up tmake correctly for your own system, building DIME
+from build-tmake/ should be problem-free.
+
+Since tmake is not a standard widespread development utility, another
+makefile is provided, which is available under build/.  It does not depend
+on tmake, but instead on your ability to tweak makefiles.  Not too much
+tweaking should be needed, though.
+
+If you are interested in adding support for reading gzip-compressed files,
+add the define USE_GZLIB to the makefile, ensure that zlib.h is in the
+include path, and that libdime is linked against libz.
+
+
+INSTALLATION
+============
+
+If you compile DIME as a shared library, it must be installed somewhere
+where the system will search for it.  For most unix variants, that means
+installing it under /lib, /usr/lib, /usr/local/lib, or maybe some special
+location that is included in the LD_LIBRARY_PATH environment variable.
+At the time being (before version 1.0 is released) we don't recommend
+installing or using DIME as a shared library as the API may change somewhat.
+
+As a static library, DIME must be installed somewhere where your compiler
+can find it and link applications with it.  For most unix variants, this
+can typically be the same locations that is used for shared libraries, or
+somewhere under the project that needs the library.
+
+You must also install the DIME header files somewhere where they will be
+found by the compiler for any projects using DIME.
+
+
