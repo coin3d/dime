@@ -28,6 +28,9 @@
 // define this to create dime3DFace, otherwise dimeLine will be used. 
 #define DXFSPHERE_FILLED 1
 
+// define this to use UnknownEntity instead of dime3DFace
+// #define DXFSPHERE_USE_UNKNOWNENTITY 1
+
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>
@@ -41,6 +44,7 @@
 #include <dime/tables/Table.h>
 #include <dime/entities/3DFace.h>
 #include <dime/entities/Line.h>
+#include <dime/entities/UnknownEntity.h>
 #include <dime/Output.h>
 #include <dime/util/Linear.h>
 
@@ -412,7 +416,7 @@ void print_object(object * obj, int level, dimeModel & model, const char * layer
 /* Output a triangle */
 void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer)
 {
-#ifdef DXFSPHERE_FILLED
+#if defined(DXFSPHERE_FILLED) && !defined(DXFSPHERE_USE_UNKNOWNENTITY)
   // filled, create dime3DFace
   int i;
 
@@ -441,7 +445,51 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer)
 
   // DIME: add entity to model
   model.addEntity(face);
-#else // DXFSPHERE_FILLED
+#elif defined(DXFSPHERE_USE_UNKNOWNENTITY)
+
+  // DIME: create a dimeUnknownEntity, and set it to contain a triangle
+  dimeUnknownEntity * face = new dimeUnknownEntity("3DFACE", NULL);
+  if (layer) {
+    face->setLayer(layer);
+  }
+  dimeParam param;
+
+  // 10,20,30 is the first vertex
+  // 11,21,31 is the second vertex
+  // 12,22,32 is the third vertex
+  for (int i = 0; i < 3; i++) {
+    param.double_data = t->pt[i].x;
+    face->setRecord(i + 10, param);
+
+    param.double_data = t->pt[i].y;
+    face->setRecord(i + 20, param);
+
+    param.double_data = t->pt[i].z;
+    face->setRecord(i + 30, param);    
+  }
+  // to make 3DFACE contain a triangle and not a quad, the fourth
+  // vertex must be equal to the third. We therefore iterate from 0 to
+  // 4, but clamp the index when fetching the vertex from the triangle
+  // structure.
+  param.double_data = t->pt[2].x;
+  face->setRecord(13, param);
+  param.double_data = t->pt[2].y;
+  face->setRecord(23, param);
+  param.double_data = t->pt[2].z;
+  face->setRecord(33, param);
+
+  // DIME: create a unique handle for this entity.
+  const int BUFSIZE = 1024;
+  char buf[BUFSIZE];
+  const char * handle = model.getUniqueHandle(buf, BUFSIZE);
+  
+  param.string_data = handle;
+  face->setRecord(5, param);
+
+  // DIME: add entity to model
+  model.addEntity(face);
+
+#else
   // create three dimeLine entities to represent the triangle
   int i;
   for (i = 0; i < 3; i++) {
