@@ -110,8 +110,8 @@ install_sh = @install_sh@
 DXF2VRMLDIR = dxf2vrml
 DXFSPHEREDIR = dxfsphere
 
-@BUILD_WITH_MSVC_TRUE@EXAMPLEPROGDIRS = $(DXF2VRMLDIR) $(DXFSPHEREDIR)
-@BUILD_WITH_MSVC_FALSE@EXAMPLEPROGDIRS = 
+@BUILD_WITH_MSVC_TRUE@EXAMPLEPROGDIRS = 
+@BUILD_WITH_MSVC_FALSE@EXAMPLEPROGDIRS = $(DXF2VRMLDIR) $(DXFSPHEREDIR)
 
 SUBDIRS = src $(EXAMPLEPROGDIRS)
 subdir = .
@@ -444,6 +444,9 @@ uninstall-info: uninstall-info-recursive
 	uninstall uninstall-am uninstall-info-am \
 	uninstall-info-recursive uninstall-recursive
 
+
+cvs-update:
+	@cd $(top_srcdir) && cvs update -dP
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
