@@ -304,8 +304,12 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1,
     else {
       fprintf(fp, 
               "    Shape {\n"
+              "      appearance Appearance {\n"
+              "        material Material {\n"
+              "          emissiveColor %g %g %g\n"
+              "        }\n"
+              "      }\n"
               "      geometry IndexedLineSet {\n"
-              "        color Color { color %g %g %g }\n"
               "        coord Coordinate {\n"
               "          point [\n", r, g, b);
     }
@@ -362,8 +366,12 @@ dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1,
     else {
       fprintf(fp, 
               "    Shape {\n"
+              "      appearance Appearance {\n"
+              "        material Material {\n"
+              "          emissiveColor %g %g %g\n"
+              "        }\n"
+              "      \n"
               "      geometry PointSet {\n"
-              "        color Color { color %g %g %g }\n"
               "        coord Coordinate {\n"
               "          point [\n", r, g, b);
     }
