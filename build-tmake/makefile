@@ -23,10 +23,13 @@ screen:
 	"\033[0m";
 
 dime: static
+dime_mt: static_mt
 
 static: makefile.release .release
+static_mt: makefile.release_mt .release_mt
 
 shared: makefile.dime .dime
+shared_mt: makefile.dime_mt .dime_mt
 
 objects:
 	mkdir $@
@@ -38,19 +41,31 @@ releaseobjects:
 	@$(MAKE) -f makefile.dime
 
 makefile.dime: dime.pro common.pro
-	tmake -o makefile.dime -p common.pro dime.pro
+	tmake -o makefile.dime dime.pro common.pro
+
+.dime_mt: objects
+	@$(MAKE) -f makefile.dime_mt
+
+makefile.dime_mt: mt.pro dime.pro common.pro
+	tmake -o makefile.dime_mt dime.pro mt.pro common.pro
 
 .release: releaseobjects
 	@$(MAKE) -f makefile.release
 
-makefile.release: release.pro
-	tmake -o makefile.release -p common.pro release.pro
+makefile.release: release.pro common.pro
+	tmake -o makefile.release release.pro common.pro
 
-clean: makefile.dime makefile.release
+.release_mt: releaseobjects
+	@$(MAKE) -f makefile.release_mt
+
+makefile.release_mt: mt.pro release.pro common.pro
+	tmake -o makefile.release_mt release.pro mt.pro common.pro
+
+clean: makefile.dime makefile.release makefile.dime_mt makefile.release_mt
 	@$(MAKE) -f makefile.dime clean
 	@$(MAKE) -f makefile.release clean
+	@$(MAKE) -f makefile.dime_mt clean
+	@$(MAKE) -f makefile.release_mt clean
 
 veryclean: clean
 	rm makefile.dime makefile.release
-	rm -rf objects releaseobjects
-
