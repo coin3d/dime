@@ -76,6 +76,29 @@ libdimeinc_HEADERS = \
 	../include/dime/RecordHolder.h \
 	../include/dime/State.h
 
+install-data-local:
+	@$(NORMAL_INSTALL)
+	@basename="dime@DIME_MAJOR_VERSION@@SUFFIX@"; \
+	for ext in lib; do \
+	  file="$$basename.$$ext"; \
+	  if test -f "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(libdir)"; \
+	    echo " $(INSTALL_DATA)" "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(libdir)/$$file"; \
+	  fi \
+	done;
+
+install-exec-local:
+	@basename="dime@DIME_MAJOR_VERSION@@SUFFIX@"; \
+	for ext in dll pdb; do \
+	  file="$$basename.$$ext"; \
+	  if test -f "$$file"; then \
+	    $(mkinstalldirs) "$(DESTDIR)$(bindir)"; \
+	    echo " $(INSTALL_PROGRAM)" "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	    $(INSTALL_PROGRAM) "$$file" "$(DESTDIR)$(bindir)/$$file"; \
+	  fi \
+	done
+
 install-libdimeincHEADERS: $(libdimeinc_HEADERS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdimeincdir)
@@ -93,4 +116,35 @@ uninstall-libdimeincHEADERS:
 	  echo " rm -f $(DESTDIR)$(libdimeincdir)/$$f"; \
 	  rm -f $(DESTDIR)$(libdimeincdir)/$$f; \
 	done
+
+uninstall-local:
+	@basename="dime@DIME_MAJOR_VERSION@@SUFFIX@"; \
+	for file in \
+	  "$(DESTDIR)$(bindir)/$$basename.dll" \
+	  "$(DESTDIR)$(bindir)/$$basename.pdb" \
+	  "$(DESTDIR)$(libdir)/$$basename.lib"; do \
+	  if test -f "$$file"; then \
+	    echo " rm -f" "$$file"; \
+	    rm -f "$$file"; \
+	  fi \
+	done; \
+	baseincdir="$(DESTDIR)$(libdimeincdir)"; \
+	for dir in \
+	  "$$baseincdir/VRMLnodes" \
+	  "$$baseincdir/actions" \
+	  "$$baseincdir/classes" \
+	  "$$baseincdir/convert" \
+	  "$$baseincdir/entities" \
+	  "$$baseincdir/objects" \
+	  "$$baseincdir/records" \
+	  "$$baseincdir/sections" \
+	  "$$baseincdir/tables" \
+	  "$$baseincdir/util" \
+	  "$$baseincdir"; do \
+	  if test -d "$$dir"; then \
+	    echo " rmdir $$dir"; \
+	    rmdir "$$dir" || exit 1; \
+	  fi \
+	done; \
+	:
 
