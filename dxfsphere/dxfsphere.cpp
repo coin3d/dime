@@ -44,7 +44,8 @@
 #include <dime/Output.h>
 #include <dime/util/Linear.h>
 
-#define LAYERNAME "MYLAYER" // Layernames can't have spaces
+#define LAYERNAME1 "MYLAYER1" // Layernames can't have spaces
+#define LAYERNAME2 "MYLAYER2" // Layernames can't have spaces
 
 class point {
 public:
@@ -176,6 +177,24 @@ void flip_object(object * obj);
 void print_object(object * obj, int level, dimeModel & model, const char * layername);
 void print_triangle(triangle *t, dimeModel & model, const dimeLayer * layer);
 
+static void
+add_layer(const char * name, int colnum, dimeModel * model, dimeTable * layers)
+{
+  dimeLayerTable * layer = new dimeLayerTable;
+  layer->setLayerName(name, NULL);
+  layer->setColorNumber(colnum); // the color numbers are defined in dime/Layer.cpp.
+
+  // need to set some extra records so that AutoCAD will stop
+  // complaining
+  dimeParam param;
+  param.string_data = "CONTINUOUS";
+  layer->setRecord(6, param);
+  param.int16_data = 64;
+  layer->setRecord(70, param);
+  layer->registerLayer(model); // important, register layer in model
+  layers->insertTableEntry(layer);
+}
+
 int
 main(int ac, char ** av)
 {
@@ -230,25 +249,13 @@ main(int ac, char ** av)
     dimeTablesSection * tables = new dimeTablesSection;
     model.insertSection(tables);
     
-    // DIME: set up our layer
-    dimeLayerTable * layer = new dimeLayerTable;
-    layer->setLayerName(LAYERNAME, NULL);
-    layer->setColorNumber(16); // the color numbers are defined in dime/Layer.cpp.
-
-    // need to set some extra records so that AutoCAD will stop
-    // complaining
-    dimeParam param;
-    param.string_data = "CONTINUOUS";
-    layer->setRecord(6, param);
-    param.int16_data = 64;
-    layer->setRecord(70, param);
-
-    layer->registerLayer(&model); // important, register layer in model
-    
-    // DIME: set up a layer table to store our layer
+    // DIME: set up a layer table to store our layers
     dimeTable * layers = new dimeTable(NULL);
-    layers->insertTableEntry(layer);
     
+    // DIME: set up our layers
+    add_layer(LAYERNAME1, 16, &model, layers);
+    add_layer(LAYERNAME2, 8, &model, layers);
+
     // DIME: insert the layer in the table
     tables->insertTable(layers); 
   }
@@ -339,7 +346,7 @@ main(int ac, char ** av)
   }
   
   /* Print out resulting approximation */
-  print_object(old, maxlevel, model, LAYERNAME);
+  print_object(old, maxlevel, model, LAYERNAME1);
 
   // DIME: write the model to file
   model.write(&out);
