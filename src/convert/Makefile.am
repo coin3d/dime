@@ -13,7 +13,7 @@ endif
 ## headers.
 
 ConvertSources = \
-	3dface.cpp \
+	convert3dface.cpp \
 	arc.cpp \
 	circle.cpp \
 	convert.cpp \
