@@ -104,6 +104,74 @@ typedef union {
   const char *hex_data;
 } dimeParam;
 
-#define DIME_DLL_API
+/* ********************************************************************** */
+/* Precaution to avoid an some errors easily made by the application
+   programmer. */
+
+#ifdef DIME_DLL_API
+# error Leave the internal DIME_DLL_API define alone.
+#endif /* DIME_DLL_API */
+#ifdef DIME_INTERNAL
+# ifdef DIME_NOT_DLL
+#  error The DIME_NOT_DLL define is not supposed to be used when building the library, only when building Win32 applications.
+# endif /* DIME_INTERNAL && DIME_NOT_DLL */
+# ifdef DIME_DLL
+#  error The DIME_DLL define is not supposed to be used when building the library, only when building Win32 applications.
+# endif /* DIME_INTERNAL && DIME_DLL */
+#endif /* DIME_INTERNAL */
+
+/*
+  On MSWindows platforms, one of these defines must always be set when
+  building application programs:
+
+   - "DIME_DLL", when the application programmer is using the library
+     in the form of a dynamic link library (DLL)
+
+   - "DIME_NOT_DLL", when the application programmer is using the
+     library in the form of a static object library (LIB)
+
+  Note that either DIME_DLL or DIME_NOT_DLL _must_ be defined by the
+  application programmer on MSWindows platforms, or else the #error
+  statement will hit. Set up one or the other of these two defines in
+  your compiler environment according to how the library was built --
+  as a DLL (use "DIME_DLL") or as a LIB (use "DIME_NOT_DLL").
+
+  (Setting up defines for the compiler is typically done by either
+  adding something like "/DDIME_DLL" to the compiler's argument line
+  (for command-line build processes), or by adding the define to the
+  list of preprocessor symbols in your IDE GUI (in the MSVC IDE, this
+  is done from the "Project"->"Settings" menu, choose the "C/C++" tab,
+  then "Preprocessor" from the dropdown box and add the appropriate
+  define)).
+
+  It is extremely important that the application programmer uses the
+  correct define, as using "DIME_NOT_DLL" when "DIME_DLL" is correct
+  will cause mysterious crashes.
+ */
+/* FIXME: use a feature check to see if this is a platform which can
+   recognize the __declspec keyword instead of the crap #if below.
+   20011201 mortene. */
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+# ifdef DIME_INTERNAL
+#  ifdef DIME_MAKE_DLL
+#   define DIME_DLL_API __declspec(dllexport)
+#  endif /* DIME_MAKE_DLL */
+# else /* !DIME_INTERNAL */
+#  ifdef DIME_DLL
+#   define DIME_DLL_API __declspec(dllimport)
+#  else /* !DIME_DLL */
+#   ifndef DIME_NOT_DLL
+#    error Define either DIME_DLL or DIME_NOT_DLL as appropriate for your linkage! See Inventor/SbBasic.h for further instructions.
+#   endif /* DIME_NOT_DLL */
+#  endif /* !DIME_DLL */
+# endif /* !DIME_INTERNAL */
+#endif /* Microsoft Windows */
+
+/* Empty define to avoid errors when _not_ compiling an MSWindows DLL. */
+#ifndef DIME_DLL_API
+# define DIME_DLL_API
+#endif /* !DIME_DLL_API */
+
+/* ********************************************************************** */
 
 #endif // !DIME_BASIC_H
