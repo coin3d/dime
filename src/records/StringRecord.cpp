@@ -54,7 +54,7 @@ dimeStringRecord::dimeStringRecord(const int group_code)
 
 dimeStringRecord::~dimeStringRecord()
 {
-  delete this->string;
+  delete[] this->string;
 }
 
 //!
