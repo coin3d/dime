@@ -25,7 +25,3 @@ items will be implemented.
  *) Add DXB and DWG file format support.
     [low/medium priority]
 
- *) Set up an open CVS server system to supplement ftp distribution.
-    [low priority]
-    - this will be a read-only server, most likely
-
