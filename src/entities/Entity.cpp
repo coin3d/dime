@@ -205,9 +205,6 @@ dimeEntity *
 dimeEntity::createEntity(const char * const name, 
 			 dimeMemHandler * const memhandler)
 {
-#ifndef NDEBUG
-  //fprintf(stderr,"Entity: %s\n", name);
-#endif
   //
   // TODO: optimize 
   //
@@ -271,7 +268,6 @@ dimeEntity::readEntities(dimeInput * const file,
   while (true) {
     if (!file->readGroupCode(groupcode) || groupcode != 0) {
       fprintf(stderr,"Error reading groupcode: %d\n", groupcode);
-//      sim_warning("Error reading groupcode: %d\n", groupcode);
       ok = false;
       break;
     }
@@ -280,13 +276,11 @@ dimeEntity::readEntities(dimeInput * const file,
     entity = dimeEntity::createEntity(string, memhandler);
     if (entity == NULL) {
       fprintf(stderr,"error creating entity: %s\n", string);
-//      sim_warning("error creating entity: %s\n", string);
       ok = false;
       break;
     }
     if (!entity->read(file)) {
       fprintf(stderr,"error reading entity: %s.\n", string);
-//      sim_warning("error reading entity: %s.\n", string);
       ok = false;
       break;
     }
@@ -590,9 +584,6 @@ dimeEntity::handleRecord(const int groupcode,
     // Checking flag just to be safe...
     if (this->entityFlags & FLAG_TMP_BUFFER_SET) {
       strncpy((char*)this->layer, param.string_data, TMP_BUFFER_LEN);
-#ifndef NDEBUG
-      //      fprintf(stderr,"entity layer: %s\n", param.string_data);
-#endif
     }
     else assert(0);
     return true;

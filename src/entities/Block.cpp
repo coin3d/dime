@@ -169,12 +169,13 @@ dimeBlock::read(dimeInput * const file)
     this->entities.shrinkToFit(); // don't waste too much memory
   }
 
+#ifndef NDEBUG
   dimeParam param;
   if (getRecord(67, param) && param.int16_data == 1) {
     fprintf(stderr,"paperspace block name: %s\n", 
 	    ((dimeBlock*)this)->getName());
   }
-  
+#endif
   return ret;
 }
 

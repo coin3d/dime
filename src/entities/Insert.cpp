@@ -440,13 +440,8 @@ dimeInsert::fixReferences(dimeModel * const model)
 {
   if (this->block == NULL) {
     this->block = (dimeBlock*)model->findReference(this->blockName);
-    if (this->block) {
-      //      fprintf(stderr,"forward reference fixed: %s -> %p\n", blockName, block);
-//      sim_warning("forward reference fixed: %s -> %p\n", blockName, block);
-    }
-    else {
-      fprintf(stderr,"BLOCK %s not found!!!!!!\n", blockName);
-//      sim_warning("BLOCK %s not found!!!!!!\n", blockName);
+    if (this->block == NULL) {
+      fprintf(stderr,"BLOCK %s not found!\n", blockName);
     }
   }
   for (int i = 0; i < this->numEntities; i++)

@@ -214,9 +214,6 @@ dimePolyline::read(dimeInput * const file)
     }
     int n = array.count();
     if (ret && n) {
-#if 0
-      fprintf(stderr,"polyline: %d %d %d\n", idxcnt, vcnt, framecnt);
-#endif
       if (idxcnt) {
 	this->indexVertices = ARRAY_NEW(memhandler, dimeVertex*, idxcnt);
 	if (!this->indexVertices) ret = false;

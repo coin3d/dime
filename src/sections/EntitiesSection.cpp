@@ -94,7 +94,6 @@ dimeEntitiesSection::copy(dimeModel * const model) const
     if (!memh) delete es;
     es = NULL;
   }
-//  sim_trace("entities section copy: %p\n", es);
   return es;
 }
 
@@ -110,27 +109,23 @@ dimeEntitiesSection::read(dimeInput * const file)
   dimeMemHandler *memhandler = file->getMemHandler();
   this->entities.makeEmpty(1024);
 
-//  sim_trace("Reading section: ENTITIES\n");
-
   while (true) {
     if (!file->readGroupCode(groupcode) || groupcode != 0) {
       fprintf( stderr, "Error reading groupcode: %d.\n", groupcode);
-//      sim_warning("Error reading groupcode: %d.\n", groupcode);
       ok = false;
       break;
     }
     string = file->readString();
-    if (!strcmp(string, "ENDSEC")) break; 
+    if (!strcmp(string, "ENDSEC")) break;
+
     entity = dimeEntity::createEntity(string, memhandler);
     if (entity == NULL) {
       fprintf( stderr, "Error creating entity: %s.\n", string);
-//      sim_warning("error creating entity: %s.\n", string);
       ok = false;
       break;
     }
     if (!entity->read(file)) {
       fprintf( stderr, "Error reading entity: %s.\n", string);
-//      sim_warning("error reading entity: %s.\n", string);
       ok = false;
       break;
     }

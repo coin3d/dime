@@ -83,8 +83,6 @@ dimeBlocksSection::copy(dimeModel * const model) const
 bool 
 dimeBlocksSection::read(dimeInput * const file)
 {
-//  sim_trace("reading BLOCKS section\n");
-
   int32 groupcode;
   const char *string;
   bool ok = true;
@@ -94,7 +92,6 @@ dimeBlocksSection::read(dimeInput * const file)
   while (true) {
     if (!file->readGroupCode(groupcode) || groupcode != 0) {
       fprintf( stderr, "Error reading groupcode: %d\n", groupcode);
-//      sim_warning("Error reading groupcode: %d\n", groupcode);
       ok = false;
       break;
     }
@@ -102,20 +99,17 @@ dimeBlocksSection::read(dimeInput * const file)
     if (!strcmp(string, "ENDSEC")) break;
     if (strcmp(string, "BLOCK")) {
       fprintf( stderr, "Unexpected string.\n");
-//      sim_warning("unexpected string.\n");
       ok = false;
       break;
     }
     block = (dimeBlock*)dimeEntity::createEntity(string, memhandler);
     if (block == NULL) {
       fprintf(stderr, "error creating block: %s\n", string);
-      //      sim_warning("error creating block: %s\n", string);
       ok = false;
       break;
     }
     if (!block->read(file)) {
       fprintf(stderr,"error reading block: %s.\n", string);
-//      sim_warning("error reading block: %s.\n", string);
       ok = false;
       break;
     }
@@ -131,7 +125,6 @@ dimeBlocksSection::read(dimeInput * const file)
 bool 
 dimeBlocksSection::write(dimeOutput * const file)
 {
-//  sim_trace("writing BLOCKS section.\n");
   if (file->writeGroupCode(2) && file->writeString(sectionName)) {
     int i;
     for (i = 0; i < this->blocks.count(); i++) {

@@ -141,10 +141,6 @@ dimeUnknownSection::read(dimeInput * const file)
 bool 
 dimeUnknownSection::write(dimeOutput * const file)
 {
-#ifndef NDEBUG
-  fprintf(stderr,"Writing section: %s\n", sectionName);
-#endif
-
   if (file->writeGroupCode(2) && file->writeString(this->sectionName)) {
     int i;
     for (i = 0; i < this->numRecords; i++) {

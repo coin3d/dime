@@ -198,7 +198,6 @@ dimeLWPolyline::handleRecord(const int groupcode,
 	const int num = this->numVertices;
 	if (num <= 0) {
 	  fprintf(stderr,"LWPOLYLINE shouldn't have any vertices, but still found one!\n");
-//	  sim_warning("LWPOLYLINE shouldn't have any vertices, but still found one!\n");
 	  return true; // data is "handled" so... 
 	}
 	this->xcoord = ARRAY_NEW(mh, dxfdouble, num);
@@ -254,12 +253,10 @@ dimeLWPolyline::handleRecord(const int groupcode,
       }
       if (this->tmpCounter >= this->numVertices) {
 	fprintf(stderr,"too many vertices in LWPOLYLINE!\n");
-//	sim_warning("too many vertices in LWPOLYLINE!\n");
 	return true;
       }
       if (arrayptr == NULL) {
 	fprintf(stderr,"illegal data found in LWPOLYLINE.\n");
-//	sim_warning("illegal data found in LWPOLYLINE.\n");
 	return true;
       }
       this->tmpFlags |= flagmask;
