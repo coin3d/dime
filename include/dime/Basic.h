@@ -41,10 +41,11 @@
 // scientific calculations should typedef this to double
 typedef float dxfdouble;
 
-#ifdef _WIN32
-#include "float.h"
-#define M_PI 3.14159265357989
-#endif
+#include <float.h>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif // !M_PI
 
 #define DXFABS(x) ((x)<0?-(x):(x))
 #define DXFMAX(x,y) ((x)>(y)?(x):(y))
