@@ -162,9 +162,11 @@ dimeLayerTable::setLayerName(const char * name, dimeMemHandler * const memhandle
 {
   /* FIXME: there are probably other characters aswell that are not
      allowed in layer names -- we should catch those too. 20030322 mortene */
+#if 0 // disable this test, too strict. pederb, 2005-03-31
   assert((strchr(name, (int)' ') == NULL) &&
          "space characters not allowed in layer names");
-
+#endif // disabled
+  
   if (this->layerName && memhandler == NULL) {
     delete this->layerName;
   }
