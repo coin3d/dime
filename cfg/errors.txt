@@ -22,6 +22,14 @@ Did you perhaps forget to set up the environment variable QTDIR to the
 base of the Qt installation directory? Or if it was already set up,
 double check to see that it is pointing at the correct directory.
 
+!no-uic3
+Found no manner in which the Qt4 ''uic3'' utility could be run. Make
+sure Qt4 is properly installed on your system.
+
+Did you perhaps forget to set up the environment variable QTDIR to the
+base of the Qt installation directory? Or if it was already set up,
+double check to see that it is pointing at the correct directory.
+
 !no-qt
 Could not find any way to build against the Qt library. If you
 are sure Qt is properly installed on your system, see the file
@@ -78,6 +86,13 @@ Cygwin environment.  Read the file <srcdir>/README.WIN32.
 If you are absolutely sure you want to attempt to run the configure script
 and the build process without Microsoft Visual C++, and you know what you
 are doing, use the ''--disable-msvc'' option to configure.
+
+!cygwin-link
+Cygwin's /usr/bin/link tool is earlier in the shell's PATH than MSVC's
+link.exe.  Building would fail in the final stage because of this.
+
+Fix your PATH variable so the MSVC link.exe program is found instead
+of Cygwin's /usr/bin/link and re-run configure.
 
 !c--inlinefor
 This C++ compiler (\"$CXX\") does not seem to be capable of compiling
@@ -231,6 +246,11 @@ Could not build against the SmallChange library. If you are sure
 SmallChange is properly installed on your system, see the file
 config.log to find out what went wrong.
 
+!simaruba-unavailable
+Could not build against the SIM Aruba library. If you are sure
+SIM Aruba is properly installed on your system, see the file
+config.log to find out what went wrong.
+
 !simvoleon-unavailable
 Could not build against the SimVoleon library. If you are sure
 SimVoleon is properly installed on your system, see the file
@@ -240,5 +260,12 @@ config.log to find out what went wrong.
 Could not build against the SoQt library. If you are sure
 SoQt is properly installed on your system, see the file
 config.log to find out what went wrong.
+
+!spidermonkey-unavailable
+
+Could not build against the SpiderMoneky library. Make sure the path
+specified by --with-spidermonkey is correct. See the file config.log
+for more information on what went wrong.
+
 
 !end
