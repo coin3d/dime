@@ -543,6 +543,39 @@ dimeInput::readString()
 }
 
 /*!
+ Special version of readString() that does not skip leading blanks.
+ This is used for reading TEXT primary values, group_code = 1.
+*/
+
+const char *
+dimeInput::readStringNoSkip()
+{
+    char c;
+    int idx = 0;
+#if 0     
+    if (this->binary) {
+      if (!get(c)) return NULL;
+      if (c != 0) lineBuf[idx++] = c;
+    }
+#endif
+    while (get(c) && c != 0xa && c != 0xd && c != 0 && idx < DXF_MAXLINELEN) {
+      lineBuf[idx++] = c;
+    }
+    if (c == 0xa) this->putBack(c);
+    else if (c == 0xd) this->putBack(c);
+    this->nextLine();
+    this->lineBuf[idx] = '\0';
+
+    if (this->prevwashandle) {
+      this->prevwashandle = false;
+      if (this->model) {
+	this->model->registerHandle(this->lineBuf);
+      }
+    }
+    return this->lineBuf;
+}
+
+/*!
   Returns the memory handler used in this model.
 */
 

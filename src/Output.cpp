@@ -184,7 +184,14 @@ dimeOutput::writeInt32(const int32 val)
 bool
 dimeOutput::writeFloat(const float val)
 {
-  return fprintf(this->fp, "%g\n", val);
+  // Check for integer value, force decimal and one zero.
+  if( fabsf( val ) < 1000000.0 && floorf( val ) == val ) {
+    return fprintf(this->fp, "%.1f\n", val);
+  }
+  else {
+    return fprintf(this->fp, "%g\n", val);
+//    return fprintf(this->fp, "%#f\n", val);
+  }
 }
 
 /*!
@@ -194,10 +201,14 @@ dimeOutput::writeFloat(const float val)
 bool
 dimeOutput::writeDouble(const dxfdouble val)
 {
-  // %g somehow leaves out a digit when writing single precision floats
-  if (sizeof(dxfdouble) == sizeof(float))
-    return fprintf(this->fp,"%.7g\n", val) > 0;
-  return fprintf(this->fp,"%g\n", val) > 0;
+  // Check for integer value, force decimal and one zero.
+  if( fabs( val ) < 1000000.0 && floor( val ) == val ) {
+    return fprintf(this->fp, "%.1f\n", val);
+  }
+  else {
+    return fprintf(this->fp,"%g\n", val) > 0;
+//    return fprintf(this->fp,"%#f\n", val) > 0;
+  }
 }
 
 /*!

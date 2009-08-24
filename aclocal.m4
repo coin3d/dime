@@ -205,7 +205,7 @@ while test $sim_ac_num_settings -ge 0; do
   sim_ac_description=`echo "$sim_ac_setting" | cut -d: -f1`
   sim_ac_status=`echo "$sim_ac_setting" | cut -d: -f2-`
   # hopefully not too many terminals are too dumb for this
-  echo -e "$sim_ac_padding $sim_ac_status\r  $sim_ac_description:"
+  printf "$sim_ac_padding $sim_ac_status\r  $sim_ac_description:\n"
   sim_ac_configuration_settings=`echo $sim_ac_configuration_settings | cut -d"|" -f2-`
   sim_ac_num_settings=`expr $sim_ac_num_settings - 1`
 done
@@ -247,15 +247,51 @@ AC_ARG_ENABLE([msvc],
 ])
 
 # **************************************************************************
+# Usage:
+#  SIM_AC_MSC_VERSION
+#
+# Find version number of the Visual C++ compiler. sim_ac_msc_version will
+# contain the full version number string, and sim_ac_msc_major_version
+# will contain only the Visual C++ major version number and
+# sim_ac_msc_minor_version will contain the minor version number.
 
-AC_DEFUN([SIM_AC_MSVC_VERSION], [
-AC_MSG_CHECKING([Visual Studio C++ version])
-AC_TRY_COMPILE([],
-  [long long number = 0;],
-  [sim_ac_msvc_version=7]
-  [sim_ac_msvc_version=6])
-AC_MSG_RESULT($sim_ac_msvc_version)
-])
+AC_DEFUN([SIM_AC_MSC_VERSION], [
+
+AC_MSG_CHECKING([version of Visual C++ compiler])
+
+cat > conftest.c << EOF
+int VerMSC = _MSC_VER;
+EOF
+
+# The " *"-parts of the last sed-expression on the next line are necessary
+# because at least the Solaris/CC preprocessor adds extra spaces before and
+# after the trailing semicolon.
+sim_ac_msc_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerMSC' | sed 's%^int VerMSC = %%' | sed 's% *;.*$%%'`
+
+sim_ac_msc_minor_version=0
+if test $sim_ac_msc_version -ge 1500; then
+  sim_ac_msc_major_version=9
+elif test $sim_ac_msc_version -ge 1400; then
+  sim_ac_msc_major_version=8
+elif test $sim_ac_msc_version -ge 1300; then
+  sim_ac_msc_major_version=7
+  if test $sim_ac_msc_version -ge 1310; then
+    sim_ac_msc_minor_version=1
+  fi
+elif test $sim_ac_msc_version -ge 1200; then
+  sim_ac_msc_major_version=6
+elif test $sim_ac_msc_version -ge 1100; then
+  sim_ac_msc_major_version=5
+else
+  sim_ac_msc_major_version=0
+fi
+
+# compatibility with old version of macro
+sim_ac_msvc_version=$sim_ac_msc_major_version
+
+rm -f conftest.c
+AC_MSG_RESULT($sim_ac_msc_major_version.$sim_ac_msc_minor_version)
+]) # SIM_AC_MSC_VERSION
 
 # **************************************************************************
 # Note: the SIM_AC_SETUP_MSVC_IFELSE macro has been OBSOLETED and
@@ -284,9 +320,6 @@ if $sim_ac_try_msvc; then
       export CC CXX
       BUILD_WITH_MSVC=true
       AC_MSG_RESULT([working])
-
-      # FIXME: why is this here, larsa? 20050714 mortene.
-      # SIM_AC_MSVC_VERSION
 
       # Robustness: we had multiple reports of Cygwin ''link'' getting in
       # the way of MSVC link.exe, so do a little sanity check for that.

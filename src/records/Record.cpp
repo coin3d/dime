@@ -384,7 +384,12 @@ dimeRecord::readRecordData(dimeInput * const in, const int group_code,
     ret = in->readDouble(param.double_data);
     break;
   case dimeBase::dimeStringRecordType:
-    param.string_data = in->readString();
+    if( group_code == 1 ) {
+      param.string_data = in->readStringNoSkip();
+    }
+    else {
+      param.string_data = in->readString();
+    }
     ret = param.string_data != NULL;
     break;
   case dimeBase::dimeHexRecordType:

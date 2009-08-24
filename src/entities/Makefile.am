@@ -30,7 +30,8 @@ EntitiesSources = \
 	Spline.cpp Spline.h \
 	Trace.cpp Trace.h \
 	UnknownEntity.cpp UnknownEntity.h \
-	Vertex.cpp Vertex.h
+	Vertex.cpp Vertex.h \
+	Text.cpp Text.h
 
 libentities_la_SOURCES = \
 	$(EntitiesSources)
@@ -65,7 +66,8 @@ libentitiesinc_HEADERS = \
 	../../include/dime/entities/Spline.h \
 	../../include/dime/entities/Trace.h \
 	../../include/dime/entities/UnknownEntity.h \
-	../../include/dime/entities/Vertex.h
+	../../include/dime/entities/Vertex.h \
+	../../include/dime/entities/Text.h
 
 install-libentitiesincHEADERS: $(libentitiesinc_HEADERS)
 	@$(NORMAL_INSTALL)

@@ -189,7 +189,8 @@ EntitiesSources = \
 	Spline.cpp Spline.h \
 	Trace.cpp Trace.h \
 	UnknownEntity.cpp UnknownEntity.h \
-	Vertex.cpp Vertex.h
+	Vertex.cpp Vertex.h \
+	Text.cpp Text.h
 
 
 libentities_la_SOURCES = \
@@ -220,7 +221,8 @@ libentitiesinc_HEADERS = \
 	../../include/dime/entities/Spline.h \
 	../../include/dime/entities/Trace.h \
 	../../include/dime/entities/UnknownEntity.h \
-	../../include/dime/entities/Vertex.h
+	../../include/dime/entities/Vertex.h \
+	../../include/dime/entities/Text.h
 
 subdir = src/entities
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -236,7 +238,8 @@ am__objects_1 = 3DFace.$(OBJEXT) Arc.$(OBJEXT) Block.$(OBJEXT) \
 	ExtrusionEntity.$(OBJEXT) FaceEntity.$(OBJEXT) Insert.$(OBJEXT) \
 	LWPolyline.$(OBJEXT) Line.$(OBJEXT) Point.$(OBJEXT) \
 	Polyline.$(OBJEXT) Solid.$(OBJEXT) Spline.$(OBJEXT) \
-	Trace.$(OBJEXT) UnknownEntity.$(OBJEXT) Vertex.$(OBJEXT)
+	Trace.$(OBJEXT) UnknownEntity.$(OBJEXT) Vertex.$(OBJEXT) \
+	Text.$(OBJEXT)
 am_entities_lst_OBJECTS = $(am__objects_1)
 entities_lst_OBJECTS = $(am_entities_lst_OBJECTS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
@@ -246,7 +249,7 @@ libentities_la_LIBADD =
 am__objects_2 = 3DFace.lo Arc.lo Block.lo Circle.lo Ellipse.lo Entity.lo \
 	ExtrusionEntity.lo FaceEntity.lo Insert.lo LWPolyline.lo \
 	Line.lo Point.lo Polyline.lo Solid.lo Spline.lo Trace.lo \
-	UnknownEntity.lo Vertex.lo
+	UnknownEntity.lo Vertex.lo Text.lo
 am_libentities_la_OBJECTS = $(am__objects_2)
 libentities_la_OBJECTS = $(am_libentities_la_OBJECTS)
 
@@ -269,7 +272,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/Point.Po ./$(DEPDIR)/Polyline.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Polyline.Po ./$(DEPDIR)/Solid.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Solid.Po ./$(DEPDIR)/Spline.Plo \
-@AMDEP_TRUE@	./$(DEPDIR)/Spline.Po ./$(DEPDIR)/Trace.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Spline.Po ./$(DEPDIR)/Text.Plo \
+@AMDEP_TRUE@	./$(DEPDIR)/Text.Po ./$(DEPDIR)/Trace.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Trace.Po ./$(DEPDIR)/UnknownEntity.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/UnknownEntity.Po ./$(DEPDIR)/Vertex.Plo \
 @AMDEP_TRUE@	./$(DEPDIR)/Vertex.Po
@@ -354,6 +358,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Solid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Spline.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Spline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Text.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Text.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Trace.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Trace.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/UnknownEntity.Plo@am__quote@

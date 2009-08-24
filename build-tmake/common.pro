@@ -57,6 +57,7 @@ HEADERS            = ../include/dime/Basic.h \
                      ../include/dime/entities/Arc.h \
                      ../include/dime/entities/LWPolyline.h \
 	             ../include/dime/entities/Spline.h \
+	             ../include/dime/entities/Text.h \
                      ../include/dime/tables/Table.h \ 
                      ../include/dime/tables/TableEntry.h \
                      ../include/dime/tables/UnknownTable.h \
@@ -110,6 +111,7 @@ SOURCES            = ../src/Base.cpp \
                      ../src/entities/Block.cpp \
                      ../src/entities/Insert.cpp \
                      ../src/entities/Solid.cpp \
+                     ../src/entities/Text.cpp \
                      ../src/entities/Trace.cpp \
                      ../src/entities/Circle.cpp \
 	             ../src/entities/Ellipse.cpp \

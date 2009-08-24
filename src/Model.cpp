@@ -243,9 +243,9 @@ dimeModel::read(dimeInput * const in)
     dimeEntitiesSection *es = (dimeEntitiesSection*)this->findSection("ENTITIES");
     if (bs) bs->fixReferences(this);
     if (es) es->fixReferences(this);
-#ifndef NDEBUG
-    fprintf(stderr,"dimeModel::largestHandle: %d\n", this->largestHandle);
-#endif
+//#ifndef NDEBUG
+//    fprintf(stderr,"dimeModel::largestHandle: %d\n", this->largestHandle);
+//#endif
   }
   return ok;
 }

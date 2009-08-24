@@ -103,6 +103,10 @@ dimeArc::write(dimeOutput * const file)
   file->writeGroupCode(40);
   file->writeDouble(this->radius);
 
+  // For some reason a 73 record needs a new subclass record.
+  file->writeGroupCode(100);
+  file->writeString("AcDbArc");
+
   file->writeGroupCode(50);
   file->writeDouble(this->startAngle);
   file->writeGroupCode(51);
@@ -141,6 +145,14 @@ dimeArc::handleRecord(const int groupcode,
   case 51:
     this->endAngle = param.double_data;
     return true;
+  case 100:
+    // Eat AcDbArc records, leave others.
+    if( strcmp( param.string_data, "AcDbArc" ) == 0 ) {
+      return true;
+    }
+    else {
+      return dimeExtrusionEntity::handleRecord(groupcode, param, memhandler);
+    }
   }
   return dimeExtrusionEntity::handleRecord(groupcode, param, memhandler);
 }

@@ -100,6 +100,9 @@ public:
   void setSplineFrameControlPoints(dimeVertex **vertices, const int num,
 				   dimeMemHandler * const memhandler = NULL);
 
+  // KRF, 02-16-2006, added to enable ::copy of new polyline
+  void setSeqend(const dimeEntity *ent);
+
   virtual dimeEntity *copy(dimeModel *const model) const;
   virtual bool getRecord(const int groupcode,
 			 dimeParam &param,

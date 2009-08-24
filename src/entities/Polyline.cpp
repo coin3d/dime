@@ -824,6 +824,19 @@ dimePolyline::setIndexVertices(dimeVertex **vertices, const int num,
   }
 }
 
+// KRF, 02-16-2006, added to enable ::copy of new polyline
+/*!
+  Sets the SEQEND entity for this polyline.
+*/
+void
+dimePolyline::setSeqend( const dimeEntity* ent )
+{
+  if (this->seqend != NULL) {
+    delete this->seqend;
+  }
+  this->seqend = (dimeEntity*) ent;
+}
+
 /*!
   Overloaded from dimeEntity. Will first do a callback for this entity, 
   then for all vertices. Each vertex will have a pointer to its 

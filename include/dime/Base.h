@@ -63,6 +63,7 @@ public:
     dimeSolidType,
     dimeTraceType,
     dimeLineType,
+    dimeTextType,
     dimePointType,
     dimeBlockType,
     dimeInsertType,

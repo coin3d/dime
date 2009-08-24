@@ -56,6 +56,7 @@ public:
   bool readFloat(float &val);
   bool readDouble(dxfdouble &val);
   const char *readString();
+  const char *readStringNoSkip();
 
   class dimeModel *getModel();
   class dimeMemHandler *getMemHandler();

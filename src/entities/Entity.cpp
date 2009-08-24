@@ -111,6 +111,7 @@
 #include <dime/entities/Polyline.h>
 #include <dime/entities/Vertex.h>
 #include <dime/entities/Line.h>
+#include <dime/entities/Text.h>
 #include <dime/entities/Block.h>
 #include <dime/entities/Insert.h>
 #include <dime/entities/Solid.h>
@@ -300,6 +301,8 @@ dimeEntity::createEntity(const char * const name,
     return new(memhandler) dimePolyline;
   if (!strcmp(name, "LINE"))
     return new(memhandler) dimeLine;
+  if (!strcmp(name, "TEXT"))
+    return new(memhandler) dimeText;
   if (!strcmp(name, "INSERT"))
     return new(memhandler) dimeInsert;
   if (!strcmp(name, "BLOCK"))
