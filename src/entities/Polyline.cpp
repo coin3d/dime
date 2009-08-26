@@ -145,9 +145,12 @@ dimePolyline::copy(dimeModel * const model) const
     pl->flags = this->flags;
     pl->elevation = this->elevation;
     pl->copyExtrusionData(this);
+    pl->seqend = NULL;
     
-    pl->seqend = this->seqend->copy(model);
-    if (!pl->seqend) ok = false;
+    // not all polylines include the SEQEND entity. Check before copying
+    if (this->seqend) {
+      pl->seqend = this->seqend->copy(model);
+    }
   }
   if (!ok || !this->copyRecords(pl, model)) {
     if (!memh) delete pl; // delete if allocated on heap
