@@ -47,6 +47,8 @@ public:
   }
   void findHeaderVariables(dimeModel &model);
   bool doConvert(dimeModel &model);
+  bool writeVrml(const char * filename, const bool vrml1 = false,
+                 const bool only2d = false);
   bool writeVrml(FILE *out, const bool vrml1 = false,
                  const bool only2d = false);
 

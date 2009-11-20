@@ -198,7 +198,25 @@ dxfConverter::doConvert(dimeModel &model)
 }
 
 /*!
+  Writes the internal geometry structures to \a filename.
+*/
+bool
+dxfConverter::writeVrml(const char * filename, const bool vrml1,
+                        const bool only2d)
+{
+  FILE * f;
+  if (fopen(filename, "wb")) {
+    bool ret = this->writeVrml(f, vrml1, only2d);
+    fclose(f);
+    return ret;
+  } else {
+    return false;
+  }
+}
+
+/*!
   Writes the internal geometry structures to \a out.
+  Warning: This function is not CRT safe.
 */
 bool
 dxfConverter::writeVrml(FILE *out, const bool vrml1,
