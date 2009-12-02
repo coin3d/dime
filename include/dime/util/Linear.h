@@ -53,6 +53,8 @@ public:
 
 }; // class dimeVec2f
 
+typedef dimeVec2f dimeVec2d;
+
 class DIME_DLL_API dimeVec3f
 { 
 public:
@@ -147,6 +149,8 @@ public:
   void normalize();
 
 }; // class dimeVec3f
+
+typedef dimeVec3f dimeVec3d;
 
 class DIME_DLL_API dimeMatrix
 {
