@@ -11,6 +11,11 @@ endif
 
 SUBDIRS = src $(EXAMPLEPROGDIRS)
 
-cvs-update:
-	@cd $(top_srcdir) && cvs update -dP
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA= dime.pc
 
+EXTRA_DIST = \
+        dime.pc.in
+
+DISTCLEANFILES = \
+	dime.pc

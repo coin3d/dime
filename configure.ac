@@ -1,4 +1,3 @@
-
 m4_define([DIME_MAJOR], [0])
 m4_define([DIME_MINOR], [9])
 m4_define([DIME_MICRO], [1])
@@ -45,28 +44,28 @@ if $BUILD_WITH_MSVC; then
   ])
 fi
 
-dnl  Locate C++ compiler and set C++ as the default compiler to run
-dnl  in tests.
+#  Locate C++ compiler and set C++ as the default compiler to run
+#  in tests.
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_LANG([C++])
 
-dnl *******************************************************************
-dnl * Library version control.
-dnl *******************************************************************
+# *******************************************************************
+# * Library version control.
+# *******************************************************************
 
-dnl  Making releases:
-dnl    DIME_MICRO_VERSION += 1;
-dnl    DIME_INTERFACE_AGE += 1;
-dnl    DIME_BINARY_AGE += 1;
-dnl  if any functions have been added, set DIME_INTERFACE_AGE to 0.
-dnl  if backwards compatibility has been broken,
-dnl  set DIME_BINARY_AGE _and_ DIME_INTERFACE_AGE to 0.
-dnl 
+#  Making releases:
+#    DIME_MICRO_VERSION += 1;
+#    DIME_INTERFACE_AGE += 1;
+#    DIME_BINARY_AGE += 1;
+#  if any functions have been added, set DIME_INTERFACE_AGE to 0.
+#  if backwards compatibility has been broken,
+#  set DIME_BINARY_AGE _and_ DIME_INTERFACE_AGE to 0.
+#
 
-dnl  libtool versioning
+#  libtool versioning
 LT_RELEASE=$DIME_MAJOR_VERSION.$DIME_MINOR_VERSION
 LT_CURRENT=`expr $DIME_MICRO_VERSION - $DIME_INTERFACE_AGE`
 LT_REVISION=$DIME_INTERFACE_AGE
@@ -85,17 +84,17 @@ AC_SUBST([DIME_EXTRA_CXXFLAGS], [$CXXFLAGS])
 AC_SUBST([DIME_EXTRA_LDFLAGS], [$LDFLAGS])
 AC_SUBST([DIME_EXTRA_LIBS], [$LIBS])
 
-dnl *******************************************************************
-dnl * Miscellaneous options and initializations.
-dnl *******************************************************************
+# *******************************************************************
+# * Miscellaneous options and initializations.
+# *******************************************************************
 
 AM_INIT_AUTOMAKE(libdime, $VERSION)
 
-dnl  Default to not building a static library.
-dnl  Can be overridden by the user with --enable-static.
+#  Default to not building a static library.
+#  Can be overridden by the user with --enable-static.
 AM_DISABLE_STATIC
 
-dnl  Turn off default maintainer make-rules -- use ./autogen.sh instead.
+#  Turn off default maintainer make-rules -- use ./autogen.sh instead.
 AM_MAINTAINER_MODE
 
 if $BUILD_WITH_MSVC; then
@@ -103,7 +102,7 @@ if $BUILD_WITH_MSVC; then
   export RANLIB
 fi
 
-dnl  Initialize libtool
+#  Initialize libtool
 AC_PROG_LIBTOOL
 
 CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
@@ -114,27 +113,20 @@ dime_build_dir=`pwd`
 dime_src_dir=`cd "$srcdir"; pwd`
 
 
-dnl *******************************************************************
-dnl * Enable/disable compilation with debug information.
-dnl *******************************************************************
+# Make it possible for the user to turn off optimization flags.
+SIM_AC_COMPILER_OPTIMIZATION
 
-AC_ARG_ENABLE(debug,
-  [  --enable-debug          turn on Dime debugging [default=yes]],
-  [case "${enableval}" in
-    yes) enable_debug=yes ;;
-    no)  enable_debug=no ;;
-    *) AC_MSG_ERROR(bad value "${enableval}" for --enable-debug) ;;
-  esac],
-  enable_debug=yes)
+SIM_AC_COMPILE_DEBUG([
+  CPPFLAGS="$CPPFLAGS -DDIME_DEBUG=1"
+], [
+  CPPFLAGS="$CPPFLAGS -DDIME_DEBUG=0"
+])
 
-if test "x$enable_debug" = "xno"; then
-  CXXFLAGS="$CXXFLAGS -DNDEBUG"
-fi
+SIM_AC_DEBUGSYMBOLS
 
-
-dnl *******************************************************************
-dnl * Enable/disable compilation with symbol information.
-dnl *******************************************************************
+# *******************************************************************
+# * Enable/disable compilation with symbol information.
+# *******************************************************************
 
 if test "x$ac_cv_prog_cxx_g" = "xyes"; then
   AC_ARG_ENABLE(symbols,
@@ -152,10 +144,10 @@ if test "x$ac_cv_prog_cxx_g" = "xyes"; then
 fi
 
 
-dnl *******************************************************************
-dnl * Enable/disable compilation with profiling information
-dnl * for parsing by gprof (this is a g++ only option).
-dnl *******************************************************************
+# *******************************************************************
+# * Enable/disable compilation with profiling information
+# * for parsing by gprof (this is a g++ only option).
+# *******************************************************************
 
 if test "x$ac_cv_prog_cxx_g" = "xyes"; then
   AC_ARG_ENABLE(profile,
@@ -173,9 +165,9 @@ if test "x$ac_cv_prog_cxx_g" = "xyes"; then
   fi
 fi
 
-dnl *******************************************************************
-dnl * Enable/disable compilation with warnings turned on (g++ only).
-dnl *******************************************************************
+# *******************************************************************
+# * Enable/disable compilation with warnings turned on (g++ only).
+# *******************************************************************
 
 if test "x$ac_cv_prog_gxx" = "xyes"; then
   AC_ARG_ENABLE(warnings,
@@ -196,8 +188,8 @@ fi
 # Headers we might want to use
 
 AC_CHECK_HEADERS(
-  [ieeefp.h], 
-  [], [], 
+  [ieeefp.h],
+  [], [],
   [ ])
 
 # **************************************************************************
@@ -305,10 +297,10 @@ if $sim_ac_build_library; then
       CPPFLAGS="-DDIME_MAKE_DLL $CPPFLAGS"
       DIME_EXTRA_CPPFLAGS="$DIME_EXTRA_CPPFLAGS -DDIME_DLL"
     fi
-  
+
     debugfile="`pwd`/src/dime${DIME_MAJOR_VERSION}${SUFFIX}.pdb"
     debugfile=`cygpath -w "$debugfile" | sed 's,\\\\,\\\\\\\\,g'`
-  
+
     if $DIME_STATIC; then
       SIM_AC_CONFIGURATION_SETTING([Dime build type], [static .lib])
       LIBFLAGS="-LIB $LIBFLAGS"
@@ -317,17 +309,17 @@ if $sim_ac_build_library; then
       LIBFLAGS="-DLL /INCREMENTAL:NO $LIBFLAGS"
       case $enable_symbols in
       no | false)
-        SIM_AC_CONFIGURATION_SETTING([Dime build type],
-                                     [dynamic .dll, no symbols])
-        LIBFLAGS="$LIBFLAGS /RELEASE"
-        ;;
+	SIM_AC_CONFIGURATION_SETTING([Dime build type],
+				     [dynamic .dll, no symbols])
+	LIBFLAGS="$LIBFLAGS /RELEASE"
+	;;
       *)
-        SIM_AC_CONFIGURATION_SETTING([Dime build type],
-                                     [dynamic .dll + .pdb])
-        CFLAGS="/Fd$debugfile -g $CFLAGS"
-        CXXFLAGS="/Fd$debugfile -g $CXXFLAGS"
-        LIBFLAGS="$LIBFLAGS /DEBUG /PDB:dime$DIME_MAJOR_VERSION$SUFFIX.pdb"
-        ;;
+	SIM_AC_CONFIGURATION_SETTING([Dime build type],
+				     [dynamic .dll + .pdb])
+	CFLAGS="/Fd$debugfile -g $CFLAGS"
+	CXXFLAGS="/Fd$debugfile -g $CXXFLAGS"
+	LIBFLAGS="$LIBFLAGS /DEBUG /PDB:dime$DIME_MAJOR_VERSION$SUFFIX.pdb"
+	;;
       esac
       LIBFLAGS="$LIBFLAGS /OUT:dime$DIME_MAJOR_VERSION$SUFFIX.dll"
     fi
@@ -368,13 +360,13 @@ if $sim_ac_build_library; then
     # search by inode seems safer than strings because of noncanonical paths
     ( findinode=`ls -id "$prefix/bin" 2>/dev/null | sed 's/^\([ ]*\)\([0-9]*\).*/\2/g'`
       IFS=:; for dir in $PATH; do
-        inode=`ls -id "$dir" 2>/dev/null | sed 's/^\([ ]*\)\([0-9]*\).*/\2/g'`;
-        test x"$inode" = x"$findinode" && exit 0
+	inode=`ls -id "$dir" 2>/dev/null | sed 's/^\([ ]*\)\([0-9]*\).*/\2/g'`;
+	test x"$inode" = x"$findinode" && exit 0
       done; exit 1 ) && sim_ac_path_problem=false
   fi
   if $sim_ac_path_problem; then
     ( IFS=:; for dir in $PATH; do
-        test x"$dir" = x"${bindir}" && exit 0
+	test x"$dir" = x"${bindir}" && exit 0
       done; exit 1 ) && sim_ac_path_problem=false
   fi
   if $sim_ac_path_problem; then
@@ -394,6 +386,7 @@ SIM_AC_MSVC_DSP_SETUP([DIME], [Dime], [dime], [-I$dime_build_dir -I$dime_build_d
 AM_CONFIG_HEADER([include/config.h])
 
 AC_CONFIG_FILES([
+	dime.pc
 	Makefile
 	bin/Makefile
 	src/Makefile
@@ -411,13 +404,12 @@ AC_CONFIG_FILES([
 
 AC_OUTPUT
 
-# SIM_AC_CONFIGURATION_SUMMARY
+# **************************************************************************
 
-if $sim_ac_build_library; then
-  echo ""
-  echo "Now, run 'make install' to build and install Dime."
-  echo ""
-else
-  echo ""
-fi
+SIM_AC_CONFIGURATION_SUMMARY
 
+echo ""
+echo "Done.  Now run make install to build $PACKAGE."
+echo ""
+
+# **************************************************************************
