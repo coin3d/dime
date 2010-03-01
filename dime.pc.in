@@ -1,0 +1,20 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+datarootdir=@datarootdir@
+datadir=${datarootdir}
+
+Name: Dime
+Description: library for reading, constructing, manipulating, and writing DXF file data
+Version: @VERSION@
+Requires:
+Conflicts:
+Libs: -L${libdir} @DIME_EXTRA_LDFLAGS@ @DIME_EXTRA_LIBS@
+Cflags: -I${includedir} @DIME_EXTRA_CFLAGS@ @DIME_EXTRA_CPPFLAGS@
+
+dime_host="@host@"
+compiler=@DIME_COMPILER@
+compiler_is_gcc=@ac_compiler_gnu@
+frameworkdir=@frameworkdir@
+msvcrt=@DIME_MSVC_LIBC@
