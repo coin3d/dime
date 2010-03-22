@@ -27,4 +27,24 @@ install-data-local: install-html
 
 uninstall-local: uninstall-html
 
+install-html: filelist.txt
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(htmldir)
+	@list="`cat filelist.txt`"; \
+	for file in $$list; do \
+	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(htmldir)/$$file"; \
+	  $(INSTALL_DATA) $$file "$(DESTDIR)$(htmldir)/$$file"; \
+	done
+
+uninstall-html: filelist.txt
+	@$(NORMAL_UNINSTALL)
+	@list="`cat filelist.txt`"; \
+	for file in $$list; do \
+	  echo " rm -f $(DESTDIR)$(htmldir)/$$file"; \
+	  rm -f "$(DESTDIR)$(htmldir)/$$file"; \
+	done
+	@echo " rmdir $(DESTDIR)$(htmldir)"; \
+	rmdir $(DESTDIR)$(htmldir) 2>/dev/null; \
+	:
+
 endif

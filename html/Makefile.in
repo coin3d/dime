@@ -396,6 +396,26 @@ uninstall-am: uninstall-info-am uninstall-local
 @BUILD_HTMLPAGES_TRUE@install-data-local: install-html
 
 @BUILD_HTMLPAGES_TRUE@uninstall-local: uninstall-html
+
+@BUILD_HTMLPAGES_TRUE@install-html: filelist.txt
+@BUILD_HTMLPAGES_TRUE@	@$(NORMAL_INSTALL)
+@BUILD_HTMLPAGES_TRUE@	$(mkinstalldirs) $(DESTDIR)$(htmldir)
+@BUILD_HTMLPAGES_TRUE@	@list="`cat filelist.txt`"; \
+@BUILD_HTMLPAGES_TRUE@	for file in $$list; do \
+@BUILD_HTMLPAGES_TRUE@	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(htmldir)/$$file"; \
+@BUILD_HTMLPAGES_TRUE@	  $(INSTALL_DATA) $$file "$(DESTDIR)$(htmldir)/$$file"; \
+@BUILD_HTMLPAGES_TRUE@	done
+
+@BUILD_HTMLPAGES_TRUE@uninstall-html: filelist.txt
+@BUILD_HTMLPAGES_TRUE@	@$(NORMAL_UNINSTALL)
+@BUILD_HTMLPAGES_TRUE@	@list="`cat filelist.txt`"; \
+@BUILD_HTMLPAGES_TRUE@	for file in $$list; do \
+@BUILD_HTMLPAGES_TRUE@	  echo " rm -f $(DESTDIR)$(htmldir)/$$file"; \
+@BUILD_HTMLPAGES_TRUE@	  rm -f "$(DESTDIR)$(htmldir)/$$file"; \
+@BUILD_HTMLPAGES_TRUE@	done
+@BUILD_HTMLPAGES_TRUE@	@echo " rmdir $(DESTDIR)$(htmldir)"; \
+@BUILD_HTMLPAGES_TRUE@	rmdir $(DESTDIR)$(htmldir) 2>/dev/null; \
+@BUILD_HTMLPAGES_TRUE@	:
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
