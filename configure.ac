@@ -107,11 +107,73 @@ AC_PROG_LIBTOOL
 
 CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
-sim_ac_build_library=true
-
 dime_build_dir=`pwd`
 dime_src_dir=`cd "$srcdir"; pwd`
 
+# *******************************************************************
+# disable build if you just want to generate doc.
+
+sim_ac_build_library=true
+AC_ARG_ENABLE(
+  [build],
+  [AC_HELP_STRING([--disable-build], [disable configuration for library build])],
+  [case $enableval in
+  no | false)
+   sim_ac_build_library=false
+   SIM_AC_CONFIGURATION_SETTING([Quarter build type], [build disabled])
+   ;;
+  esac])
+
+AM_CONDITIONAL(BUILD_LIBRARY, $sim_ac_build_library)
+
+# *******************************************************************
+# * Do we want to build the documentation?
+# *******************************************************************
+
+AC_ARG_ENABLE(html,
+  AC_HELP_STRING([--enable-html], [build and install Dime HTML documentation]),
+  [case $enableval in
+    yes | true) want_html=yes ;;
+    *)          want_html=no ;;
+  esac],
+  [want_html=no])
+
+case $htmldir in
+/*)
+  # do nothing - absolute path
+  ;;
+*)
+  # expand $docdir and append /html
+  htmldir=`eval echo ${docdir}`/html
+  ;;
+esac
+
+AC_SUBST(htmldir)
+
+# Used in the Doxygen parameter file.
+AC_SUBST([DIME_DOC_HTML], [`echo $want_html | tr '[a-z]' '[A-Z]'`])
+AC_SUBST([dime_html_dir], [`pwd`/html])
+AM_CONDITIONAL(BUILD_HTMLPAGES, test x"$want_html" = x"yes")
+
+if test x"$want_html" = x"yes"; then
+  SIM_AC_DOXYGEN_TOOL([], [SIM_AC_ERROR([no-doxygen])])
+  # Perl is used for the Doxygen-based doc generation
+  AC_PATH_PROG(sim_ac_perl_exe, perl, false, $PATH)
+  if test x"$sim_ac_perl_exe" = xfalse; then
+    AC_MSG_ERROR([Could not find the Perl executable, which is needed for Doxygen doc generation.])
+  fi
+  SIM_AC_CONFIGURATION_SETTING([HTML installation], [$htmldir])
+fi
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
+AC_SUBST(path_tag)
 
 # Make it possible for the user to turn off optimization flags.
 SIM_AC_COMPILER_OPTIMIZATION
@@ -400,6 +462,7 @@ AC_CONFIG_FILES([
 	src/convert/Makefile
 	dxf2vrml/Makefile
 	dxfsphere/Makefile
+	html/Makefile
 ])
 
 AC_OUTPUT
