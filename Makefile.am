@@ -27,7 +27,18 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= dime.pc
 
 EXTRA_DIST = \
-        dime.pc.in
+        dime.pc.in \
+	cfg/errors.txt \
+	cfg/gendsp.pl.in \
+	cfg/ltconfig \
+	cfg/wrapmsvc.exe \
+	cfg/csubst.exe \
+	cfg/doxy4win.pl \
+        docs/dime.doxygen.in \
+	docs/doxygen/header.html \
+	docs/doxygen/footer.html \
+	docs/doxygen/stylesheet.css \
+	docs/doxygen/Coin_logo.png
 
 DISTCLEANFILES = \
 	dime.pc \
