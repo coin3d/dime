@@ -15,7 +15,13 @@ else
 EXAMPLEPROGDIRS = $(DXF2VRMLDIR) $(DXFSPHEREDIR)
 endif
 
-SUBDIRS = src $(EXAMPLEPROGDIRS) $(HTMLDIR)
+if BUILD_LIBRARY
+SRCDIRS = src $(EXAMPLEPROGDIRS)
+else
+SRCDIRS =
+endif
+
+SUBDIRS = $(HTMLDIR) $(SRCDIRS)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA= dime.pc
