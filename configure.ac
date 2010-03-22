@@ -105,6 +105,8 @@ fi
 #  Initialize libtool
 AC_PROG_LIBTOOL
 
+test "x$prefix" = xNONE && prefix=$ac_default_prefix
+
 CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
 dime_build_dir=`pwd`
