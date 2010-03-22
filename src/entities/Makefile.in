@@ -49,6 +49,7 @@ am__aclocal_m4_deps =  \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/compile_debug.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/compile_symbols.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/configuration_summary.m4 \
+	$(top_srcdir)/../simacros/bin/../cfg/m4/doxygen_detection.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/errors.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/gendsp.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/misc_compiler.m4 \
@@ -139,6 +140,10 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BUILD_HTMLPAGES_FALSE = @BUILD_HTMLPAGES_FALSE@
+BUILD_HTMLPAGES_TRUE = @BUILD_HTMLPAGES_TRUE@
+BUILD_LIBRARY_FALSE = @BUILD_LIBRARY_FALSE@
+BUILD_LIBRARY_TRUE = @BUILD_LIBRARY_TRUE@
 BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 BUILD_WITH_MSVC_FALSE = @BUILD_WITH_MSVC_FALSE@
 BUILD_WITH_MSVC_TRUE = @BUILD_WITH_MSVC_TRUE@
@@ -157,6 +162,7 @@ DEPDIR = @DEPDIR@
 DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_COMPILER = @DIME_COMPILER@
+DIME_DOC_HTML = @DIME_DOC_HTML@
 DIME_DSP_DEFS = @DIME_DSP_DEFS@
 DIME_DSP_INCS = @DIME_DSP_INCS@
 DIME_DSP_LIBS = @DIME_DSP_LIBS@
@@ -237,6 +243,7 @@ build_os = @build_os@
 build_vendor = @build_vendor@
 datadir = @datadir@
 datarootdir = @datarootdir@
+dime_html_dir = @dime_html_dir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
@@ -256,12 +263,15 @@ localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+path_tag = @path_tag@
 pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
+sim_ac_perl_exe = @sim_ac_perl_exe@
 sysconfdir = @sysconfdir@
 target = @target@
 target_alias = @target_alias@

@@ -49,6 +49,7 @@ am__aclocal_m4_deps =  \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/compile_debug.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/compile_symbols.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/configuration_summary.m4 \
+	$(top_srcdir)/../simacros/bin/../cfg/m4/doxygen_detection.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/errors.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/gendsp.m4 \
 	$(top_srcdir)/../simacros/bin/../cfg/m4/misc_compiler.m4 \
@@ -76,7 +77,7 @@ pkgconfigDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(pkgconfig_DATA)
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = src dxf2vrml dxfsphere
+DIST_SUBDIRS = src dxf2vrml dxfsphere html
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -97,6 +98,10 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BUILD_HTMLPAGES_FALSE = @BUILD_HTMLPAGES_FALSE@
+BUILD_HTMLPAGES_TRUE = @BUILD_HTMLPAGES_TRUE@
+BUILD_LIBRARY_FALSE = @BUILD_LIBRARY_FALSE@
+BUILD_LIBRARY_TRUE = @BUILD_LIBRARY_TRUE@
 BUILD_WITH_MSVC = @BUILD_WITH_MSVC@
 BUILD_WITH_MSVC_FALSE = @BUILD_WITH_MSVC_FALSE@
 BUILD_WITH_MSVC_TRUE = @BUILD_WITH_MSVC_TRUE@
@@ -115,6 +120,7 @@ DEPDIR = @DEPDIR@
 DIME_BETA_VERSION = @DIME_BETA_VERSION@
 DIME_BINARY_AGE = @DIME_BINARY_AGE@
 DIME_COMPILER = @DIME_COMPILER@
+DIME_DOC_HTML = @DIME_DOC_HTML@
 DIME_DSP_DEFS = @DIME_DSP_DEFS@
 DIME_DSP_INCS = @DIME_DSP_INCS@
 DIME_DSP_LIBS = @DIME_DSP_LIBS@
@@ -195,6 +201,7 @@ build_os = @build_os@
 build_vendor = @build_vendor@
 datadir = @datadir@
 datarootdir = @datarootdir@
+dime_html_dir = @dime_html_dir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
@@ -214,30 +221,36 @@ localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+path_tag = @path_tag@
 pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
+sim_ac_doxygen_exe = @sim_ac_doxygen_exe@
+sim_ac_perl_exe = @sim_ac_perl_exe@
 sysconfdir = @sysconfdir@
 target = @target@
 target_alias = @target_alias@
 target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
+@BUILD_HTMLPAGES_FALSE@HTMLDIR = 
+@BUILD_HTMLPAGES_TRUE@HTMLDIR = html
 DXF2VRMLDIR = dxf2vrml
 DXFSPHEREDIR = dxfsphere
 @BUILD_WITH_MSVC_FALSE@EXAMPLEPROGDIRS = $(DXF2VRMLDIR) $(DXFSPHEREDIR)
 @BUILD_WITH_MSVC_TRUE@EXAMPLEPROGDIRS = 
-SUBDIRS = src $(EXAMPLEPROGDIRS)
+SUBDIRS = src $(EXAMPLEPROGDIRS) $(HTMLDIR)
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = dime.pc
 EXTRA_DIST = \
         dime.pc.in
 
 DISTCLEANFILES = \
-	dime.pc
+	dime.pc \
+	docs/dime.doxygen
 
 all: all-recursive
 
@@ -684,6 +697,23 @@ uninstall-info: uninstall-info-recursive
 	uninstall uninstall-am uninstall-info-am \
 	uninstall-pkgconfigDATA
 
+
+docs/dime.doxygen: $(srcdir)/docs/dime.doxygen.in config.status
+	@if test -d docs; then :; else mkdir docs; fi
+	@./config.status --file=$@:$@.in
+	@$(srcdir)/cfg/doxy4win.pl docs/dime.doxygen
+
+doxygen-doc: built-sources
+	if test x"@DIME_DOC_HTML@" = x"YES"; then \
+	  mkdir -p "@dime_html_dir@"; \
+	else :; fi
+	@sim_ac_doxygen_exe@ $(top_builddir)/docs/dime.doxygen
+
+doxygen-docs: built-sources
+	if test x"@DIME_DOC_HTML@" = x"YES"; then \
+	  mkdir -p "@dime_html_dir@"; \
+	else :; fi
+	@sim_ac_doxygen_exe@ $(top_builddir)/docs/dime.doxygen
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

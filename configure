@@ -759,6 +759,15 @@ BUILD_WITH_MSVC_FALSE
 BUILD_WITH_MSVC_TRUE
 LIBFLAGS
 DSUFFIX
+path_tag
+sim_ac_perl_exe
+sim_ac_doxygen_exe
+BUILD_HTMLPAGES_FALSE
+BUILD_HTMLPAGES_TRUE
+dime_html_dir
+DIME_DOC_HTML
+BUILD_LIBRARY_FALSE
+BUILD_LIBRARY_TRUE
 LIBTOOL
 ac_ct_F77
 FFLAGS
@@ -902,6 +911,9 @@ with_gnu_ld
 enable_libtool_lock
 with_pic
 with_tags
+enable_build
+enable_html
+with_doxygen
 enable_optimization
 enable_debug
 enable_symbols
@@ -1554,6 +1566,8 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --disable-build         disable configuration for library build
+  --enable-html           build and install Dime HTML documentation
   --enable-optimization   allow compilers to make optimized code
                           [[default=yes]]
   --enable-debug          compile in debug mode [[default=yes]]
@@ -1570,6 +1584,8 @@ Optional Packages:
   --with-pic              try to use only PIC/non-PIC objects [default=use
                           both]
   --with-tags[=TAGS]      include additional configurations [automatic]
+  --with-doxygen=DIR      DIR is the directory where the doxygen executable
+                          resides
 
 Some influential environment variables:
   CC          C compiler command
@@ -5815,7 +5831,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 5818 "configure"' > conftest.$ac_ext
+  echo '#line 5834 "configure"' > conftest.$ac_ext
   if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_compile\""; } >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -7711,11 +7727,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:7714: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:7730: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:7718: \$? = $ac_status" >&5
+   echo "$as_me:7734: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8001,11 +8017,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8004: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8020: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:8008: \$? = $ac_status" >&5
+   echo "$as_me:8024: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -8105,11 +8121,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8108: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8124: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:8112: \$? = $ac_status" >&5
+   echo "$as_me:8128: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -10130,7 +10146,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 10133 "configure"
+#line 10149 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -10230,7 +10246,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<EOF
-#line 10233 "configure"
+#line 10249 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12571,11 +12587,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12574: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12590: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:12578: \$? = $ac_status" >&5
+   echo "$as_me:12594: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -12675,11 +12691,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:12678: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:12694: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:12682: \$? = $ac_status" >&5
+   echo "$as_me:12698: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -14258,11 +14274,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14261: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14277: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14265: \$? = $ac_status" >&5
+   echo "$as_me:14281: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14362,11 +14378,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14365: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14381: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14369: \$? = $ac_status" >&5
+   echo "$as_me:14385: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -16523,11 +16539,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16526: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16542: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16530: \$? = $ac_status" >&5
+   echo "$as_me:16546: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16813,11 +16829,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16816: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16832: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:16820: \$? = $ac_status" >&5
+   echo "$as_me:16836: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -16917,11 +16933,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:16920: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:16936: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:16924: \$? = $ac_status" >&5
+   echo "$as_me:16940: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -19539,10 +19555,234 @@ LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 
 CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
-sim_ac_build_library=true
-
 dime_build_dir=`pwd`
 dime_src_dir=`cd "$srcdir"; pwd`
+
+# *******************************************************************
+# disable build if you just want to generate doc.
+
+sim_ac_build_library=true
+# Check whether --enable-build was given.
+if test "${enable_build+set}" = set; then :
+  enableval=$enable_build; case $enableval in
+  no | false)
+   sim_ac_build_library=false
+
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Quarter build type:build disabled"
+else
+  sim_ac_configuration_settings="Quarter build type:build disabled"
+fi
+
+   ;;
+  esac
+fi
+
+
+
+
+if $sim_ac_build_library; then
+  BUILD_LIBRARY_TRUE=
+  BUILD_LIBRARY_FALSE='#'
+else
+  BUILD_LIBRARY_TRUE='#'
+  BUILD_LIBRARY_FALSE=
+fi
+
+
+# *******************************************************************
+# * Do we want to build the documentation?
+# *******************************************************************
+
+# Check whether --enable-html was given.
+if test "${enable_html+set}" = set; then :
+  enableval=$enable_html; case $enableval in
+    yes | true) want_html=yes ;;
+    *)          want_html=no ;;
+  esac
+else
+  want_html=no
+fi
+
+
+case $htmldir in
+/*)
+  # do nothing - absolute path
+  ;;
+*)
+  # expand $docdir and append /html
+  htmldir=`eval echo ${docdir}`/html
+  ;;
+esac
+
+
+
+# Used in the Doxygen parameter file.
+DIME_DOC_HTML=`echo $want_html | tr 'a-z' 'A-Z'`
+
+dime_html_dir=`pwd`/html
+
+
+
+if test x"$want_html" = x"yes"; then
+  BUILD_HTMLPAGES_TRUE=
+  BUILD_HTMLPAGES_FALSE='#'
+else
+  BUILD_HTMLPAGES_TRUE='#'
+  BUILD_HTMLPAGES_FALSE=
+fi
+
+
+if test x"$want_html" = x"yes"; then
+
+
+# Check whether --with-doxygen was given.
+if test "${with_doxygen+set}" = set; then :
+  withval=$with_doxygen;
+else
+  with_doxygen=yes
+fi
+
+
+sim_ac_doxygen_avail=no
+
+if test x"$with_doxygen" != xno; then
+  sim_ac_path=$PATH
+  if test x"$with_doxygen" != xyes; then
+    sim_ac_path=${with_doxygen}:$PATH
+  fi
+
+  # Extract the first word of "doxygen", so it can be a program name with args.
+set dummy doxygen; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if test "${ac_cv_path_sim_ac_doxygen_exe+set}" = set; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $sim_ac_doxygen_exe in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_sim_ac_doxygen_exe="$sim_ac_doxygen_exe" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $sim_ac_path
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_sim_ac_doxygen_exe="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_sim_ac_doxygen_exe" && ac_cv_path_sim_ac_doxygen_exe="false"
+  ;;
+esac
+fi
+sim_ac_doxygen_exe=$ac_cv_path_sim_ac_doxygen_exe
+if test -n "$sim_ac_doxygen_exe"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $sim_ac_doxygen_exe" >&5
+$as_echo "$sim_ac_doxygen_exe" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test x"$sim_ac_doxygen_exe" = xfalse; then
+
+echo >&2 ""
+
+
+: ${sim_ac_message_file=$ac_aux_dir/errors.txt}
+if test -f $sim_ac_message_file; then
+  sim_ac_message="`sed -n -e '/^!no-doxygen$/,/^!/ { /^!/ d; p; }' <$sim_ac_message_file`"
+  if test x"$sim_ac_message" = x""; then
+    as_fn_error "no message named 'no-doxygen' in '$sim_ac_message_file' - notify the $PACKAGE_NAME maintainer(s)" "$LINENO" 5
+  else
+    eval "echo >&2 \"$sim_ac_message\""
+  fi
+else
+  as_fn_error "file '$sim_ac_message_file' not found - notify the $PACKAGE_NAME maintainer(s)" "$LINENO" 5
+fi
+
+
+
+echo >&2 ""
+as_fn_error "aborting" "$LINENO" 5
+
+  else
+    sim_ac_doxygen_avail=`$sim_ac_doxygen_exe -help 2> /dev/null | head -1 | sed 's%[^ ]\+ [^ ]\+ %%'`
+
+  fi
+fi
+
+  # Perl is used for the Doxygen-based doc generation
+  # Extract the first word of "perl", so it can be a program name with args.
+set dummy perl; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if test "${ac_cv_path_sim_ac_perl_exe+set}" = set; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $sim_ac_perl_exe in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_sim_ac_perl_exe="$sim_ac_perl_exe" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_sim_ac_perl_exe="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_sim_ac_perl_exe" && ac_cv_path_sim_ac_perl_exe="false"
+  ;;
+esac
+fi
+sim_ac_perl_exe=$ac_cv_path_sim_ac_perl_exe
+if test -n "$sim_ac_perl_exe"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $sim_ac_perl_exe" >&5
+$as_echo "$sim_ac_perl_exe" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test x"$sim_ac_perl_exe" = xfalse; then
+    as_fn_error "Could not find the Perl executable, which is needed for Doxygen doc generation." "$LINENO" 5
+  fi
+
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|HTML installation:$htmldir"
+else
+  sim_ac_configuration_settings="HTML installation:$htmldir"
+fi
+
+fi
+
+# path_tag is used to identify paths in docs/coin.doxygen that needs to be
+# transformed using cygpath under cygwin.
+
+case $host in
+*-cygwin) path_tag="<PATH>" ;;
+*)        path_tag= ;;
+esac
+
 
 
 # Make it possible for the user to turn off optimization flags.
@@ -20565,7 +20805,7 @@ fi
 ac_config_headers="$ac_config_headers include/config.h"
 
 
-ac_config_files="$ac_config_files dime.pc Makefile bin/Makefile src/Makefile src/classes/Makefile src/entities/Makefile src/objects/Makefile src/records/Makefile src/sections/Makefile src/tables/Makefile src/util/Makefile src/convert/Makefile dxf2vrml/Makefile dxfsphere/Makefile"
+ac_config_files="$ac_config_files dime.pc Makefile bin/Makefile src/Makefile src/classes/Makefile src/entities/Makefile src/objects/Makefile src/records/Makefile src/sections/Makefile src/tables/Makefile src/util/Makefile src/convert/Makefile dxf2vrml/Makefile dxfsphere/Makefile html/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -20679,6 +20919,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error "conditional \"MAINTAINER_MODE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${BUILD_LIBRARY_TRUE}" && test -z "${BUILD_LIBRARY_FALSE}"; then
+  as_fn_error "conditional \"BUILD_LIBRARY\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${BUILD_HTMLPAGES_TRUE}" && test -z "${BUILD_HTMLPAGES_FALSE}"; then
+  as_fn_error "conditional \"BUILD_HTMLPAGES\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${BUILD_WITH_MSVC_TRUE}" && test -z "${BUILD_WITH_MSVC_FALSE}"; then
@@ -21297,6 +21545,7 @@ do
     "src/convert/Makefile") CONFIG_FILES="$CONFIG_FILES src/convert/Makefile" ;;
     "dxf2vrml/Makefile") CONFIG_FILES="$CONFIG_FILES dxf2vrml/Makefile" ;;
     "dxfsphere/Makefile") CONFIG_FILES="$CONFIG_FILES dxfsphere/Makefile" ;;
+    "html/Makefile") CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
 
   *) as_fn_error "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
