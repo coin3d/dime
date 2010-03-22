@@ -112,6 +112,8 @@ CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 dime_build_dir=`pwd`
 dime_src_dir=`cd "$srcdir"; pwd`
 
+SIM_AC_CONFIGURATION_SETTING([Dime version], [DIME_MAJOR.DIME_MINOR.DIME_MICRO[]DIME_BETA])
+
 # *******************************************************************
 # disable build if you just want to generate doc.
 
@@ -122,7 +124,7 @@ AC_ARG_ENABLE(
   [case $enableval in
   no | false)
    sim_ac_build_library=false
-   SIM_AC_CONFIGURATION_SETTING([Quarter build type], [build disabled])
+   SIM_AC_CONFIGURATION_SETTING([Dime build type], [build disabled])
    ;;
   esac])
 
@@ -436,9 +438,6 @@ if $sim_ac_build_library; then
   if $sim_ac_path_problem; then
     SIM_AC_CONFIGURATION_WARNING([Your \$PATH variable does not appear to include \"$prefix/bin\"])
   fi
-
-else
-  SIM_AC_CONFIGURATION_SETTING([Dime build type], [build disabled])
 fi
 
 # **************************************************************************
@@ -446,6 +445,8 @@ fi
 SIM_AC_MSVC_DSP_SETUP([DIME], [Dime], [dime], [-I$dime_build_dir -I$dime_build_dir/include -I$dime_src_dir/include])
 
 # **************************************************************************
+
+SIM_AC_CONFIGURATION_SETTING([Dime installation prefix], [$prefix])
 
 AM_CONFIG_HEADER([include/config.h])
 

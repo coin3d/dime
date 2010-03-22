@@ -19560,6 +19560,14 @@ CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 dime_build_dir=`pwd`
 dime_src_dir=`cd "$srcdir"; pwd`
 
+
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime version:0.9.1"
+else
+  sim_ac_configuration_settings="Dime version:0.9.1"
+fi
+
+
 # *******************************************************************
 # disable build if you just want to generate doc.
 
@@ -19571,9 +19579,9 @@ if test "${enable_build+set}" = set; then :
    sim_ac_build_library=false
 
 if test x"${sim_ac_configuration_settings+set}" = x"set"; then
-  sim_ac_configuration_settings="$sim_ac_configuration_settings|Quarter build type:build disabled"
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:build disabled"
 else
-  sim_ac_configuration_settings="Quarter build type:build disabled"
+  sim_ac_configuration_settings="Dime build type:build disabled"
 fi
 
    ;;
@@ -20689,15 +20697,6 @@ else
 fi
 
   fi
-
-else
-
-if test x"${sim_ac_configuration_settings+set}" = x"set"; then
-  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime build type:build disabled"
-else
-  sim_ac_configuration_settings="Dime build type:build disabled"
-fi
-
 fi
 
 # **************************************************************************
@@ -20803,6 +20802,14 @@ fi
 
 
 # **************************************************************************
+
+
+if test x"${sim_ac_configuration_settings+set}" = x"set"; then
+  sim_ac_configuration_settings="$sim_ac_configuration_settings|Dime installation prefix:$prefix"
+else
+  sim_ac_configuration_settings="Dime installation prefix:$prefix"
+fi
+
 
 ac_config_headers="$ac_config_headers include/config.h"
 
