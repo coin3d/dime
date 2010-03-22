@@ -111,6 +111,8 @@ CPPFLAGS="$CPPFLAGS -DDIME_INTERNAL"
 
 dime_build_dir=`pwd`
 dime_src_dir=`cd "$srcdir"; pwd`
+AC_SUBST([dime_build_dir])
+AC_SUBST([dime_src_dir])
 
 SIM_AC_CONFIGURATION_SETTING([Dime version], [DIME_MAJOR.DIME_MINOR.DIME_MICRO[]DIME_BETA])
 
