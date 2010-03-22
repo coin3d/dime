@@ -27,6 +27,44 @@
  *
 \**************************************************************************/
 
+
+/*!
+  \mainpage
+
+  %Dime is a C++ class library for reading, constructing,
+  manipulating, and writing DXF file data. The name is an acronym for
+  DXF Import, Manipulation, and Export library.
+
+  The library is portable to any platform with a C++ compiler. It has
+  no external dependencies. Dime is known to compile on Win32, Linux,
+  IRIX, HP- UX, Solaris, BeOS and MacOS.
+
+  \b Features:
+
+  \li loading DXF files into a Dime object hierarchy containing the
+  DXF data
+  \li building Dime object hierarchies from scratch
+  \li extracting geometry data from Dime object hierarchies
+  \li manipulating Dime object hierarchies
+  \li traversing the Dime object hierarchies while performing various
+  tasks saving dime object hierarchies as files conforming to the DXF
+  file format
+
+  %Dime is designed to support all past and future versions of the DXF
+  file format. Internally we have tested dime with DXF version 10
+  through 14, and we've had customers that have used the library to
+  handle AutoCAD 2000 DXF files.
+
+  The intended purpose of %Dime is to import and export DXF files. For
+  this kind of usage, special memory management techniques has been
+  implemented, that can be used to boost the performance
+  significantly.
+
+  An example program is included to demonstrate how to use %Dime. The
+  program, dxf2vrml, converts dxf to VRML files.
+*/
+
+
 /*!
   \class dimeBase dime/Base.h
   \brief The dimeBase class is the superclass for most classes in Dime.
