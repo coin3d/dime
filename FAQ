@@ -34,3 +34,10 @@ Long answer:
     could potensially be a candidate, but the file format seems too complex.
     Check out opendwg.org if you need support for .dwg files.
 
+Question 3: I get an error when running 'configure' with Cygwin. What's wrong?
+==============================================================================
+
+Answer:
+
+    # make sure c:\tmp exists
+    export TEMP=c:\\tmp
