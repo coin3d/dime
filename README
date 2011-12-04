@@ -44,7 +44,7 @@ a DXF file (only the polygon data) to a VRML file.
 ====================
 
 Systems In Motion (SIM) has no obligation to provide technical support
-for the GPL licensed version of DIME.  If resources permit, however,
+for the BSD licensed version of DIME.  If resources permit, however,
 SIM will of course try to be as helpful as possible.
 
 SIM has set up two mailing lists for DIME support.
@@ -71,10 +71,4 @@ manager, use "help" as the subject line.
 3. LICENSE INFORMATION
 ======================
 
-DIME is released publicly under the GNU General Public License, version 2
-(see the file named COPYING).  If you need DIME for commercial use, you
-can read about acquiring a commercial licensed version of DIME at SIM's
-DIME web page at http://www.sim.no/dime/, or you can contact SIM's sales
-department directly at <sales@sim.no>.
-
-
+DIME is released publicly under the 3-clause BSD license (see the file named COPYING).

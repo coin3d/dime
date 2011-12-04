@@ -8,7 +8,7 @@
  *
  * Written by Morten Eriksen <mortene@sim.no>.
  *
- * This code is covered by the GNU GPL.
+ * This code is covered by the 3-clause BSD license.
  *
  * Compiles with the Cygwin port of GCC's C++ compiler, you can simply
  * invoke it like this: ``g++ -s -o wrapmsvc.exe wrapmsvc.cpp''.
