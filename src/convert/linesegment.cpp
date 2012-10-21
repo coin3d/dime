@@ -79,6 +79,15 @@ intersect_line(const dimeVec3f &v0, // first line
     isect = v1; // just set some value 
     return false;
   }
+
+  // taendl 2012-07-27 also check if the lines are almost parallel! 
+  dxfdouble eeps = 1.0e-7;
+  if(fabs(f)<eeps){
+    fprintf(stderr,"linesegment.cpp: intersect_line: taendl: almost parallel lines (determinant < eeps = %g)!\n",eeps);
+    isect = v1; // just set some value
+    return false;
+  }
+
   num = d*Ax;
   isect[0] = x1 + num / f;
   num = d*Ay;

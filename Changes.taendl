@@ -1,0 +1,41 @@
+
+2012-07-27 Martin Taendl <taendl@gmx.at>
+
+         * src/convert/linesegment.cpp:
+           intersect_line:
+           checking also if the lines are almost parallel
+           ==> see directory testfiles/Bug2
+
+2012-07-21 Martin Taendl <taendl@gmx.at>
+
+         * src/convert/ellipseconvert.cpp:
+           convert_ellipse:
+           calculating size differently now,
+           since in some cases the old way led to
+           very small increments, so that conversion
+           took very very long and needed a lot of memory
+           ==> see directory testfiles/Bug5
+
+2012-07-17 Martin Taendl <taendl@gmx.at>
+
+         * src/convert/polylineconvert.cpp:
+           convert_line:
+           handling negative bulge differently now,
+           which I think was not treated correctly
+           before
+           ==> see directory testfiles/Bug1
+
+
+Open issues:
+
+- dxf2vrml exits with an error message if a "nan" is found
+  in the dxf file. The error is o.k., but it would be nice
+  if dime discards the entity and continues reading the file.
+  ==> see directory testfiles/Bug3
+
+- inserts where the insert point has large coordinates
+  appear "noisy"/distored because of the truncation error since
+  the translation is performed using single precision float variables rather
+  than double precision variables.
+  ==> see directory testfiles/Bug4
+

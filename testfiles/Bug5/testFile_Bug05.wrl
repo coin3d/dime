@@ -1,0 +1,20 @@
+#VRML V1.0 ascii
+
+Separator {
+  Separator {
+    Material {
+      diffuseColor 1 1 1
+    }
+    Coordinate3 {
+      point [
+            -438.90805 -1223.6665 0,
+            -432.78412 -1225.8458 0
+          ]
+        }
+    IndexedLineSet {
+      coordIndex [
+          0,1,-1
+        ]
+      }
+    }
+}

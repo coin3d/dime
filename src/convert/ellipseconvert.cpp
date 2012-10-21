@@ -121,8 +121,11 @@ convert_ellipse(const dimeEntity *entity, const dimeState *state,
   dxfdouble end = ellipse->getEndParam();
 
   while (end <= rad) end += M_PI*2.0;
-  
-  dxfdouble size = (2*M_PI) / (end-rad);
+
+  // taendl 2012-07-21 substituted the line below
+  // by the following line 
+  //dxfdouble size = (2*M_PI) / (end-rad);
+  dxfdouble size = (end-rad)/(2*M_PI);
   dxfdouble inc = (end-rad) / (numpts * size);  
   
   int i;

@@ -168,7 +168,9 @@ convert_line(dimePolyline *pline, const dimeState *state,
       dimeVec3f rdir = A > 0.0 ? dir.cross(dimeVec3f(0,0,1)) : 
 	dir.cross(dimeVec3f(0,0,-1));
       rdir.normalize();
-      dimeVec3f center = v->getCoords() + dir*(L/2.0) - rdir*(R-H);
+     
+      // taendl 2012-07-17 using the absolute values of R and H here
+      dimeVec3f center = v->getCoords() + dir*(L/2.0) - rdir*(fabs(R)-fabs(H));
 
 #if 0
       fprintf(stderr,"A: %g, L: %g, H: %g, R:%g\n",
@@ -181,13 +183,47 @@ convert_line(dimePolyline *pline, const dimeState *state,
 
       dimeVec3f t = v->getCoords() - center;
       t.normalize();
-      dxfdouble a0 = dimeVec3f(1,0,0).angle(t);
-      if (t[1] < 0.0) a0 = 2*M_PI-a0;
+      // taendl 2012-07-17 using atan2 here! 
+      //dxfdouble a0 = dimeVec3f(1,0,0).angle(t);
+      dxfdouble a0 = atan2(t[1],t[0]);
+      // taendl 2012-07-17 do not correct the angle in this way
+      //if (t[1] < 0.0) a0 = 2*M_PI-a0;
 
       t = next->getCoords() - center;
       t.normalize();
-      dxfdouble a1 = dimeVec3f(1,0,0).angle(t);
-      if (t[1] < 0.0) a1 = 2*M_PI-a1;
+      // taendl 2012-07-17 using atan2 here! 
+      //dxfdouble a1 = dimeVec3f(1,0,0).angle(t);
+      dxfdouble a1 = atan2(t[1],t[0]);
+      // taendl 2012-07-17 do not correct the angle in this way
+      //if (t[1] < 0.0) a1 = 2*M_PI-a1;
+
+      // taendl 2012-07-17 the correction of the angle depends
+      // on the orientation of the circle 
+      // bulge A negative: clockwise (see DXF specification) 
+      if(A<0){
+ 
+        // if the end angle is greater than the start angle,
+        // decrease the end angle by 360 deg
+        if(a1>a0)
+          a1 -=2*M_PI;
+
+        // switch the angles, so that the arc gets a
+        // start angle < end angle 
+        dxfdouble ttemp = a1;
+        a1 = a0;
+        a0 = ttemp;
+
+        // make the radius positive
+        R = fabs(R);
+
+      } else {
+ 
+        // for positive bulge, only increase the end angle
+        // if it is lower than the start angle
+        if(a1<a0)
+          a1 +=2*M_PI;
+
+      }
 
       dimeArc arc;
       arc.setLayer(v->getLayer());
@@ -351,6 +387,7 @@ convert_face(dimePolyline *pline, const dimeState *state,
       }
       c[j] = pline->getCoordVertex(idx-1)->getCoords();
     }
+
     if (num == 3) layerData->addTriangle(c[0], c[1], c[2], &matrix);
     else layerData->addQuad(c[0], c[1], c[2], c[3], &matrix);
   }

@@ -1,0 +1,29 @@
+#VRML V1.0 ascii
+
+Separator {
+  Separator {
+    Material {
+      diffuseColor 1 1 1
+    }
+    ShapeHints {
+      creaseAngle 0.5
+      vertexOrdering COUNTERCLOCKWISE
+      shapeType UNKNOWN_SHAPE_TYPE
+      faceType UNKNOWN_FACE_TYPE
+    }
+    Coordinate3 {
+      point [
+            0.038102627 -0.10508548 0,
+            -0.038102627 0.10508547 0,
+            0.10690263 -0.032658763 0,
+            -0.10690263 0.03265876 0
+          ]
+        }
+    IndexedFaceSet {
+      coordIndex [
+          0,1,2,3,-1,1,0,3,
+          2,-1
+        ]
+      }
+    }
+}
