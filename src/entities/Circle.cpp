@@ -43,12 +43,8 @@
 #include <dime/Model.h>
 #include <math.h>
 
-#ifdef _WIN32
-#define M_PI 3.14159265357989
-#endif
-
-#ifdef macintosh
-#define M_PI 3.14159265357989
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
 #endif
 
 static char entityName[] = "CIRCLE";
