@@ -190,7 +190,7 @@ dimeRecordHolder::write(dimeOutput * const file)
   and dimeRecordHolder::setRecords, this function is called for every
   record found, and it is up to the subclass if the record should be
   stored internally, or if a generic record should be created and
-  stored in this superclass. A subclass should return \e \true when it
+  stored in this superclass. A subclass should return \e true when it
   will handle the record, \e false otherwise.  Default function does
   nothing, and returns \e false.
 

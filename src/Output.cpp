@@ -82,7 +82,7 @@ dimeOutput::setCallback(const int num_records,
 
 /*!
   Sets the filename for the output file. The file will be opened,
-  and \e true is returned if all was ok. The file is closed in
+  and \e true is returned if all was OK. The file is closed in
   the destructor.
 */
 
@@ -96,7 +96,7 @@ dimeOutput::setFilename(const char * const filename)
 }
 
 /*!
-  Sets the output stream. \fp should be a valid file/stream, and
+  Sets the output stream. \a fp should be a valid file/stream, and
   it will not be closed in the destructor.
  */
 bool 
@@ -215,7 +215,7 @@ dimeOutput::writeDouble(const dxfdouble val)
 }
 
 /*!
-  Writes a nul-terminated string to the file. 
+  Writes a null-terminated string to the file. 
 */
 
 bool

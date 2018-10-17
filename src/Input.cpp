@@ -131,7 +131,7 @@ dimeInput::init()
 }
 
 /*!
-  This method returns wether file input was aborted or not.
+  This method returns whether file input was aborted or not.
 */
 
 bool 
@@ -188,9 +188,9 @@ dimeInput::setFile(const char * const filename)
 }
 
 /*!
-  Sets the input data to the stream \a fp. \fp must be a valid file/stream,
-  and will \e not be closed in the destuctor. No progress information
-  will be avilable during loading if this method is used.
+  Sets the input data to the stream \a fp. \a fp must be a valid file/stream,
+  and will \e not be closed in the destructor. No progress information
+  will be available during loading if this method is used.
 */
 bool 
 dimeInput::setFileHandle(FILE *fp)
