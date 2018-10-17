@@ -209,8 +209,8 @@ bool
 dxfConverter::writeVrml(const char * filename, const bool vrml1,
                         const bool only2d)
 {
-  FILE * f;
-  if (fopen(filename, "wb")) {
+  FILE * f = fopen(filename, "wb");
+  if (f) {
     bool ret = this->writeVrml(f, vrml1, only2d);
     fclose(f);
     return ret;
