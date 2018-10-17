@@ -136,7 +136,7 @@ set_target_properties(dime PROPERTIES VERSION ${DIME_VERSION} SOVERSION ${DIME_S
 
 target_compile_definitions(dime PRIVATE HAVE_CONFIG_H DIME_INTERNAL DIME_DEBUG=$<CONFIG:Debug>)
 if(MSVC)
-  target_compile_definitions(dime PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS)
+  target_compile_definitions(dime PRIVATE _CRT_NONSTDC_NO_DEPRECATE _CRT_SECURE_NO_DEPRECATE _CRT_SECURE_NO_WARNINGS _USE_MATH_DEFINES)
   if(NOT DIME_BUILD_SHARED_LIBS)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Z7")                       # Override default /Zi to embed
     set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Z7")     # debugging info in the .lib.
@@ -260,7 +260,7 @@ configure_file(include/config.h.cmake.in config.h)
 # Install headers and binaries
 # ############################################################################
 
-install(DIRECTORY include/${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME} COMPONENT development FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY include/${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT development FILES_MATCHING PATTERN "*.h")
 
 install(TARGETS ${PROJECT_NAME} dxf2vrml dxfsphere EXPORT ${PROJECT_NAME}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT runtime
