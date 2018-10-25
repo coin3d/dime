@@ -18,7 +18,7 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "Kongsberg Oil & Gas Technologies AS"
-            VALUE "FileDescription", "A library for reading, constructing, manipulating, and writing DXF file data - https://bitbucket.org/Coin3D/dime"
+            VALUE "FileDescription", "A library for reading, constructing, manipulating, and writing DXF file data - www.bitbucket.org/Coin3D/dime"
             VALUE "FileVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @DIME_BETA_VERSION@"
             VALUE "InternalName", "@PROJECT_NAME@"
             VALUE "LegalCopyright", "Copyright (c) @DIME_BUILD_YEAR@ Kongsberg Oil & Gas Technologies AS"
