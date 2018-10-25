@@ -19,16 +19,16 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Kongsberg Oil & Gas Technologies AS"
             VALUE "FileDescription", "A library for reading, constructing, manipulating, and writing DXF file data - https://bitbucket.org/Coin3D/dime"
-            VALUE "FileVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @COIN_BETA_VERSION@"
+            VALUE "FileVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @DIME_BETA_VERSION@"
             VALUE "InternalName", "@PROJECT_NAME@"
-            VALUE "LegalCopyright", "Copyright (c) @COIN_BUILD_YEAR@ Kongsberg Oil & Gas Technologies AS"
+            VALUE "LegalCopyright", "Copyright (c) @DIME_BUILD_YEAR@ Kongsberg Oil & Gas Technologies AS"
 #ifdef _DEBUG
             VALUE "OriginalFilename", "@PROJECT_NAME@@PROJECT_VERSION_MAJOR@d.dll"
 #else
             VALUE "OriginalFilename", "@PROJECT_NAME@@PROJECT_VERSION_MAJOR@.dll"
 #endif
             VALUE "ProductName", "dime"
-            VALUE "ProductVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @COIN_BETA_VERSION@"
+            VALUE "ProductVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @DIME_BETA_VERSION@"
         END
     END
     BLOCK "VarFileInfo"
