@@ -88,11 +88,20 @@ install:
       then
         sudo apt-get install freeglut3-dev -y
       fi
+      sudo apt-get install doxygen -y
       sudo apt-get install gcc-multilib -y
       sudo apt-get install g++-multilib -y
+  - cmd: |
+      set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;%PATH%
 
 before_build:
   - cmd: |
+      mkdir %APPVEYOR_BUILD_FOLDER%\downloads
+      set DOWNLOAD_FILE_DOXYGEN=doxygen-1.8.14.windows.x64.bin.zip
+      set DOWNLOAD_ADDRESS_DOXYGEN=http://ftp.stack.nl/pub/users/dimitri/%DOWNLOAD_FILE_DOXYGEN%
+      curl -fsSL -G -o "%DOWNLOAD_FILE_DOXYGEN%" "%DOWNLOAD_ADDRESS_DOXYGEN%"
+      7z x %DOWNLOAD_FILE_DOXYGEN% -o%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14
+      doxygen --version
       cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -DCMAKE_CONFIGURATION_TYPES=%CMAKE_CONFIGURATION% -DCMAKE_TRY_COMPILE_CONFIGURATION=%CMAKE_CONFIGURATION% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D
   - sh: |
       export CFLAGS=$CMAKE_ARCH_FLAGS
