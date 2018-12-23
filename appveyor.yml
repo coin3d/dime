@@ -8,28 +8,27 @@ branches:
 shallow_clone: true
 
 environment:
-  BITBUCKET_LOGIN_ID: coin-support@coin3d.org
-  BITBUCKET_CREDENTIALS:
-    secure: klDv0GkxxTy1F5PBcgsXlg==
+  BB_AUTH_STRING:
+    secure: IyP2dNdsGf1iao8XFeiu7R8Fk+ZWBYd4vJlHZv1XcLy6KWcwSxLtjHZsTUSoiV/e
 
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      CMAKE_GENERATOR: 'Unix Makefiles'
-      CMAKE_CONFIGURATION: Release
-      CMAKE_PLATFORM: x86
-      CMAKE_ARCH_FLAGS: -m32
-      COMPILER_ID: gcc5
-      configuration: Release
-      platform: x86
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      CMAKE_GENERATOR: 'Unix Makefiles'
-      CMAKE_CONFIGURATION: Release
-      CMAKE_PLATFORM: x64
-      CMAKE_ARCH_FLAGS: -m64
-      COMPILER_ID: gcc5
-      configuration: Release
-      platform: x64
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+#      CMAKE_GENERATOR: 'Unix Makefiles'
+#      CMAKE_CONFIGURATION: Release
+#      CMAKE_PLATFORM: x86
+#      CMAKE_ARCH_FLAGS: -m32
+#      COMPILER_ID: gcc5
+#      configuration: Release
+#      platform: x86
+#
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+#      CMAKE_GENERATOR: 'Unix Makefiles'
+#      CMAKE_CONFIGURATION: Release
+#      CMAKE_PLATFORM: x64
+#      CMAKE_ARCH_FLAGS: -m64
+#      COMPILER_ID: gcc5
+#      configuration: Release
+#      platform: x64
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: 'Visual Studio 10 2010'
@@ -96,14 +95,20 @@ install:
 
 before_build:
   - cmd: |
+      set BUILD_SOURCE_ARCHIVE=%APPVEYOR_PROJECT_NAME%-0.9.1-src.zip
+      7z a -tzip %BUILD_SOURCE_ARCHIVE% %APPVEYOR_BUILD_FOLDER%
+      appveyor PushArtifact %BUILD_SOURCE_ARCHIVE%
       mkdir %APPVEYOR_BUILD_FOLDER%\downloads
       set DOWNLOAD_FILE_DOXYGEN=doxygen-1.8.14.windows.x64.bin.zip
-      set DOWNLOAD_ADDRESS_DOXYGEN=http://ftp.stack.nl/pub/users/dimitri/%DOWNLOAD_FILE_DOXYGEN%
+      set DOWNLOAD_ADDRESS_DOXYGEN=https://sourceforge.net/projects/doxygen/files/rel-1.8.14/%DOWNLOAD_FILE_DOXYGEN%
       curl -fsSL -G -o "%DOWNLOAD_FILE_DOXYGEN%" "%DOWNLOAD_ADDRESS_DOXYGEN%"
       7z x %DOWNLOAD_FILE_DOXYGEN% -o%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14
       doxygen --version
       cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -DCMAKE_CONFIGURATION_TYPES=%CMAKE_CONFIGURATION% -DCMAKE_TRY_COMPILE_CONFIGURATION=%CMAKE_CONFIGURATION% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D
   - sh: |
+      BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-0.9.1-src.tar.gz
+      tar -czvf $BUILD_SOURCE_ARCHIVE $APPVEYOR_BUILD_FOLDER/*
+      appveyor PushArtifact $BUILD_SOURCE_ARCHIVE
       export CFLAGS=$CMAKE_ARCH_FLAGS
       export CXXFLAGS=$CMAKE_ARCH_FLAGS
       cmake -H. -Bbuild -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=$CMAKE_CONFIGURATION -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
@@ -141,10 +146,12 @@ after_build:
 on_success:
   - cmd: |
       cd %APPVEYOR_BUILD_FOLDER%
-      curl --user %BITBUCKET_LOGIN_ID%:%BITBUCKET_CREDENTIALS% https://api.bitbucket.org/2.0/repositories/%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%/downloads --form files=@%BUILD_ARCHIVE%
+      curl --user %BB_AUTH_STRING% https://api.bitbucket.org/2.0/repositories/%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%/downloads --form files=@%BUILD_ARCHIVE%
+      curl --user %BB_AUTH_STRING% https://api.bitbucket.org/2.0/repositories/%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%/downloads --form files=@%BUILD_SOURCE_ARCHIVE%
   - sh: |
       cd $APPVEYOR_BUILD_FOLDER
-      curl --user $BITBUCKET_LOGIN_ID:$BITBUCKET_CREDENTIALS   https://api.bitbucket.org/2.0/repositories/$APPVEYOR_ACCOUNT_NAME/$APPVEYOR_PROJECT_SLUG/downloads   --form files=\@$BUILD_ARCHIVE
+      curl --user $BB_AUTH_STRING  https://api.bitbucket.org/2.0/repositories/$APPVEYOR_ACCOUNT_NAME/$APPVEYOR_PROJECT_SLUG/downloads   --form files=\@$BUILD_ARCHIVE
+      curl --user $BB_AUTH_STRING  https://api.bitbucket.org/2.0/repositories/$APPVEYOR_ACCOUNT_NAME/$APPVEYOR_PROJECT_SLUG/downloads   --form files=\@$BUILD_SOURCE_ARCHIVE
 
 notifications:
   - provider: Email
