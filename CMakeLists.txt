@@ -144,6 +144,8 @@ if(WIN32)
       set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Z7")     # debugging info in the .lib.
     endif()
   endif()
+else()
+  target_link_libraries(${PROJECT_NAME} m)
 endif()
 
 target_include_directories(${PROJECT_NAME}
