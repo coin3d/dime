@@ -41,7 +41,7 @@ include(GNUInstallDirs)
 
 option(DIME_BUILD_SHARED_LIBS "Build shared library when ON, static when OFF (default)." OFF)
 #option(DIME_BUILD_TESTS "Build unit tests when ON (default), skips them when OFF." ON)
-option(DIME_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." ON)
+option(DIME_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." OFF)
 cmake_dependent_option(DIME_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "DIME_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(DIME_BUILD_DOCUMENTATION_MAN "Build Dime man pages." OFF "DIME_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(DIME_BUILD_DOCUMENTATION_QTHELP "Build QtHelp documentation." OFF "DIME_BUILD_DOCUMENTATION" OFF)
