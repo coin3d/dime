@@ -14,14 +14,12 @@ environment:
   matrix:
 #    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
 #      CMAKE_GENERATOR: 'Unix Makefiles'
-#      CMAKE_CONFIGURATION: Release
 #      CMAKE_PLATFORM: x86
 #      CMAKE_ARCH_FLAGS: -m32
 #      COMPILER_ID: gcc5
 #
 #    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
 #      CMAKE_GENERATOR: 'Unix Makefiles'
-#      CMAKE_CONFIGURATION: Release
 #      CMAKE_PLATFORM: x64
 #      CMAKE_ARCH_FLAGS: -m64
 #      COMPILER_ID: gcc5
@@ -29,56 +27,48 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: 'Visual Studio 10 2010'
       CMAKE_ARCHITECTURE: Win32
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x86
       COMPILER_ID: msvc10
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: 'Visual Studio 10 2010'
       CMAKE_ARCHITECTURE: x64
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc10
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: 'Visual Studio 14 2015'
       CMAKE_ARCHITECTURE: Win32
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x86
       COMPILER_ID: msvc14
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: 'Visual Studio 14 2015'
       CMAKE_ARCHITECTURE: x64
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc14
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: 'Visual Studio 15 2017'
       CMAKE_ARCHITECTURE: Win32
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x86
       COMPILER_ID: msvc15
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       CMAKE_GENERATOR: 'Visual Studio 15 2017'
       CMAKE_ARCHITECTURE: x64
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc15
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_GENERATOR: 'Visual Studio 16 2019'
       CMAKE_ARCHITECTURE: Win32
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x86
       COMPILER_ID: msvc16
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_GENERATOR: 'Visual Studio 16 2019'
       CMAKE_ARCHITECTURE: x64
-      CMAKE_CONFIGURATION: Release
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc16
 
@@ -112,34 +102,35 @@ before_build:
       set DOWNLOAD_ADDRESS_CMAKE=https://github.com/Kitware/CMake/releases/download/v3.14.5/%DOWNLOAD_FILE_CMAKE%
       curl -fsSL -G -o "%DOWNLOAD_FILE_CMAKE%" "%DOWNLOAD_ADDRESS_CMAKE%"
       7z x %DOWNLOAD_FILE_CMAKE% -o%APPVEYOR_BUILD_FOLDER%\downloads
-      cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DCMAKE_CONFIGURATION_TYPES=%CMAKE_CONFIGURATION% -DCMAKE_TRY_COMPILE_CONFIGURATION=%CMAKE_CONFIGURATION% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D
+      cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D
   - sh: |
       BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-0.9.1-src.tar.gz
       tar -czvf $BUILD_SOURCE_ARCHIVE $APPVEYOR_BUILD_FOLDER/*
       appveyor PushArtifact $BUILD_SOURCE_ARCHIVE
       export CFLAGS=$CMAKE_ARCH_FLAGS
       export CXXFLAGS=$CMAKE_ARCH_FLAGS
-      cmake -H. -Bbuild -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=$CMAKE_CONFIGURATION -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
+      cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
+      cmake -H. -Bbuild_release -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
 
 build_script:
   - cmd: |
       set BUILD_TOOL_OPTIONS=/nologo /verbosity:minimal /maxcpucount
-      cmake --build build --target ALL_BUILD --config %CMAKE_CONFIGURATION% -- %BUILD_TOOL_OPTIONS%
-      cmake --build build --target INSTALL   --config %CMAKE_CONFIGURATION% -- %BUILD_TOOL_OPTIONS%
+      cmake --build build --target INSTALL --config Debug   -- %BUILD_TOOL_OPTIONS%
+      cmake --build build --target INSTALL --config Release -- %BUILD_TOOL_OPTIONS%
   - sh: |
       BUILD_TOOL_OPTIONS=-j4
-      cmake --build build --target all       --config $CMAKE_CONFIGURATION -- $BUILD_TOOL_OPTIONS
-      cmake --build build --target install   --config $CMAKE_CONFIGURATION -- $BUILD_TOOL_OPTIONS
+      cmake --build build_debug   --target install --config Debug   -- $BUILD_TOOL_OPTIONS
+      cmake --build build_release --target install --config Release -- $BUILD_TOOL_OPTIONS
 
 after_build:
   - cmd: |
       cd %APPVEYOR_BUILD_FOLDER%
-      set BUILD_ARCHIVE=%APPVEYOR_PROJECT_NAME%-0.9.1-%COMPILER_ID%-%CMAKE_PLATFORM%-%CMAKE_CONFIGURATION%.zip
+      set BUILD_ARCHIVE=%APPVEYOR_PROJECT_NAME%-0.9.1-%COMPILER_ID%-%CMAKE_PLATFORM%.zip
       7z a -tzip %BUILD_ARCHIVE% Coin3D
       appveyor PushArtifact %BUILD_ARCHIVE%
   - sh: |
       cd $APPVEYOR_BUILD_FOLDER
-      BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-0.9.1-$COMPILER_ID-$CMAKE_PLATFORM-$CMAKE_CONFIGURATION.tar.gz
+      BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-0.9.1-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
       tar -czvf $BUILD_ARCHIVE Coin3D/*
       appveyor PushArtifact $BUILD_ARCHIVE
 
@@ -154,12 +145,10 @@ after_build:
 on_success:
   - cmd: |
       cd %APPVEYOR_BUILD_FOLDER%
-      curl --user %BB_AUTH_STRING% https://api.bitbucket.org/2.0/repositories/%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%/downloads --form files=@%BUILD_ARCHIVE%
-      curl --user %BB_AUTH_STRING% https://api.bitbucket.org/2.0/repositories/%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%/downloads --form files=@%BUILD_SOURCE_ARCHIVE%
+      curl --user %BB_AUTH_STRING% https://api.bitbucket.org/2.0/repositories/Coin3D/%APPVEYOR_PROJECT_SLUG%/downloads --form files=@%BUILD_ARCHIVE% --form files=@%BUILD_SOURCE_ARCHIVE
   - sh: |
       cd $APPVEYOR_BUILD_FOLDER
-      curl --user $BB_AUTH_STRING  https://api.bitbucket.org/2.0/repositories/$APPVEYOR_ACCOUNT_NAME/$APPVEYOR_PROJECT_SLUG/downloads   --form files=\@$BUILD_ARCHIVE
-      curl --user $BB_AUTH_STRING  https://api.bitbucket.org/2.0/repositories/$APPVEYOR_ACCOUNT_NAME/$APPVEYOR_PROJECT_SLUG/downloads   --form files=\@$BUILD_SOURCE_ARCHIVE
+      curl --user $BB_AUTH_STRING  https://api.bitbucket.org/2.0/repositories/Coin3D/$APPVEYOR_PROJECT_SLUG/downloads  --form files=\@$BUILD_ARCHIVE --form files=\@$BUILD_SOURCE_ARCHIVE
 
 notifications:
   - provider: Email
