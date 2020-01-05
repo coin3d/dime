@@ -92,13 +92,6 @@ install:
       sudo apt-get install doxygen -y
       sudo apt-get install gcc-multilib -y
       sudo apt-get install g++-multilib -y
-#      if [ "$CMAKE_PLATFORM" == "x86" ]
-#      then
-#        sudo apt-get install freeglut3-dev:i386 -y
-#      elif [ "$CMAKE_PLATFORM" == "x64" ]
-#      then
-#        sudo apt-get install freeglut3-dev -y
-#      fi
   - cmd: |
       cd %APPVEYOR_BUILD_FOLDER%
       set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;%PATH%
@@ -124,7 +117,8 @@ before_build:
   - sh: |
       if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export CI_REPO_TAG_NAME=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_TAG_NAME=latest; fi
       BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_TAG_NAME-src.tar.gz
-      tar -czvf $BUILD_SOURCE_ARCHIVE $APPVEYOR_BUILD_FOLDER/*
+      if [ ! -d "../$APPVEYOR_PROJECT_NAME" ]; then cp -r $APPVEYOR_BUILD_FOLDER ../$APPVEYOR_PROJECT_NAME; fi
+      cd $APPVEYOR_BUILD_FOLDER/.. && tar -czf $APPVEYOR_BUILD_FOLDER/$BUILD_SOURCE_ARCHIVE $APPVEYOR_PROJECT_NAME && cd -
       export CFLAGS=$CMAKE_ARCH_FLAGS
       export CXXFLAGS=$CMAKE_ARCH_FLAGS
       cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
@@ -159,7 +153,7 @@ after_build:
       export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`
       if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export CI_REPO_TAG_NAME=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_TAG_NAME=latest; fi
       BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_TAG_NAME-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
-      tar -czvf $BUILD_ARCHIVE Coin3D/*
+      tar -czf $BUILD_ARCHIVE Coin3D/*
       appveyor DownloadFile https://ci.appveyor.com/api/buildjobs/$APPVEYOR_JOB_ID/log -FileName $APPVEYOR_PROJECT_NAME-$CI_REPO_TAG_NAME-$COMPILER_ID-$CMAKE_PLATFORM.log
 
 artifacts:
