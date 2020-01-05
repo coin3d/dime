@@ -2,27 +2,31 @@ version: 0.9.1-{branch}-ci-{build}
 
 branches:
   only:
-  - default
+  - master
+  - /v\d*\.\d*\.\d*/
 
-#shallow clone does not work when subrepos are involved!
-shallow_clone: true
+# do not build feature branches with open pull requests
+skip_branch_with_pr: true
+
+#shallow clone does not work when submodules are involved!
+#shallow_clone: true
+
+matrix:
+  fast_finish: true # set this flag to immediately finish build once one of the jobs fails.
 
 environment:
-  BB_AUTH_STRING:
-    secure: IyP2dNdsGf1iao8XFeiu7R8Fk+ZWBYd4vJlHZv1XcLy6KWcwSxLtjHZsTUSoiV/e
-
   matrix:
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-#      CMAKE_GENERATOR: 'Unix Makefiles'
-#      CMAKE_PLATFORM: x86
-#      CMAKE_ARCH_FLAGS: -m32
-#      COMPILER_ID: gcc5
-#
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-#      CMAKE_GENERATOR: 'Unix Makefiles'
-#      CMAKE_PLATFORM: x64
-#      CMAKE_ARCH_FLAGS: -m64
-#      COMPILER_ID: gcc5
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x86
+      CMAKE_ARCH_FLAGS: -m32
+      COMPILER_ID: gcc
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      CMAKE_ARCH_FLAGS: -m64
+      COMPILER_ID: gcc
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       CMAKE_GENERATOR: 'Visual Studio 10 2010'
@@ -71,42 +75,56 @@ environment:
       CMAKE_ARCHITECTURE: x64
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc16
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: 'MSYS Makefiles'
+      CMAKE_PLATFORM: i686
+      COMPILER_ID: mingw32
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: 'MSYS Makefiles'
+      CMAKE_PLATFORM: x86_64
+      COMPILER_ID: mingw64
 
 install:
   - sh: |
-      if [ "$CMAKE_PLATFORM" == "x86" ]
-      then
-        sudo apt-get install freeglut3-dev:i386 -y
-      elif [ "$CMAKE_PLATFORM" == "x64" ]
-      then
-        sudo apt-get install freeglut3-dev -y
-      fi
+      cd $APPVEYOR_BUILD_FOLDER
       sudo apt-get install doxygen -y
       sudo apt-get install gcc-multilib -y
       sudo apt-get install g++-multilib -y
+#      if [ "$CMAKE_PLATFORM" == "x86" ]
+#      then
+#        sudo apt-get install freeglut3-dev:i386 -y
+#      elif [ "$CMAKE_PLATFORM" == "x64" ]
+#      then
+#        sudo apt-get install freeglut3-dev -y
+#      fi
   - cmd: |
-      set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;%APPVEYOR_BUILD_FOLDER%\downloads\cmake-3.14.5-win64-x64\bin;%PATH%
+      cd %APPVEYOR_BUILD_FOLDER%
+      set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;%PATH%
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" set PATH=C:\msys64\%COMPILER_ID%\bin;C:\msys64\usr\bin\;%PATH%
+  - git submodule update --init --recursive
 
+# Assumes that we use the vx.y.z tagging scheme (e.g. v1.3.0)
 before_build:
   - cmd: |
-      set BUILD_SOURCE_ARCHIVE=%APPVEYOR_PROJECT_NAME%-0.9.1-src.zip
+      set CI_REPO_TAG_NAME=latest
+      if defined APPVEYOR_REPO_TAG_NAME set CI_REPO_TAG_NAME=%APPVEYOR_REPO_TAG_NAME:~1%
+      set BUILD_SOURCE_ARCHIVE=%APPVEYOR_PROJECT_NAME%-%CI_REPO_TAG_NAME%-src.zip
       7z a -tzip %BUILD_SOURCE_ARCHIVE% %APPVEYOR_BUILD_FOLDER%
-      appveyor PushArtifact %BUILD_SOURCE_ARCHIVE%
       mkdir %APPVEYOR_BUILD_FOLDER%\downloads
       set DOWNLOAD_FILE_DOXYGEN=doxygen-1.8.14.windows.x64.bin.zip
       set DOWNLOAD_ADDRESS_DOXYGEN=https://sourceforge.net/projects/doxygen/files/rel-1.8.14/%DOWNLOAD_FILE_DOXYGEN%
-      curl -fsSL -G -o "%DOWNLOAD_FILE_DOXYGEN%" "%DOWNLOAD_ADDRESS_DOXYGEN%"
+      appveyor DownloadFile https://sourceforge.net/projects/doxygen/files/rel-1.8.14/%DOWNLOAD_FILE_DOXYGEN% -FileName %DOWNLOAD_FILE_DOXYGEN%
       7z x %DOWNLOAD_FILE_DOXYGEN% -o%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14
       doxygen --version
-      set DOWNLOAD_FILE_CMAKE=cmake-3.14.5-win64-x64.zip
-      set DOWNLOAD_ADDRESS_CMAKE=https://github.com/Kitware/CMake/releases/download/v3.14.5/%DOWNLOAD_FILE_CMAKE%
-      curl -fsSL -G -o "%DOWNLOAD_FILE_CMAKE%" "%DOWNLOAD_ADDRESS_CMAKE%"
-      7z x %DOWNLOAD_FILE_CMAKE% -o%APPVEYOR_BUILD_FOLDER%\downloads
-      cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake -H. -Bbuild_debug   -G "%CMAKE_GENERATOR%" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%/Coin3D
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake -H. -Bbuild_release -G "%CMAKE_GENERATOR%" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%/Coin3D
+      if not "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D
   - sh: |
-      BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-0.9.1-src.tar.gz
+      if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export CI_REPO_TAG_NAME=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_TAG_NAME=latest; fi
+      BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_TAG_NAME-src.tar.gz
       tar -czvf $BUILD_SOURCE_ARCHIVE $APPVEYOR_BUILD_FOLDER/*
-      appveyor PushArtifact $BUILD_SOURCE_ARCHIVE
       export CFLAGS=$CMAKE_ARCH_FLAGS
       export CXXFLAGS=$CMAKE_ARCH_FLAGS
       cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
@@ -115,8 +133,10 @@ before_build:
 build_script:
   - cmd: |
       set BUILD_TOOL_OPTIONS=/nologo /verbosity:minimal /maxcpucount
-      cmake --build build --target INSTALL --config Debug   -- %BUILD_TOOL_OPTIONS%
-      cmake --build build --target INSTALL --config Release -- %BUILD_TOOL_OPTIONS%
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake --build build_debug   --target install --config Debug   -- -j4
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake --build build_release --target install --config Release -- -j4
+      if not "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake --build build --target INSTALL --config Debug   -- %BUILD_TOOL_OPTIONS%
+      if not "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake --build build --target INSTALL --config Release -- %BUILD_TOOL_OPTIONS%
   - sh: |
       BUILD_TOOL_OPTIONS=-j4
       cmake --build build_debug   --target install --config Debug   -- $BUILD_TOOL_OPTIONS
@@ -125,36 +145,71 @@ build_script:
 after_build:
   - cmd: |
       cd %APPVEYOR_BUILD_FOLDER%
-      set BUILD_ARCHIVE=%APPVEYOR_PROJECT_NAME%-0.9.1-%COMPILER_ID%-%CMAKE_PLATFORM%.zip
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" gcc -dumpversion > gccversion.txt
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" set /p GCC_VERSION=< gccversion.txt
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" set COMPILER_STRING=mingw-gcc%GCC_VERSION:.=%
+      if "%CMAKE_GENERATOR%" == "MSYS Makefiles" set COMPILER_ID=%COMPILER_STRING%
+      set CI_REPO_TAG_NAME=latest
+      if defined APPVEYOR_REPO_TAG_NAME set CI_REPO_TAG_NAME=%APPVEYOR_REPO_TAG_NAME:~1%
+      set BUILD_ARCHIVE=%APPVEYOR_PROJECT_NAME%-%CI_REPO_TAG_NAME%-%COMPILER_ID%-%CMAKE_PLATFORM%.zip
       7z a -tzip %BUILD_ARCHIVE% Coin3D
-      appveyor PushArtifact %BUILD_ARCHIVE%
+      appveyor DownloadFile https://ci.appveyor.com/api/buildjobs/%APPVEYOR_JOB_ID%/log -FileName %APPVEYOR_PROJECT_NAME%-%CI_REPO_TAG_NAME%-%COMPILER_ID%-%CMAKE_PLATFORM%.log
   - sh: |
       cd $APPVEYOR_BUILD_FOLDER
-      BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-0.9.1-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
+      export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`
+      if [ -z "${APPVEYOR_REPO_TAG_NAME+x}" ]; then export CI_REPO_TAG_NAME=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_TAG_NAME=latest; fi
+      BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_TAG_NAME-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
       tar -czvf $BUILD_ARCHIVE Coin3D/*
-      appveyor PushArtifact $BUILD_ARCHIVE
+      appveyor DownloadFile https://ci.appveyor.com/api/buildjobs/$APPVEYOR_JOB_ID/log -FileName $APPVEYOR_PROJECT_NAME-$CI_REPO_TAG_NAME-$COMPILER_ID-$CMAKE_PLATFORM.log
+
+artifacts:
+  - path: $(APPVEYOR_PROJECT_NAME)*.zip
+    name: CIArchives
+  - path: $(APPVEYOR_PROJECT_NAME)*.tar.gz
+    name: CIArchivesTGZ
+  - path: $(APPVEYOR_PROJECT_NAME)*.log
+    name: logs
 
 #test_script:
 #  - cmd: |
 #      cd build
-#      ctest -C %CMAKE_CONFIGURATION% -VV
+#      ctest -C Release -VV
 #  - sh: |
-#      cd build
-#      ctest -C $CMAKE_CONFIGURATION -VV
-
-on_success:
-  - cmd: |
-      cd %APPVEYOR_BUILD_FOLDER%
-      curl --user %BB_AUTH_STRING% https://api.bitbucket.org/2.0/repositories/Coin3D/%APPVEYOR_PROJECT_SLUG%/downloads --form files=@%BUILD_ARCHIVE% --form files=@%BUILD_SOURCE_ARCHIVE%
-  - sh: |
-      cd $APPVEYOR_BUILD_FOLDER
-      curl --user $BB_AUTH_STRING  https://api.bitbucket.org/2.0/repositories/Coin3D/$APPVEYOR_PROJECT_SLUG/downloads  --form files=\@$BUILD_ARCHIVE --form files=\@$BUILD_SOURCE_ARCHIVE
+#      cd build_release
+#      ctest -C Release -VV
 
 notifications:
   - provider: Email
     to:
-    - '{{commitAuthorEmail}}'
-    - coin-support@coin3d.org
+      - '{{commitAuthorEmail}}'
+#      - coin-support@coin3d.org
     on_build_success: false
     on_build_failure: true
     on_build_status_changed: true
+
+deploy:
+  # Deploy to GitHub Releases
+  - provider: GitHub
+    auth_token:
+      secure: 850frgRGZcc4Cljd2P7Ej68no4/kkl4EMB+DjnX725wcKBRJuFk/kGRdJGyKXd2u # your encrypted token from GitHub
+    artifact: CIArchives, CIArchivesTGZ, logs
+    tag: 'CI builds'
+    description: 'Results of CI builds for various platforms'
+    draft: true
+    prerelease: true
+    force_update: true
+    on:
+      branch: master                # release from master branch only
+
+  # Deploy to GitHub Releases
+  - provider: GitHub
+    auth_token:
+      secure: 850frgRGZcc4Cljd2P7Ej68no4/kkl4EMB+DjnX725wcKBRJuFk/kGRdJGyKXd2u # your encrypted token from GitHub
+    artifact: CIArchives, CIArchivesTGZ
+    tag: $(APPVEYOR_REPO_TAG_NAME)
+    description: 'Release build'
+    draft: true
+    prerelease: true
+    force_update: true
+    on:
+      appveyor_repo_tag: true       # deploy on tag push only
