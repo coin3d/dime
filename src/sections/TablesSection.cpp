@@ -90,7 +90,7 @@ dimeTablesSection::copy(dimeModel * const model) const
 }
 
 /*!
-  Will read a dxf TABLES section.
+  Will read a DXF TABLES section.
 */
 
 bool 
@@ -205,7 +205,7 @@ dimeTablesSection::getTable(const int idx)
 }
 
 /*!
-  Removes (and deletes if no memhandler is used) the table at index \a idx.
+  Removes (and deletes if no memory handler is used) the table at index \a idx.
 */
 
 void 

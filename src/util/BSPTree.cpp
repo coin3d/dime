@@ -256,9 +256,9 @@ dime_bspnode::sort()
 
 /*!
   Constructor. Will create an empty BSP tree with one node.
-  \a maxnodepts is the maximume number of points in a BSP
+  \a maxnodepts is the maximum number of points in a BSP
   node. \a initsize is the initial size of the arrays that 
-  holds the coordinates and userdata.
+  holds the coordinates and user data.
 */
 dimeBSPTree::dimeBSPTree(const int maxnodepts, const int initsize)
   : pointsArray(initsize),
@@ -319,10 +319,10 @@ dimeBSPTree::setUserData(const int idx, void * const data)
 }
 
 /*!
-  Attempts to add a new point into the BSP tree. If a point
+  Attempts to add a new point to the BSP tree. If a point
   with the same coordinates as \a pt already is in the tree,
   the index to that point will be returned. Otherwise, the
-  point is appended at the end of the list of points, the userdata 
+  point is appended at the end of the list of points, the user data 
   is set, and the new index is returned.
 */
 int 
@@ -359,7 +359,7 @@ dimeBSPTree::removePoint(const int idx)
 
 /*!
   Searches for a point with coordinates \a pos. Returns 
-  the index if found, -1 otherwise
+  the index if found, -1 otherwise.
 */
 
 int 

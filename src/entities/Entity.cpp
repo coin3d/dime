@@ -35,7 +35,7 @@
   \brief The dimeEntity class is the superclass of all \e entity classes.
 
   If you plan to implement your own entity you should inherit this
-  class.  There are some method you need to implement to create an
+  class.  There are some methods you need to implement to create an
   entity, and some steps need to be taken if it's going to work 100%
   with the rest of the library. I recommend looking at the code for
   the dimeArc entity when you read this documentation and before you
@@ -52,24 +52,24 @@
   So, this method should check if the group code parameter matches
   one of the records stored in one of your class members, and then
   return the value of that member. If the requested group code isn't
-  store by your class, you should return with a call to your parent's
+  stored by your class, you should return with a call to your parent's
   class getRecord() method, usually dimeEntity::getRecord() or 
   dimeExtrusionEntity::getRecord().
 
-  The getEntityName() should simply return the DXF name of the entitiy.
+  The getEntityName() should simply return the DXF name of the entity.
 
   The copy() method should make an exact copy of the entity and return
   this. The dimeModel argument to copy() is the model the copied
   entity will be a part of. First you should create a new instance of
-  your entitiy. The model'l memory handler should be passed as an
+  your entity. The model's memory handler should be passed as an
   argument to new(). Then you should call the copyRecords() method to
   copy records stored by dimeRecordHolder (dimeEntity inherits
   dimeRecordHolder). Then you should copy your data members into the
   new instance. If you inherit the dimeExtrusionEntity you should 
   class copyExtrusionData() before returning.
   
-  The write() method should write your entiy using the dimeOutput
-  parameter. Fist your should call the preWrite() method. This will
+  The write() method should write your entity using the dimeOutput
+  parameter. Fist you should call the preWrite() method. This will
   take care of writing the entity name, and handle ugly stuff such
   as entity handles and ACAD REACTORS data. Then you should write
   your data members. If you inherit from dimeExtrusionEntity method
@@ -98,12 +98,12 @@
   you, you should call the parent's handleRecord() and it will be
   stored there.  If you need to allocate memory to store the data you
   should check if the dimeMemHandler parameter != NULL and then use it
-  to allocate memory.  There is a convenience macro defines in
+  to allocate memory.  There is a convenience macro defined in
   include/dime/Basic.h that copies a string, using the memory handler
-  if != NULL.
+  if set.
 
   Well, that's about it I think. Good luck :) Don't hesitate to contact
-  us (dime-support@sim.no) if you have questions about how to create
+  us (coin-support@coin3d.org) if you have questions about how to create
   entities.  
 */
 
@@ -152,7 +152,7 @@
 
 /*!
   \fn const char *dimeEntity::getEntityName() const = 0
-  Must be implemented by subclasses to return the entity name; 
+  Must be implemented by subclasses to return the entity name, 
   e.g. POLYLINE, 3DFACE, etc.
 */
 
@@ -372,7 +372,7 @@ dimeEntity::readEntities(dimeInput * const file,
 }
 
 /*!
-  Static function which copies all non-deleted entites from 
+  Static function which copies all non-deleted entities from 
   \a array of length \a nument into a
   new array. Will return the number of copied entities in
   \a nument. This function returns \e NULL either when out of
@@ -418,7 +418,7 @@ dimeEntity::copyEntityArray(const dimeEntity *const*const array,
 }
 
 /*!
-  Static function which copies all non-deleted entites from 
+  Static function which copies all non-deleted entities from 
   \a array of length \a nument into \a destarray.
 */
 
@@ -481,8 +481,8 @@ dimeEntity::fixReferences(dimeModel * const)
 
 /*!
   Will return an "arbitrary" axis, based on \a givenaxis. Based on code
-  from DXF Parser R10, from Autodesk Inc. Is used to find the x-axis
-  bases on the given z-axis.
+  from DXF Parser R10, from Autodesk Inc. Is used to find the X-axis
+  bases on the given Z-axis.
   
   \sa dimeEntity::generateUCS()
 */
@@ -504,7 +504,7 @@ dimeEntity::arbitraryAxis(const dimeVec3f &givenaxis, dimeVec3f &newaxis)
 
 /*!
   Will generate a coordinate system, based on \a givenaxis,
-  which will be the z-axis in the new coordinate system.
+  which will be the Z-axis in the new coordinate system.
 
   \sa dimeEntity::arbitraryAxis()
 */

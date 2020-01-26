@@ -101,7 +101,7 @@ intersect_line(const dimeVec3f &v0, // first line
   \class dxfLineSegment linesegment.h
   \brief The dxfLineSegment class handles lines with width and/or height.
   This class support several connected line segments. The line segments
-  will then be converted to a continous mesh, without cracks, as
+  will then be converted to a continuous mesh, without cracks, as
   specified in the DXF specification.
 */
 

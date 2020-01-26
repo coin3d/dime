@@ -46,7 +46,7 @@
 
 /*!
   \fn const char *dimeClass::getDxfClassName() const = 0
-  Must be implemented by subclasses to return the dxf name of the class.
+  Must be implemented by subclasses to return the DXF name of the class.
 */
 
 /*!
@@ -162,7 +162,7 @@ dimeClass::write(dimeOutput * const file)
 }
 
 /*!
-  Static function which creates an class based on its name. 
+  Static function which creates a class based on its name. 
 */
 
 dimeClass *

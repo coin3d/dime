@@ -37,7 +37,7 @@
   \class dxfLayerData layerdata.h
   \brief The dxfLayerData class handles all geometry for a given color index.
   DXF geometry is grouped into different colors, as this is a normal way
-  to group geometry data, and especially vrml data.
+  to group geometry data, and especially VRML data.
 
   The geometry can be either points, lines or polygons.
 */
@@ -59,8 +59,8 @@ dxfLayerData::~dxfLayerData()
 }
 
 /*!
-  Sets the fillmode for this layer. If fillmode is set (the default)
-  polylines with width and/or height will be converter to polygons
+  Sets the fill mode for this layer. If fill mode is set (the default)
+  polylines with width and/or height will be converted to polygons
   and not lines. The same goes for the SOLID and TRACE entities.
 */
 void 
@@ -106,7 +106,7 @@ dxfLayerData::addLine(const dimeVec3f &v0, const dimeVec3f &v1,
 
 /*!
   Adds a point to this layer's geometry. If \a matrix != NULL, the
-  point will be transformed by this matrix before they are added.
+  point will be transformed by this matrix before it is added.
 */
 void 
 dxfLayerData::addPoint(const dimeVec3f &v,
@@ -198,7 +198,7 @@ dxfLayerData::addQuad(const dimeVec3f &v0,
 }
 
 /*!
-  Exports this layer's geometry as vrml nodes.
+  Exports this layer's geometry as VRML nodes.
 */
 void 
 dxfLayerData::writeWrl(FILE *fp, int indent, const bool vrml1,

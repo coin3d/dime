@@ -352,7 +352,7 @@ dimeLayer::colorToRGB(const int colornum,
   \fn int dimeLayer::getLayerNum() const
   Returns the layer number. This will be a unique number for
   this layer. The default layer will have number 0, and all other
-  layer will get running number from 1 and up. This can be useful
+  layers will get running number from 1 and up. This can be useful
   when extracting geometry from a DXF model, and you need to group
   the geometry by layer.
 

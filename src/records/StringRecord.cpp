@@ -87,7 +87,7 @@ dimeStringRecord::setString(const char * const s,
 }
 
 /*!  
-  Sets the objects string pointer to point to 's'. Be aware that if
+  Sets the objects string pointer to point to \a s. Be aware that if
   the destructor is called for this object, the object will attempt to
   delete the string. \sa dimeStringRecord::setString().  
 */

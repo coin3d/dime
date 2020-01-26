@@ -87,10 +87,10 @@ dimeDict::clear()
 }
 
 /*!
-  Insert a new string \a key in the dictionary, and associates a
+  Inserts a new string \a key in the dictionary, and associates a
   id (= \a value) to it. Returns a pointer
   to the string. If the string is already in the dictionary, the
-  old id is replaced with \a value;
+  old id is replaced with \a value.
 */
 
 const char *

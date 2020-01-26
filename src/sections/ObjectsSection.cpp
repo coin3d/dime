@@ -209,7 +209,7 @@ dimeObjectsSection::getObject(const int idx)
 }
 
 /*!
-  Removes (and deletes if no memhandler is used) the object at index \a idx.
+  Removes (and deletes if no memory handler is used) the object at index \a idx.
 */
 
 void 

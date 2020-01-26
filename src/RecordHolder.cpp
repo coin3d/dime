@@ -107,8 +107,8 @@ dimeRecordHolder::copyRecords(dimeRecordHolder * const rh,
 }
 
 /*!
-  Reads records from \a in until the separator groupcode (specified in 
-  constructor)  is found. Can be overloaded by subclasses, but in most 
+  Reads records from \a in until the separator group code (specified in 
+  constructor) is found. Can be overloaded by subclasses, but in most 
   cases this will not be necessary as dimeRecordHolder::handleRecord() 
   is called for each record found in the stream.
 
@@ -185,7 +185,7 @@ dimeRecordHolder::write(dimeOutput * const file)
 }
 
 /*!  
-  Must be overloaded by entities that directly supports a record
+  Must be overloaded by entities that directly support a record
   type. During dimeRecordHolder::read(), dimeRecordHolder::setRecord
   and dimeRecordHolder::setRecords, this function is called for every
   record found, and it is up to the subclass if the record should be
@@ -210,7 +210,7 @@ dimeRecordHolder::handleRecord(const int,
 
 /*!
   Sets the data for the record with group code \a groupcode. If the
-  record already exists, it's value will simply be overwritten,
+  record already exists, its value will simply be overwritten,
   otherwise a new record will be created.
   If the record is handled by a subclass, \a param will be passed on 
   to the subclass (using dimeRecordHolder::handleRecord()), and will be 
@@ -218,7 +218,7 @@ dimeRecordHolder::handleRecord(const int,
 
   For entities, you cannot use this method to set the layer name. Use
   dimeEntity::setLayer() to do that. Also, you should not use
-  this function to set the block name for a dimeInsert entity;
+  this function to set the block name for a dimeInsert entity,
   use dimeInsert::setBlock() instead.
   
   \sa dimeRecordHolder::handleRecord()
@@ -253,7 +253,7 @@ dimeRecordHolder::setIndexedRecord(const int groupcode,
   Will return the value of the record with group code \a groupcode.
   \e false is returned if the record could not be found.
   Subclasses should overload this method if one or several records are 
-  stored in the class. If the groupcode queried is not stored internally, the
+  stored in the class. If the group code queried is not stored internally, the
   subclass should call its parent's method.
 */
 
@@ -354,7 +354,8 @@ dimeRecordHolder::countRecords() const
   Returns the record with group code \a groupcode. If \a index > 0,
   the index'th record with group code \a groupcode will be
   returned. Returns \e NULL if the record is not found or \a index is
-  out of bounds.  */
+  out of bounds.
+*/
 
 dimeRecord *
 dimeRecordHolder::findRecord(const int groupcode, const int index)
@@ -372,7 +373,7 @@ dimeRecordHolder::findRecord(const int groupcode, const int index)
 
 /*!
   Can be overloaded by subclasses that want the record holder to
-  store a record, but handles writing themselves. Default
+  store a record, but handle writing themselves. Default
   method returns \a true for all group codes.
 */
 bool 

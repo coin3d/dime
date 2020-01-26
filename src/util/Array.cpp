@@ -91,7 +91,7 @@
 
 /*!
   \fn const T * dimeArray::constArrayPointer() const
-  This method returns a pointer to the allocated array.
+  This method returns a const pointer to the allocated array.
 */
 
 /*!

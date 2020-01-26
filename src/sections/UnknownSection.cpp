@@ -47,7 +47,7 @@
 #include <stdio.h>
 
 /*!
-  Constructor which stores the sectioname.
+  Constructor which stores the section name.
 */
 
 dimeUnknownSection::dimeUnknownSection(const char * const sectionname,

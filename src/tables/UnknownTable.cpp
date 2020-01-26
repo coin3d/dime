@@ -54,7 +54,7 @@ dimeUnknownTable::dimeUnknownTable(const char * const name,
 }
 
 /*!
-  Destructor. Should only be called if no memhandler is used.
+  Destructor. Should only be called if no memory handler is used.
 */
 
 dimeUnknownTable::~dimeUnknownTable()
