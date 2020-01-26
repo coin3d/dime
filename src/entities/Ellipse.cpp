@@ -81,7 +81,7 @@
 /*!
   \fn void dimeEllipse::setStartParam(const dxfdouble p)
   Sets the start parameter for this ellipse.
-  Possible values range from 0 to 2pi. Default value is
+  Possible values range from 0 to 2*pi. Default value is
   0.
 */
 
@@ -94,8 +94,8 @@
 /*!
   \fn void dimeEllipse::setEndParam(const dxfdouble p)
   Sets the end parameter for this ellipse.
-  Possible values range from 0 to 2pi, but this value should
-  be bigger than the start parameter. Default value is 2pi.
+  Possible values range from 0 to 2*pi, but this value should
+  be bigger than the start parameter. Default value is 2*pi.
   \sa dimeEllipse::setStartParam()
 */
 

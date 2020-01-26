@@ -169,7 +169,7 @@ dimeInput::relativePosition()
 }
 
 /*!
-  Opens the file 'filename' for reading. True is returned if the file
+  Opens the file \a filename for reading. True is returned if the file
   is opened correctly. File will be closed in destructor.
 */
 
@@ -315,7 +315,7 @@ dimeInput::readGroupCode(int32 &code)
 /*!
   This function is needed when a loader snoops for future group codes.
   It is possible to put back a single group code so that the next time
-  dimeInput::readGroupCode() is called, the putback value will be 
+  dimeInput::readGroupCode() is called, the put back value will be 
   returned.
 */
 

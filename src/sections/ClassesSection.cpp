@@ -210,7 +210,7 @@ dimeClassesSection::getClass(const int idx)
 }
 
 /*!
-  Removes (and deletes if no memhandler is used) the class at index \a idx.
+  Removes (and deletes if no memory handler is used) the class at index \a idx.
 */
 
 void 

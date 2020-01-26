@@ -57,7 +57,7 @@
 #include <dime/Model.h>
 
 /*!
-  This method returns a string saying which version of DIME is used.j
+  This method returns a string saying which version of DIME is used.
 */
 
 const char *
@@ -255,7 +255,7 @@ dimeModel::read(dimeInput * const in)
 
 /*!
   Writes the model to file. Currently only DXF files are supported, but
-  hopefullt DWG will be supported soon.
+  hopefully DWG will be supported soon.
 */
 
 bool 
@@ -354,7 +354,7 @@ dimeModel::getMemHandler()
 }
 
 /*!
-  Adds a layer to the list of layers. If the layer allready exists, a
+  Adds a layer to the list of layers. If the layer already exists, a
   pointer to the existing layer will be returned.
 */
 
@@ -606,7 +606,7 @@ dimeModel::getSection(const int idx)
   specifies the target position of the new section in the list of sections.
   If \a idx is negative, the section will be placed at the end of the list.
 
-  Sections shold never be allocated on the stack. Use the new/delete
+  Sections should never be allocated on the stack. Use the new/delete
   operators to create/destroy section instances.
 
 */
@@ -634,8 +634,8 @@ dimeModel::removeSection(const int idx)
 }
 
 /*!
-  Newer DXF files has stupid handles (groupcode 5) for all 
-  entities, tables etc. I can't undestand they have no real purpose,
+  Newer DXF files has stupid handles (group code 5) for all 
+  entities, tables etc. I can't understand they have no real purpose,
   but all handles must be unique when the file is loaded back into
   AutoCAD...
 */

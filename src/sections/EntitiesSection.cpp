@@ -223,7 +223,7 @@ dimeEntitiesSection::getEntity(const int idx)
 }
 
 /*!
-  Removes (and deletes if no memhandler is used) the entity at index \a idx.
+  Removes (and deletes if no memory handler is used) the entity at index \a idx.
 */
 
 void 

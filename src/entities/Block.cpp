@@ -344,7 +344,7 @@ dimeBlock::insertEntity(dimeEntity * const entity, const int idx)
 /*!
   Removes the entity at position \a idx. If \a deleteIt is \e true, and 
   no memory handler is used, the entity will be deleted before 
-  returing from this method.
+  returning from this method.
 */
 
 void 

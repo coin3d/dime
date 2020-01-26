@@ -114,7 +114,7 @@ dimeVertex::write(dimeOutput * const file)
 }
 
 /*!
-  Returns the number of indices stored in this vertex;
+  Returns the number of indices stored in this vertex.
 */
 
 int 
@@ -128,7 +128,7 @@ dimeVertex::numIndices() const
 }
 
 /*!
-  Returns index number \a num;
+  Returns index number \a num.
 */
 
 int 

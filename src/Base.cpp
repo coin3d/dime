@@ -59,12 +59,12 @@
   handle AutoCAD 2000 DXF files.
 
   The intended purpose of %Dime is to import and export DXF files. For
-  this kind of usage, special memory management techniques has been
+  this kind of usage, special memory management techniques have been
   implemented, that can be used to boost the performance
   significantly.
 
   An example program is included to demonstrate how to use %Dime. The
-  program, dxf2vrml, converts dxf to VRML files.
+  program, dxf2vrml, converts DXF to VRML files.
 */
 
 
@@ -73,7 +73,7 @@
   \brief The dimeBase class is the superclass for most classes in Dime.
 
   dimeBase implements the \e new operator to enable use of the special-purpose
-  memory manager class, dimeMemHandler.  It also implements a simple run-time
+  memory manager class, dimeMemHandler.  It also implements a simple runtime
   type checking system.
 */
 

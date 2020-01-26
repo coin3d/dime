@@ -141,7 +141,7 @@ dimeMemHandler::~dimeMemHandler()
 
 /*!
   Bullshit function.  Can be called right after constructor 
-  to test if initial memory was allocated ok.
+  to test if initial memory was allocated OK.
 */
 
 bool
@@ -167,11 +167,11 @@ dimeMemHandler::stringAlloc(const char * const string)
 }
 
 /*!
-  Allocates a chunk (\a size) of memory. Memory is allocates in big 
-  blocks. New blocks of memory is allocated whenever needed, and
-  is handled automatically. The returned pointer is aligned according 
+  Allocates a chunk (\a size) of memory. Memory is allocated in big 
+  blocks. New blocks of memory are allocated whenever needed, and
+  are handled automatically. The returned pointer is aligned according 
   to the \a alignment argument. The default alignment is four bytes, 
-  but when compiled on 64 bits systems the default alignment 
+  but when compiled on 64 bit systems the default alignment 
   should probably be changed to eight.
 */
 

@@ -10,7 +10,7 @@ m4_define([DIME_ABI_REVISION], [0])
 
 # **************************************************************************
 
-AC_INIT([dime], [DIME_VERSION_STRING], [dime-support@coin3d.org])
+AC_INIT([dime], [DIME_VERSION_STRING], [coin-support@coin3d.org])
 
 AC_CONFIG_SRCDIR([include/dime/Base.h])
 AC_CONFIG_AUX_DIR([cfg])

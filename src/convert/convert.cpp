@@ -43,10 +43,10 @@
 
 /*!
   \class dxfConverter convert.h
-  \brief The dxfConverter class offers a simple interface for dxf converting.
-  It makes it possible to extract all geometry from dxf files, and store
-  it in internal geometry sturctures, which again can be exported as 
-  vrml.
+  \brief The dxfConverter class offers a simple interface for DXF converting.
+  It makes it possible to extract all geometry from DXF files, and store
+  it in internal geometry structures, which again can be exported as 
+  VRML.
 */
 
 
@@ -54,14 +54,14 @@
   \fn void dxfConverter::setNumSub(const int num)
   Sets the number of subdivisions for a circle or ellipse. 
   This overrides the value set in dxfConverter::setMaxerr() and 
-  should normally not be used
+  should normally not be used.
 
   \sa dxfConverter::getNumSub()
 */
 
 /*!
   \fn int dxfConverter::getNumSub() const
-  Returns the numner of subdivisions set by dxfConverter::setNumSub()
+  Returns the number of subdivisions set by dxfConverter::setNumSub()
 */
 
 /*!
@@ -89,7 +89,7 @@
 /*!
   \fn bool dxfConverter::getLayercol() const
   Returns whether only layers should be used (and not color index) when
-  converting
+  converting.
 */
   
 /*!

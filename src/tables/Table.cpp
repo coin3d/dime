@@ -244,7 +244,7 @@ dimeTable::countRecords() const
 }
 
 /*!
-  Returns the number of table enties in this table. 
+  Returns the number of table entries in this table. 
 */
 
 int 
@@ -265,7 +265,7 @@ dimeTable::getTableEntry(const int idx)
 }
 
 /*!
-  Removes (and deletes if no memhandler is used) the table entry at index
+  Removes (and deletes if no memory handler is used) the table entry at index
   \a idx.
 */
 
@@ -279,7 +279,7 @@ dimeTable::removeTableEntry(const int idx)
 
 /*!
   Inserts a new table entry at index \a idx. If \a idx is negative, the
-  table entry will be inserted at the end of the list of tableEntries.
+  table entry will be inserted at the end of the list of table entries.
 */
 
 void 
@@ -295,7 +295,7 @@ dimeTable::insertTableEntry(dimeTableEntry * const tableEntry, const int idx)
 
 /*!
   Returns the number of table records in this table. Table records precedes
-  the table entries, and contain som information about this table. 
+  the table entries, and contain some information about this table. 
   The max. entries record (group code 70), is handled automatically by this 
   class, and should not be set by the user.
 */
@@ -318,7 +318,7 @@ dimeTable::getTableRecord(const int idx)
 }
 
 /*!
-  Removes (and deletes if no memhandler is used) the record at index \a idx.
+  Removes (and deletes if no memory handler is used) the record at index \a idx.
 */
 
 void 

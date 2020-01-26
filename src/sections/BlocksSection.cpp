@@ -47,7 +47,7 @@
 static const char sectionName[] = "BLOCKS";
 
 /*!
-  Constructor which stores the sectioname.
+  Constructor.
 */
 
 dimeBlocksSection::dimeBlocksSection(dimeMemHandler * const memhandler)
@@ -56,7 +56,7 @@ dimeBlocksSection::dimeBlocksSection(dimeMemHandler * const memhandler)
 }
 
 /*!
-  Destructor. Should only be called when no memhandler is used.
+  Destructor. Should only be called when no memory handler is used.
 */
 
 dimeBlocksSection::~dimeBlocksSection()
@@ -204,7 +204,7 @@ dimeBlocksSection::getBlock(const int idx)
 }
 
 /*!
-  Removes (and deletes if no memhandler is used) the block at index \a idx.
+  Removes (and deletes if no memory handler is used) the block at index \a idx.
 */
 
 void 

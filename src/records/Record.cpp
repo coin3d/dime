@@ -116,7 +116,7 @@ dimeRecord::isEndOfSectionRecord() const
 }
 
 /*!
-  Returns \e true if this records is an end of file record.
+  Returns \e true if this record is an end of file record.
 */
 
 bool
