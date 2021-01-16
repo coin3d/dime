@@ -76,12 +76,12 @@ environment:
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc16
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_GENERATOR: 'MSYS Makefiles'
       CMAKE_PLATFORM: i686
       COMPILER_ID: mingw32
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       CMAKE_GENERATOR: 'MSYS Makefiles'
       CMAKE_PLATFORM: x86_64
       COMPILER_ID: mingw64
@@ -103,6 +103,8 @@ before_build:
       if defined APPVEYOR_REPO_TAG_NAME (set CI_REPO_VERSION=%APPVEYOR_REPO_TAG_NAME:~1%) else (set CI_REPO_VERSION=latest)
       set BUILD_SOURCE_ARCHIVE=%APPVEYOR_PROJECT_NAME%-%CI_REPO_VERSION%-src.zip
       7z a -xr!*\.git/ -tzip %BUILD_SOURCE_ARCHIVE% %APPVEYOR_BUILD_FOLDER%
+      C:\msys64\usr\bin\md5sum.exe -b %BUILD_SOURCE_ARCHIVE% > %BUILD_SOURCE_ARCHIVE%.md5
+      C:\msys64\usr\bin\sha256sum.exe -b %BUILD_SOURCE_ARCHIVE% > %BUILD_SOURCE_ARCHIVE%.sha256
       mkdir %APPVEYOR_BUILD_FOLDER%\downloads
       set DOWNLOAD_FILE_DOXYGEN=doxygen-1.8.14.windows.x64.bin.zip
       appveyor DownloadFile https://sourceforge.net/projects/doxygen/files/rel-1.8.14/%DOWNLOAD_FILE_DOXYGEN% -FileName %DOWNLOAD_FILE_DOXYGEN%
@@ -119,6 +121,8 @@ before_build:
       tar czf $BUILD_SOURCE_ARCHIVE --exclude .git $APPVEYOR_PROJECT_NAME
       mv $BUILD_SOURCE_ARCHIVE $APPVEYOR_BUILD_FOLDER
       cd $APPVEYOR_BUILD_FOLDER
+      md5sum -b $BUILD_SOURCE_ARCHIVE > $BUILD_SOURCE_ARCHIVE.md5
+      sha256sum -b $BUILD_SOURCE_ARCHIVE > $BUILD_SOURCE_ARCHIVE.sha256
       export CFLAGS=$CMAKE_ARCH_FLAGS
       export CXXFLAGS=$CMAKE_ARCH_FLAGS
       cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
@@ -160,6 +164,10 @@ artifacts:
     name: CIArchivesTGZ
   - path: $(APPVEYOR_PROJECT_NAME)*.log
     name: logs
+  - path: $(APPVEYOR_PROJECT_NAME)*.md5
+    name: CImd5
+  - path: $(APPVEYOR_PROJECT_NAME)*.sha256
+    name: CIsha256
 
 #test_script:
 #  - cmd: |
@@ -183,7 +191,7 @@ deploy:
   - provider: GitHub
     auth_token:
       secure: 850frgRGZcc4Cljd2P7Ej68no4/kkl4EMB+DjnX725wcKBRJuFk/kGRdJGyKXd2u # your encrypted token from GitHub
-    artifact: CIArchives, CIArchivesTGZ, logs
+    artifact: CIArchives, CIArchivesTGZ, CImd5, CIsha256, logs
     tag: 'CI builds'
     description: 'Results of CI builds for various platforms'
     draft: false
@@ -197,7 +205,7 @@ deploy:
   - provider: GitHub
     auth_token:
       secure: 850frgRGZcc4Cljd2P7Ej68no4/kkl4EMB+DjnX725wcKBRJuFk/kGRdJGyKXd2u # your encrypted token from GitHub
-    artifact: CIArchives, CIArchivesTGZ
+    artifact: CIArchives, CIArchivesTGZ, CImd5, CIsha256
     tag: $(APPVEYOR_REPO_TAG_NAME)
     description: 'Release build'
     draft: true
