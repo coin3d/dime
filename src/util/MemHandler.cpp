@@ -67,29 +67,29 @@ class dimeMemNode
 {
   friend class dimeMemHandler;
 public:
-  dimeMemNode(const int numbytes, dimeMemNode *next_node) 
+  dimeMemNode(const int numbytes, dimeMemNode *next_node)
     : next( next_node ), currPos( 0 ), size( numbytes )
   {
     this->block = (unsigned char*)malloc(numbytes);
   }
-  
+
   ~dimeMemNode()
   {
-    free((void*)this->block);
+    free(this->block);
   }
 
   bool initOk() const
   {
     return (this->block != NULL);
   }
-  
+
   void *alloc(const int numbytes, const int alignment)
   {
     unsigned int mask = alignment - 1;
     unsigned char *ret = NULL;
     if (alignment > 1) {
       if (this->currPos & mask) 
-	this->currPos = (this->currPos & ~mask) + alignment;
+        this->currPos = (this->currPos & ~mask) + alignment;
     }
     if (this->currPos + numbytes <= this->size) {
       ret = &this->block[currPos];
@@ -103,7 +103,6 @@ private:
   unsigned char *block;
   unsigned int currPos;
   unsigned int size;
-
 }; // class dimeMemNode
 
 /*!
@@ -124,7 +123,7 @@ dimeMemHandler::~dimeMemHandler()
 {
   dimeMemNode *curr = this->memnode;
   dimeMemNode *next;
-  
+
   while (curr) {
     next = curr->next;
     delete curr;
@@ -136,11 +135,11 @@ dimeMemHandler::~dimeMemHandler()
     next = curr->next;
     delete curr;
     curr = next;
-  } 
+  }
 }
 
 /*!
-  Bullshit function.  Can be called right after constructor 
+  Bullshit function.  Can be called right after constructor
   to test if initial memory was allocated OK.
 */
 
@@ -167,11 +166,11 @@ dimeMemHandler::stringAlloc(const char * const string)
 }
 
 /*!
-  Allocates a chunk (\a size) of memory. Memory is allocated in big 
+  Allocates a chunk (\a size) of memory. Memory is allocated in big
   blocks. New blocks of memory are allocated whenever needed, and
-  are handled automatically. The returned pointer is aligned according 
-  to the \a alignment argument. The default alignment is four bytes, 
-  but when compiled on 64 bit systems the default alignment 
+  are handled automatically. The returned pointer is aligned according
+  to the \a alignment argument. The default alignment is four bytes,
+  but when compiled on 64 bit systems the default alignment
   should probably be changed to eight.
 */
 
@@ -194,4 +193,3 @@ dimeMemHandler::allocMem(const int size, const int alignment)
   }
   return ret;
 }
-
