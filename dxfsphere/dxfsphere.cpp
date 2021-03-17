@@ -111,7 +111,7 @@ triangle octahedron[] = {
   };
 
 /* A unit octahedron */
-object oct(sizeof(octahedron) / sizeof(octahedron[0]),
+object unit_octahedron(sizeof(octahedron) / sizeof(octahedron[0]),
   octahedron);
 
 /* Vertices of a tetrahedron */
@@ -129,7 +129,7 @@ triangle tetrahedron[] = {
   triangle(PMM, PPP, MPM, 0.0)
   };
 
-object tet(
+object unit_tetrahedron(
 sizeof(tetrahedron) / sizeof(tetrahedron[0]),
   tetrahedron);
 
@@ -174,7 +174,7 @@ triangle icosahedron[] = {
 };
 
 /* unit icosahedron */
-object ico(sizeof(icosahedron) / sizeof(icosahedron[0]),
+object unit_icosahedron(sizeof(icosahedron) / sizeof(icosahedron[0]),
   icosahedron);
 
 /* Forward declarations */
@@ -207,7 +207,7 @@ add_layer(const char * name, int colnum, dimeModel * model, dimeTable * layers)
 int
 main(int ac, char ** av)
 {
-  object * old = &oct,         /* Default is octahedron */
+  object * old = &unit_octahedron,         /* Default is octahedron */
     * newobj;
   int ccwflag = 1,        /* Reverse vertex order if true */
     i,
@@ -217,15 +217,15 @@ main(int ac, char ** av)
   int useblock = 0;
 
   char * outfile = NULL;
-  
+
   /* Parse arguments */
   for (i = 1; i < ac; i++) {
     if (!strcmp(av[i], "-c"))
       ccwflag = 1;
     else if (!strcmp(av[i], "-t"))
-      old = &tet;
+      old = &unit_tetrahedron;
     else if (!strcmp(av[i], "-i"))
-      old = &ico;
+      old = &unit_icosahedron;
     else if (!strcmp(av[i], "-b"))
       useblock = 1;
     else if (!strcmp(av[i], "-o") && i < ac-1) {
@@ -234,15 +234,15 @@ main(int ac, char ** av)
     }
     else if (isdigit(av[i][0])) {
       if ((maxlevel = atoi(av[i])) < 1) {
-	fprintf(stderr, "dxfsphere: # of levels must be >= 1\n");
-	exit(1);
+        fprintf(stderr, "dxfsphere: # of levels must be >= 1\n");
+        exit(1);
       }
     } 
     else {
       break;
     }
   }
-  
+
   if (i < ac || ac == 1) {
     fprintf(stderr, "dxfsphere: [-c] [-t] [-i] [-b] [-o <outfile>] <levels>\n");
     exit(1);
@@ -261,10 +261,10 @@ main(int ac, char ** av)
     // DIME: add tables section (needed for layers).
     dimeTablesSection * tables = new dimeTablesSection;
     model.insertSection(tables);
-    
+
     // DIME: set up a layer table to store our layers
     dimeTable * layers = new dimeTable(NULL);
-    
+
     // DIME: set up our layers
     add_layer(LAYERNAME1, 16, &model, layers);
     add_layer(LAYERNAME2, 8, &model, layers);
@@ -289,7 +289,7 @@ main(int ac, char ** av)
 
   if (ccwflag)
     flip_object(old);
-  
+
   /* Subdivide each starting triangle (maxlevel - 1) times */
   for (level = 1; level < maxlevel; level++) {
     /* Allocate a new object */
@@ -301,7 +301,7 @@ main(int ac, char ** av)
       exit(1);
     }
     newobj->npoly = old->npoly * 4;
-    
+
     /* Allocate 4* the number of points in the current approximation */
     newobj->poly  = (triangle *)malloc(newobj->npoly * sizeof(triangle));
     if (newobj->poly == NULL) {
@@ -309,7 +309,7 @@ main(int ac, char ** av)
               av[0], level);
       exit(1);
     }
-      
+
     /* Subdivide each triangle in the old approximation and normalize
      *  the new points thus generated to lie on the surface of the unit
      *  sphere.
@@ -334,40 +334,40 @@ main(int ac, char ** av)
         *oldt = &old->poly[i],
         *newt = &newobj->poly[i*4];
       point a, b, c;
-      
+
       a = *normalize(midpoint(&oldt->pt[0], &oldt->pt[2]));
       b = *normalize(midpoint(&oldt->pt[0], &oldt->pt[1]));
       c = *normalize(midpoint(&oldt->pt[1], &oldt->pt[2]));
-        
+
       newt->pt[0] = oldt->pt[0];
       newt->pt[1] = b;
       newt->pt[2] = a;
       newt++;
-        
+
       newt->pt[0] = b;
       newt->pt[1] = oldt->pt[1];
       newt->pt[2] = c;
       newt++;
-      
+
       newt->pt[0] = a;
       newt->pt[1] = b;
       newt->pt[2] = c;
       newt++;
-      
+
       newt->pt[0] = a;
       newt->pt[1] = c;
       newt->pt[2] = oldt->pt[2];
     }
-    
+
     if (level > 1) {
       free(old->poly);
       free(old);
     }
-    
+
     /* Continue subdividing new triangles */
     old = newobj;
   }
-  
+
   /* Print out resulting approximation */
   print_object(old, maxlevel, model, LAYERNAME1, block);
 
@@ -388,7 +388,7 @@ point * normalize(point * p)
 {
   static point r;
   double mag;
-  
+
   r = *p;
   mag = r.x * r.x + r.y * r.y + r.z * r.z;
   if (mag != 0.0) {
@@ -397,7 +397,7 @@ point * normalize(point * p)
     r.y *= mag;
     r.z *= mag;
   }
-  
+
   return &r;
 }
 
@@ -405,11 +405,11 @@ point * normalize(point * p)
 point * midpoint(point * a, point * b)
 {
   static point r;
-  
+
   r.x = (a->x + b->x) * 0.5;
   r.y = (a->y + b->y) * 0.5;
   r.z = (a->z + b->z) * 0.5;
-  
+
   return &r;
 }
 
@@ -430,7 +430,7 @@ void print_object(object * obj, int level, dimeModel & model, const char * layer
                   dimeBlock * block)
 {
   int i;
-  
+
   const dimeLayer * layer = model.getLayer(layername);
 
   for (i = 0; i < obj->npoly; i++) {
@@ -465,7 +465,7 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer,
   const int BUFSIZE = 1024;
   char buf[BUFSIZE];
   const char * handle = model.getUniqueHandle(buf, BUFSIZE);
-  
+
   dimeParam param;
   param.string_data = handle;
   face->setRecord(5, param);
@@ -514,7 +514,7 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer,
   const int BUFSIZE = 1024;
   char buf[BUFSIZE];
   const char * handle = model.getUniqueHandle(buf, BUFSIZE);
-  
+
   param.string_data = handle;
   face->setRecord(5, param);
 
@@ -541,12 +541,12 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer,
 
     line->setCoords(0, v[0]);
     line->setCoords(1, v[1]);
-    
+
     // DIME: create unique handle for the entity (needed to load the file into AutoCAD)
     const int BUFSIZE = 1024;
     char buf[BUFSIZE];
     const char * handle = model.getUniqueHandle(buf, BUFSIZE);
-    
+
     dimeParam param;
     param.string_data = handle;
     line->setRecord(5, param);
@@ -561,4 +561,3 @@ void print_triangle(triangle * t, dimeModel & model, const dimeLayer * layer,
   }
 #endif // ! DXFSPHERE_FILLED
 }
-
