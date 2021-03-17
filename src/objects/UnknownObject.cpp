@@ -46,8 +46,8 @@
   Constructor.
 */
 
-dimeUnknownObject::dimeUnknownObject(const char * const name, 
-				 dimeMemHandler * const memhandler)
+dimeUnknownObject::dimeUnknownObject(const char * const name,
+                                     dimeMemHandler * const memhandler)
 {
   DXF_STRCPY(memhandler, this->objectName, name);
 }
@@ -58,7 +58,7 @@ dimeUnknownObject::dimeUnknownObject(const char * const name,
 
 dimeUnknownObject::~dimeUnknownObject()
 {
-  delete this->objectName;
+  delete [] this->objectName;
 }
 
 //!
@@ -78,7 +78,7 @@ dimeUnknownObject::copy(dimeModel * const model) const
 
 //!
 
-bool 
+bool
 dimeUnknownObject::write(dimeOutput * const file)
 {
   if (file->writeGroupCode(0) && file->writeString(this->objectName))
@@ -88,7 +88,7 @@ dimeUnknownObject::write(dimeOutput * const file)
 
 //!
 
-int 
+int
 dimeUnknownObject::typeId() const
 {
   return dimeBase::dimeUnknownObjectType;
@@ -109,4 +109,3 @@ dimeUnknownObject::getObjectName() const
 {
   return this->objectName;
 }
-

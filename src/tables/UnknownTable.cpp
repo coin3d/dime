@@ -47,8 +47,8 @@
   Constructor.
 */
 
-dimeUnknownTable::dimeUnknownTable(const char * const name, 
-				 dimeMemHandler * const memhandler)
+dimeUnknownTable::dimeUnknownTable(const char * const name,
+                                   dimeMemHandler * const memhandler)
 {
   DXF_STRCPY(memhandler, this->tableName, name);
 }
@@ -59,7 +59,7 @@ dimeUnknownTable::dimeUnknownTable(const char * const name,
 
 dimeUnknownTable::~dimeUnknownTable()
 {
-  delete this->tableName;
+  delete [] this->tableName;
 }
 
 //!
@@ -79,7 +79,7 @@ dimeUnknownTable::copy(dimeModel * const model) const
 
 //!
 
-bool 
+bool
 dimeUnknownTable::write(dimeOutput * const file)
 {
   bool ret = dimeTableEntry::preWrite(file);
@@ -91,7 +91,7 @@ dimeUnknownTable::write(dimeOutput * const file)
 
 //!
 
-int 
+int
 dimeUnknownTable::typeId() const
 {
   return dimeBase::dimeUnknownTableType;
@@ -104,7 +104,7 @@ dimeUnknownTable::countRecords() const
 {
   return 1 + dimeTableEntry::countRecords();
 }
-  
+
 //!
 
 const char *
@@ -112,4 +112,3 @@ dimeUnknownTable::getTableName() const
 {
   return this->tableName;
 }
-
