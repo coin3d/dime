@@ -47,8 +47,8 @@
   Constructor.
 */
 
-dimeUnknownEntity::dimeUnknownEntity(const char * const name, 
-				   dimeMemHandler * const memhandler)
+dimeUnknownEntity::dimeUnknownEntity(const char * const name,
+                                     dimeMemHandler * const memhandler)
 {
   DXF_STRCPY(memhandler, this->entityName, name);
 }
@@ -59,7 +59,7 @@ dimeUnknownEntity::dimeUnknownEntity(const char * const name,
 
 dimeUnknownEntity::~dimeUnknownEntity()
 {
-  delete this->entityName;
+  delete [] this->entityName;
 }
 
 //!
@@ -79,7 +79,7 @@ dimeUnknownEntity::copy(dimeModel * const model) const
 
 //!
 
-bool 
+bool
 dimeUnknownEntity::write(dimeOutput * const file)
 {
   dimeEntity::preWrite(file);
@@ -88,7 +88,7 @@ dimeUnknownEntity::write(dimeOutput * const file)
 
 //!
 
-int 
+int
 dimeUnknownEntity::typeId() const
 {
   return dimeBase::dimeUnknownEntityType;
@@ -109,4 +109,3 @@ dimeUnknownEntity::getEntityName() const
 {
   return this->entityName;
 }
-

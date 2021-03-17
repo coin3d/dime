@@ -111,8 +111,8 @@ dimeClass::dimeClass()
 
 dimeClass::~dimeClass()
 {
-  delete this->className;
-  delete this->appName;
+  delete [] this->className;
+  delete [] this->appName;
 }
 
 /*!
@@ -166,15 +166,15 @@ dimeClass::write(dimeOutput * const file)
 */
 
 dimeClass *
-dimeClass::createClass(const char * const name, 
-		      dimeMemHandler * const memhandler)
+dimeClass::createClass(const char * const name,
+                       dimeMemHandler * const memhandler)
 {
   return new(memhandler) dimeUnknownClass(name, memhandler);
 }
 
 //!
 
-int 
+int
 dimeClass::countRecords() const
 {
   return 5 + dimeRecordHolder::countRecords();
@@ -182,7 +182,7 @@ dimeClass::countRecords() const
 
 //!
 
-bool 
+bool
 dimeClass::isOfType(const int thetypeid) const
 {
   return thetypeid == dimeClassType || dimeRecordHolder::isOfType(thetypeid);
@@ -195,7 +195,7 @@ dimeClass::isOfType(const int thetypeid) const
   \sa dimeClass::handleRecord().
 */
 
-bool 
+bool
 dimeClass::read(dimeInput * const file)
 {
   return dimeRecordHolder::read(file);
@@ -203,10 +203,10 @@ dimeClass::read(dimeInput * const file)
 
 //!
 
-bool 
+bool
 dimeClass::handleRecord(const int groupcode,
-			const dimeParam &param,
-			dimeMemHandler * const memhandler)
+                        const dimeParam &param,
+                        dimeMemHandler * const memhandler)
 {
   switch (groupcode) {
   case 1:
@@ -232,11 +232,11 @@ dimeClass::handleRecord(const int groupcode,
   Sets the C++ class name for this class.
 */
 
-void 
-dimeClass::setClassName(const char * const classname, 
-		       dimeMemHandler * const memhandler)
+void
+dimeClass::setClassName(const char * const classname,
+                        dimeMemHandler * const memhandler)
 {
-  if (!memhandler) delete this->className;
+  if (!memhandler) delete [] this->className;
   DXF_STRCPY(memhandler, this->className, classname);
 }
 
@@ -244,11 +244,10 @@ dimeClass::setClassName(const char * const classname,
   Sets the application name for this class.
 */
 
-void 
-dimeClass::setApplicationName(const char * const appname, 
-			     dimeMemHandler * const memhandler)
+void
+dimeClass::setApplicationName(const char * const appname,
+                              dimeMemHandler * const memhandler)
 {
-  if (!memhandler) delete this->appName;
+  if (!memhandler) delete [] this->appName;
   DXF_STRCPY(memhandler, this->appName, appname);
 }
-
