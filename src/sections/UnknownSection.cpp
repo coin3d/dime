@@ -51,7 +51,7 @@
 */
 
 dimeUnknownSection::dimeUnknownSection(const char * const sectionname,
-				       dimeMemHandler *memhandler)
+                                       dimeMemHandler *memhandler)
   : dimeSection(memhandler), records( NULL ), numRecords( 0 )
 {
   this->sectionName = new char[strlen(sectionname)+1];
@@ -80,15 +80,15 @@ dimeUnknownSection::copy(dimeModel * const model) const
   int i;
   dimeMemHandler *memh = model->getMemHandler();
   dimeUnknownSection *us = new dimeUnknownSection(this->sectionName,
-						memh);
+                                                  memh);
   bool ok = us != NULL;
   if (ok && this->numRecords) {
     us->records = ARRAY_NEW(memh, dimeRecord*, this->numRecords);
     bool ok = us->records != NULL;
     if (ok) {
       for (i = 0; i < this->numRecords && ok; i++) {
-	us->records[i] = this->records[i]->copy(memh);
-	ok = us->records[i] != NULL;
+        us->records[i] = this->records[i]->copy(memh);
+        ok = us->records[i] != NULL;
       }
       us->numRecords = i;
     }
@@ -103,19 +103,19 @@ dimeUnknownSection::copy(dimeModel * const model) const
 
 //!
 
-bool 
+bool
 dimeUnknownSection::read(dimeInput * const file)
 {
   dimeRecord *record;
   bool ok = true;
   dimeArray <dimeRecord*> array(512);
   dimeMemHandler *memhandler = file->getMemHandler();
-  
+
   while (true) {
     record = dimeRecord::readRecord(file);
     if (record == NULL) {
       fprintf(stderr,"could not create/read record (dimeUnknownSection.cpp)"
-	      "line: %d\n", file->getFilePosition());
+              "line: %d\n", file->getFilePosition());
       ok = false;
       break;
     } 
@@ -125,7 +125,7 @@ dimeUnknownSection::read(dimeInput * const file)
   if (ok && array.count()) {
     if (memhandler) {
       this->records = (dimeRecord**)
-	memhandler->allocMem(array.count()*sizeof(dimeRecord*));
+        memhandler->allocMem(array.count()*sizeof(dimeRecord*));
     }
     else {
       this->records = new dimeRecord*[array.count()];
@@ -133,7 +133,7 @@ dimeUnknownSection::read(dimeInput * const file)
     if (this->records) {
       int n = this->numRecords = array.count();
       for (int i = 0; i < n; i++)
-	this->records[i] = array[i];
+        this->records[i] = array[i];
     }
   }
   return ok;
@@ -141,7 +141,7 @@ dimeUnknownSection::read(dimeInput * const file)
 
 //!
 
-bool 
+bool
 dimeUnknownSection::write(dimeOutput * const file)
 {
   if (file->writeGroupCode(2) && file->writeString(this->sectionName)) {
@@ -156,7 +156,7 @@ dimeUnknownSection::write(dimeOutput * const file)
 
 //!
 
-int 
+int
 dimeUnknownSection::typeId() const
 {
   return dimeBase::dimeUnknownSectionType;
@@ -177,4 +177,3 @@ dimeUnknownSection::getSectionName() const
 {
   return this->sectionName;
 }
-
