@@ -269,16 +269,16 @@ dimeModel::write(dimeOutput * const out)
       dimeParam param;
       int groupcode;
       if (hs->getVariable("$HANDSEED", &groupcode, &param, 1) == 1) {
-	char buf[512];
-	this->getUniqueHandle(buf, 512);
-	this->largestHandle--; // ok to use this handle next time
-	param.string_data = buf;
-	hs->setVariable("$HANDSEED", &groupcode, &param, 1, 
-			this->getMemHandler());
+        char buf[512];
+        this->getUniqueHandle(buf, 512);
+        this->largestHandle--; // ok to use this handle next time
+        param.string_data = buf;
+        hs->setVariable("$HANDSEED", &groupcode, &param, 1,
+                        this->getMemHandler());
       }
     }
   }
-  out->writeHeader();
+  (void)out->writeHeader();
   int i, n = this->headerComments.count();
   for (i = 0; i < n; i++) {
     this->headerComments[i]->write(out);
@@ -302,7 +302,7 @@ dimeModel::write(dimeOutput * const out)
   for other purposes.
 */
 
-const char * 
+const char *
 dimeModel::addReference(const char * const name, void *id)
 {
   char *ptr = NULL;
@@ -335,9 +335,9 @@ dimeModel::findRefStringPtr(const char * const name) const
 
 /*!
   Removes a reference from the dictionary.
-*/ 
+*/
 
-void 
+void
 dimeModel::removeReference(const char * const name)
 {
   refDict->remove(name);
@@ -360,13 +360,13 @@ dimeModel::getMemHandler()
 
 const dimeLayer *
 dimeModel::addLayer(const char * const name, const int16 colnum,
-		    const int16 flags)
+                    const int16 flags)
 {
   void *temp = NULL;
   if (!this->layerDict->find(name, temp)) {
     // default layer has layer-num = 0, hence the + 1
-    dimeLayer *layer = new dimeLayer(name, this->layers.count()+1, 
-				   colnum, flags);
+    dimeLayer *layer = new dimeLayer(name, this->layers.count()+1,
+                                     colnum, flags);
     char *ptr;
     layerDict->enter(name, ptr, layer);
     // this is a little hack...
@@ -411,7 +411,7 @@ dimeModel::getLayer(const char * const layername) const
   \sa dimeModel::getLayer()
 */
 
-int 
+int
 dimeModel::getNumLayers() const
 {
   return layers.count();
@@ -454,14 +454,14 @@ dimeModel::getDxfVersion() const
 {
   const dimeHeaderSection *header =
     (const dimeHeaderSection*) this->findSection("HEADER");
-  
+
   if (!header) {
     return NULL;
   }
-  
+
   int groupcode; 
   dimeParam param;
-  
+
   if (header->getVariable("$ACADVER", &groupcode, &param, 1) != 1 ||
       groupcode != 1) {
     return NULL;
@@ -470,24 +470,24 @@ dimeModel::getDxfVersion() const
   if (!strcmp(param.string_data, "AC1009")) return "r11/r12";
   if (!strcmp(param.string_data, "AC1012")) return "r13";
   if (!strcmp(param.string_data, "AC1013")) return "r14";
-  
+
   return NULL;
 }
 
 /*!
   Counts the number of records in the file. Useful if you need progress
   information while writing the file to disk.
-  
+
   \sa dimeOutput::setCallback()
 */
 
-int 
+int
 dimeModel::countRecords() const
 {
   int cnt = 0;
   int i, n = sections.count();
   for (i = 0; i < n; i++) {
-    cnt += 1 + this->sections[i]->countRecords(); 
+    cnt += 1 + this->sections[i]->countRecords();
   }
   cnt++; // EOF
   return cnt;
@@ -499,7 +499,7 @@ dimeModel::countRecords() const
   is all about... Somebody FIXME please!
 */
 
-// void 
+// void
 // dimeModel::fixDxfCoords(dimeVec3f &c)
 // {
 //   const dxfdouble dummy_dxf_val = -999998.0;
@@ -512,12 +512,12 @@ dimeModel::countRecords() const
   Traverses all entities in the model.
 */
 
-bool 
-dimeModel::traverseEntities(dimeCallback callback, 
-			   void *userdata,
-			   bool traverseBlocksSection,
-			   bool explodeInserts,
-			   bool traversePolylineVertices)
+bool
+dimeModel::traverseEntities(dimeCallback callback,
+                            void *userdata,
+                            bool traverseBlocksSection,
+                            bool explodeInserts,
+                            bool traversePolylineVertices)
 {
   int i, n;
   dimeState state(traversePolylineVertices, explodeInserts);
@@ -527,18 +527,18 @@ dimeModel::traverseEntities(dimeCallback callback,
     if (bs) {
       n = bs->getNumBlocks();
       for (i = 0; i < n; i++) {
-	if (!bs->getBlock(i)->traverse(&state, callback, userdata))
-	  return false;
+        if (!bs->getBlock(i)->traverse(&state, callback, userdata))
+          return false;
       }
     }
   }
-  dimeEntitiesSection *es = 
+  dimeEntitiesSection *es =
     (dimeEntitiesSection*) this->findSection("ENTITIES");
   if (es) {
     n = es->getNumEntities();
     for (i = 0; i < n; i++) {
       if (!es->getEntity(i)->traverse(&state, callback, userdata))
-	return false;
+        return false;
     }
   }
 
@@ -582,7 +582,7 @@ dimeModel::findSection(const char * const sectionname)
   \sa dimeModel::getSection()
 */
 
-int 
+int
 dimeModel::getNumSections() const
 {
   return this->sections.count();
@@ -611,7 +611,7 @@ dimeModel::getSection(const int idx)
 
 */
 
-void 
+void
 dimeModel::insertSection(dimeSection * const section, const int idx)
 {
   if (idx < 0) this->sections.append(section);
@@ -625,7 +625,7 @@ dimeModel::insertSection(dimeSection * const section, const int idx)
   Removes a section from the list of sections.
 */
 
-void 
+void
 dimeModel::removeSection(const int idx)
 {
   assert(idx >= 0 && idx < this->sections.count());
@@ -639,7 +639,7 @@ dimeModel::removeSection(const int idx)
   but all handles must be unique when the file is loaded back into
   AutoCAD...
 */
-void 
+void
 dimeModel::registerHandle(const int handle)
 {
   if (handle >= this->largestHandle) {
@@ -650,7 +650,7 @@ dimeModel::registerHandle(const int handle)
 /*!
   \overload
 */
-void 
+void
 dimeModel::registerHandle(const char * const handle)
 {
   int num;
@@ -659,7 +659,7 @@ dimeModel::registerHandle(const char * const handle)
   }
 }
 
-int 
+int
 dimeModel::getUniqueHandle()
 {
   return ++this->largestHandle;
@@ -675,13 +675,12 @@ dimeModel::getUniqueHandle(char *buf, const int)
 /*!
   Convenience function
 */
-void 
+void
 dimeModel::addEntity(dimeEntity *entity)
 {
-  dimeEntitiesSection *es = 
+  dimeEntitiesSection *es =
     (dimeEntitiesSection*) this->findSection("ENTITIES");
   if (es) {
     es->insertEntity(entity);
   }
 }
-
