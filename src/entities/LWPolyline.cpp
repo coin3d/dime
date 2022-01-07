@@ -68,6 +68,11 @@ dimeLWPolyline::dimeLWPolyline()
 
 dimeLWPolyline::~dimeLWPolyline()
 {
+  delete[] this->xcoord;
+  delete[] this->ycoord;
+  delete[] this->startingWidth;
+  delete[] this->endWidth;
+  delete[] this->bulge;
 }
 
 //!
@@ -402,4 +407,3 @@ dimeLWPolyline::countRecords() const
 
   return cnt + dimeExtrusionEntity::countRecords();
 }
-
