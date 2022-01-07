@@ -16,11 +16,11 @@ matrix:
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-      CMAKE_GENERATOR: 'Unix Makefiles'
-      CMAKE_PLATFORM: x86
-      CMAKE_ARCH_FLAGS: -m32
-      COMPILER_ID: gcc
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+    #  CMAKE_GENERATOR: 'Unix Makefiles'
+    #  CMAKE_PLATFORM: x86
+    #  CMAKE_ARCH_FLAGS: -m32
+    #  COMPILER_ID: gcc
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       CMAKE_GENERATOR: 'Unix Makefiles'
