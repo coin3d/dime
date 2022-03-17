@@ -16,13 +16,19 @@ matrix:
 
 environment:
   matrix:
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
     #  CMAKE_GENERATOR: 'Unix Makefiles'
     #  CMAKE_PLATFORM: x86
     #  CMAKE_ARCH_FLAGS: -m32
     #  COMPILER_ID: gcc
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      CMAKE_ARCH_FLAGS: -m64
+      COMPILER_ID: gcc
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
       CMAKE_GENERATOR: 'Unix Makefiles'
       CMAKE_PLATFORM: x64
       CMAKE_ARCH_FLAGS: -m64
@@ -76,16 +82,6 @@ environment:
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc16
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      CMAKE_GENERATOR: 'MSYS Makefiles'
-      CMAKE_PLATFORM: i686
-      COMPILER_ID: mingw32
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      CMAKE_GENERATOR: 'MSYS Makefiles'
-      CMAKE_PLATFORM: x86_64
-      COMPILER_ID: mingw64
-
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
       CMAKE_GENERATOR: 'Visual Studio 17 2022'
       CMAKE_ARCHITECTURE: Win32
@@ -97,6 +93,16 @@ environment:
       CMAKE_ARCHITECTURE: x64
       CMAKE_PLATFORM: x64
       COMPILER_ID: msvc17
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      CMAKE_GENERATOR: 'MSYS Makefiles'
+      CMAKE_PLATFORM: i686
+      COMPILER_ID: mingw32
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      CMAKE_GENERATOR: 'MSYS Makefiles'
+      CMAKE_PLATFORM: x86_64
+      COMPILER_ID: mingw64
 
 install:
   - sh: |
