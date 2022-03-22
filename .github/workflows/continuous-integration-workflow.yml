@@ -20,16 +20,14 @@ jobs:
       - name: Build project
         run: |
           cmake --build cmake_build_dir --target install --config Release -- -j4
-          tar czf dime-latest-Ubuntu-gcc7-x64.tar.gz cmake_install_dir/*
-      # - name: Run tests
-      #   run: |
-      #     cd cmake_build_dir
-      #     ctest -C Release -VV
+      #- name: Run tests
+      #  run:  ctest -C Release -VV
+      #  working-directory: cmake_build_dir
       - name: Create Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: Ubuntu-Artifacts
-          path: dime-latest-Ubuntu-gcc7-x64.tar.gz
+          path: cmake_install_dir/
         if: always()
 
   windows-build:
@@ -42,20 +40,18 @@ jobs:
       - name: Create build directory and run CMake
         shell: cmd
         run: |
-          cmake -S . -B cmake_build_dir -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir
+          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir
       - name: Build project
         run: |
           cmake --build cmake_build_dir --target INSTALL --config Release -- /nologo /verbosity:minimal /maxcpucount:2 /property:MultiProcessorCompilation=true
-          7z a -tzip dime-latest-msvc16-x64.zip cmake_install_dir
-      # - name: Run tests
-      #   run: |
-      #     cd cmake_build_dir
-      #     ctest -C Release -VV
+      #- name: Run tests
+      #  run:  ctest -C Release -VV
+      #  working-directory: cmake_build_dir
       - name: Create Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: Windows-Artifacts
-          path: dime-latest-msvc16-x64.zip
+          path: cmake_install_dir/
         if: always()
 
   macos-build:
@@ -71,14 +67,12 @@ jobs:
       - name: Build project
         run: |
           cmake --build cmake_build_dir --target install --config Release -- -j4
-          tar czf dime-latest-macos-clang11-x64.tar.gz cmake_install_dir/*
-      # - name: Run tests
-      #   run: |
-      #     cd cmake_build_dir
-      #     ctest -C Release -VV
+      #- name: Run tests
+      #  run:  ctest -C Release -VV
+      #  working-directory: cmake_build_dir
       - name: Create Artifacts
         uses: actions/upload-artifact@v1
         with:
           name: MacOS-Artifacts
-          path: dime-latest-macos-clang11-x64.tar.gz
+          path: cmake_install_dir/
         if: always()
