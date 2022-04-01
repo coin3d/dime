@@ -16,12 +16,27 @@ matrix:
 
 environment:
   matrix:
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-    #  CMAKE_GENERATOR: 'Unix Makefiles'
-    #  CMAKE_PLATFORM: x86
-    #  CMAKE_ARCH_FLAGS: -m32
-    #  COMPILER_ID: gcc
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-catalina
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      COMPILER_ID: clang
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-bigsur
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      COMPILER_ID: clang
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      COMPILER_ID: clang
+#
+#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+#      CMAKE_GENERATOR: 'Unix Makefiles'
+#      CMAKE_PLATFORM: x86
+#      CMAKE_ARCH_FLAGS: -m32
+#      COMPILER_ID: gcc
+#
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
       CMAKE_GENERATOR: 'Unix Makefiles'
       CMAKE_PLATFORM: x64
@@ -106,9 +121,9 @@ environment:
 
 install:
   - sh: |
-      sudo apt-get -y update
+      if [ "$COMPILER_ID" != "clang" ]; then sudo apt-get -y update; fi
       cd $APPVEYOR_BUILD_FOLDER
-      sudo apt-get -y install doxygen gcc-multilib g++-multilib
+      if [ "$COMPILER_ID" != "clang" ]; then sudo apt-get -y install doxygen gcc-multilib g++-multilib; fi
   - cmd: |
       cd %APPVEYOR_BUILD_FOLDER%
       set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;%PATH%
@@ -143,7 +158,7 @@ before_build:
       sha256sum -b $BUILD_SOURCE_ARCHIVE > $BUILD_SOURCE_ARCHIVE.sha256
       export CFLAGS=$CMAKE_ARCH_FLAGS
       export CXXFLAGS=$CMAKE_ARCH_FLAGS
-      cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
+      #cmake -H. -Bbuild_debug   -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
       cmake -H. -Bbuild_release -G "$CMAKE_GENERATOR" -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=true -DCMAKE_INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/Coin3D
 
 build_script:
@@ -155,7 +170,7 @@ build_script:
       if not "%CMAKE_GENERATOR%" == "MSYS Makefiles" cmake --build build --target INSTALL --config Release -- %BUILD_TOOL_OPTIONS%
   - sh: |
       BUILD_TOOL_OPTIONS=-j4
-      cmake --build build_debug   --target install --config Debug   -- $BUILD_TOOL_OPTIONS
+      #cmake --build build_debug   --target install --config Debug   -- $BUILD_TOOL_OPTIONS
       cmake --build build_release --target install --config Release -- $BUILD_TOOL_OPTIONS
 
 after_build:
@@ -171,7 +186,8 @@ after_build:
       appveyor DownloadFile https://ci.appveyor.com/api/buildjobs/%APPVEYOR_JOB_ID%/log -FileName %APPVEYOR_PROJECT_NAME%-%CI_REPO_VERSION%-%COMPILER_ID%-%CMAKE_PLATFORM%.log
   - sh: |
       cd $APPVEYOR_BUILD_FOLDER
-      export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`
+      if [ "$COMPILER_ID" != "clang" ]; then export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -dumpversion | tr '.' '\n'`; fi
+      if [ "$COMPILER_ID" = "clang" ]; then export COMPILER_ID=$APPVEYOR_BUILD_WORKER_IMAGE-$COMPILER_ID`$COMPILER_ID -v 2>&1 | grep version | sed 's/^.*version \([0-9]*\)\.[0-9]*\.[0-9]*.*$/\1/g'`; fi
       if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export CI_REPO_VERSION=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_VERSION=latest; fi
       BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_VERSION-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
       tar czf $BUILD_ARCHIVE Coin3D/*
