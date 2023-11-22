@@ -167,7 +167,7 @@ dimeUnknownSection::typeId() const
 int
 dimeUnknownSection::countRecords() const
 {
-  return this->numRecords + 1; // onw record is written in write()
+  return this->numRecords + 1; // own record is written in write()
 }
 
 //!

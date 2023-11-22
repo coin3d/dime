@@ -210,7 +210,7 @@ void
 dxfLineSegment::calculate_connect(dxfLineSegment *next)
 {
   if (!(this->flags & FLAG_CONNECT_CALCULATED)) {
-    this->calculate_v(); /* make sure these are caluclated */
+    this->calculate_v(); /* make sure these are calculated */
     next->calculate_v();
     
     dxfdouble angle = this->dir.angle(next->dir);

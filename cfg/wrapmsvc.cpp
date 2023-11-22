@@ -196,8 +196,8 @@ run_process(const char * cmd, std::string & procstdout, std::string & procstderr
     // when trying to cope with the large amount of output when
     // running sourcecode files with many dependencies on header files
     // through ``cl.exe /E [...]''.  Fixing this to use a larger tmp
-    // buffer before concatening to the std::string instance would
-    // probably have a noticable effect when compiling stuff like the
+    // buffer before concatenating to the std::string instance would
+    // probably have a noticeable effect when compiling stuff like the
     // draggers in Coin, for instance. 20010823 mortene.
     procstdout += chBuf;
   }
