@@ -127,13 +127,16 @@ environment:
 
 install:
   - sh: |
-      if [ "$COMPILER_ID" != "clang" ]; then sudo apt-get -y update; fi
+      if [ "$COMPILER_ID" != "clang" ]
+      then
+        sudo apt-get -y update
+        sudo apt-get -y install doxygen
+      fi
       cd $APPVEYOR_BUILD_FOLDER
-      if [ "$COMPILER_ID" != "clang" ]; then sudo apt-get -y install doxygen gcc-multilib g++-multilib; fi
   - cmd: |
-      cd %APPVEYOR_BUILD_FOLDER%
       set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;%PATH%
       if "%CMAKE_GENERATOR%" == "MSYS Makefiles" set PATH=C:\msys64\%COMPILER_ID%\bin;C:\msys64\usr\bin\;%PATH%
+      cd %APPVEYOR_BUILD_FOLDER%
   - git submodule update --init --recursive
 
 # Assumes that we use the vx.y.z tagging scheme (e.g. v1.3.0)
