@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['init_0',['init',['../classdimeModel.html#a694b527c3e50ad71e8f730ecf1995343',1,'dimeModel']]],
+  ['initok_1',['initOk',['../classdimeMemHandler.html#ae9274e0cb62fe6acab11af5fedcaba77',1,'dimeMemHandler']]],
+  ['insertblock_2',['insertBlock',['../classdimeBlocksSection.html#a3f305c518edf72e124d10a341caa956a',1,'dimeBlocksSection']]],
+  ['insertclass_3',['insertClass',['../classdimeClassesSection.html#ab715c69eef0014439247344d99d31b27',1,'dimeClassesSection']]],
+  ['insertentity_4',['insertEntity',['../classdimeBlock.html#a43078477c2e020a153b8de135cd14f95',1,'dimeBlock::insertEntity()'],['../classdimeEntitiesSection.html#a6fbffd978308007551afd8d9a0fbbef3',1,'dimeEntitiesSection::insertEntity()']]],
+  ['insertobject_5',['insertObject',['../classdimeObjectsSection.html#a6b5081557bc962f812865c3cad52061e',1,'dimeObjectsSection']]],
+  ['insertsection_6',['insertSection',['../classdimeModel.html#a6ae45881a20d6e906b223ba8a4ce2265',1,'dimeModel']]],
+  ['inserttable_7',['insertTable',['../classdimeTablesSection.html#a8d0fdeb4ebd323446096230e6b28a14f',1,'dimeTablesSection']]],
+  ['inserttableentry_8',['insertTableEntry',['../classdimeTable.html#ab1007b366cf6f4bc705d05f47e3da230',1,'dimeTable']]],
+  ['inserttablerecord_9',['insertTableRecord',['../classdimeTable.html#a628a28c31a8dd7717247c85bddebb6a3',1,'dimeTable']]],
+  ['isaborted_10',['isAborted',['../classdimeInput.html#a3e532347ff2c29e944ddc5ffd60da105',1,'dimeInput']]],
+  ['isbinary_11',['isBinary',['../classdimeInput.html#a65103f1fbd1e7baf7d3c7eadd8aa2741',1,'dimeInput::isBinary()'],['../classdimeOutput.html#addc78d700ed50c3d2a462ec86d830095',1,'dimeOutput::isBinary()']]],
+  ['isdefaultlayer_12',['isDefaultLayer',['../classdimeLayer.html#a47e5074b30994de42197f6b5964b509a',1,'dimeLayer']]],
+  ['isdeleted_13',['isDeleted',['../classdimeEntity.html#a7d3213612a802ef390a6b75228bf080a',1,'dimeEntity']]],
+  ['isendoffilerecord_14',['isEndOfFileRecord',['../classdimeRecord.html#ab67ef7f6045676f161187eb980a3881a',1,'dimeRecord::isEndOfFileRecord()'],['../classdimeStringRecord.html#ab55d8a6dd71190966abc9dcd213660a0',1,'dimeStringRecord::isEndOfFileRecord()']]],
+  ['isendofsectionrecord_15',['isEndOfSectionRecord',['../classdimeRecord.html#a8f72d67da947e1ca011494103a158b16',1,'dimeRecord::isEndOfSectionRecord()'],['../classdimeStringRecord.html#a925eefb896174ff09ae7448c14be51c2',1,'dimeStringRecord::isEndOfSectionRecord()']]],
+  ['isoftype_16',['isOfType',['../classdimeBase.html#acb6386ed33ca334a16699b81299ce791',1,'dimeBase::isOfType()'],['../classdimeClass.html#ae7f774ca2aa937830fb24df1629a2275',1,'dimeClass::isOfType()'],['../classdimeEntity.html#a9e8639c359d924982edbf5a4a8d2d9a5',1,'dimeEntity::isOfType()'],['../classdimeExtrusionEntity.html#a76c363baaa54090963e02738873df61d',1,'dimeExtrusionEntity::isOfType()'],['../classdimeFaceEntity.html#a610b0bddfb4856c4152ce584e8fe355f',1,'dimeFaceEntity::isOfType()'],['../classdimeObject.html#a02f0581c42f2c81cf9f0996e51962ce7',1,'dimeObject::isOfType()'],['../classdimeRecordHolder.html#a8c145f4e746e24beb57db8e973a02bb6',1,'dimeRecordHolder::isOfType()'],['../classdimeSection.html#a0ea0546be1b9d1742ee911c7f7c7f252',1,'dimeSection::isOfType()'],['../classdimeTableEntry.html#afc90a7debf9b077b092a204793aaf462',1,'dimeTableEntry::isOfType()']]],
+  ['istagged_17',['isTagged',['../classdimeEntity.html#a1826a9bca63fa24a75016adb55f702ac',1,'dimeEntity']]]
+];

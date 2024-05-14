@@ -1,0 +1,634 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>dime: dxfConverter Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/dime" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">dime
+   &#160;<span id="projectnumber">0.9.1</span>
+   </div>
+   <div id="projectbrief">A library for reading, constructing, manipulating, and writing DXF file data</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classdxfConverter.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classdxfConverter-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">dxfConverter Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>The <a class="el" href="classdxfConverter.html" title="The dxfConverter class offers a simple interface for DXF converting. It makes it possible to extract ...">dxfConverter</a> class offers a simple interface for DXF converting. It makes it possible to extract all geometry from DXF files, and store it in internal geometry structures, which again can be exported as VRML.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="convert_8h_source.html">convert.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aa87dbfb5a9c57cbf923eeab4da19b5d1" id="r_aa87dbfb5a9c57cbf923eeab4da19b5d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa87dbfb5a9c57cbf923eeab4da19b5d1">dxfConverter</a> ()</td></tr>
+<tr class="separator:aa87dbfb5a9c57cbf923eeab4da19b5d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a346139596d536757f95dbb720ad5b105" id="r_a346139596d536757f95dbb720ad5b105"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a346139596d536757f95dbb720ad5b105">~dxfConverter</a> ()</td></tr>
+<tr class="separator:a346139596d536757f95dbb720ad5b105"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3709f172981731d3e53332cd457c4d9" id="r_ae3709f172981731d3e53332cd457c4d9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3709f172981731d3e53332cd457c4d9">doConvert</a> (<a class="el" href="classdimeModel.html">dimeModel</a> &amp;model)</td></tr>
+<tr class="separator:ae3709f172981731d3e53332cd457c4d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae60f7b968aa9adbe0c1edc1e3ea5eb39" id="r_ae60f7b968aa9adbe0c1edc1e3ea5eb39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae60f7b968aa9adbe0c1edc1e3ea5eb39">findHeaderVariables</a> (<a class="el" href="classdimeModel.html">dimeModel</a> &amp;model)</td></tr>
+<tr class="separator:ae60f7b968aa9adbe0c1edc1e3ea5eb39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add1546c5596d855921a239a5232c10fc" id="r_add1546c5596d855921a239a5232c10fc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add1546c5596d855921a239a5232c10fc">getColorIndex</a> (const <a class="el" href="classdimeEntity.html">dimeEntity</a> *entity)</td></tr>
+<tr class="separator:add1546c5596d855921a239a5232c10fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd96281dc97003ac1a1136db97598f57" id="r_afd96281dc97003ac1a1136db97598f57"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd96281dc97003ac1a1136db97598f57">getCurrentInsertColorIndex</a> () const</td></tr>
+<tr class="separator:afd96281dc97003ac1a1136db97598f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac5143d5ff2035811990e891d6c4ebe3" id="r_aac5143d5ff2035811990e891d6c4ebe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac5143d5ff2035811990e891d6c4ebe3">getFillmode</a> () const</td></tr>
+<tr class="separator:aac5143d5ff2035811990e891d6c4ebe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a480917ec0c234b65ff6a7e9b65d5f69b" id="r_a480917ec0c234b65ff6a7e9b65d5f69b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a480917ec0c234b65ff6a7e9b65d5f69b">getLayercol</a> () const</td></tr>
+<tr class="separator:a480917ec0c234b65ff6a7e9b65d5f69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd401e527903965a435d609e4b3bf8d" id="r_a6dd401e527903965a435d609e4b3bf8d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdxfLayerData.html">dxfLayerData</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6dd401e527903965a435d609e4b3bf8d">getLayerData</a> ()</td></tr>
+<tr class="separator:a6dd401e527903965a435d609e4b3bf8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a748ce81fb97745cf2d67312744ca0d2c" id="r_a748ce81fb97745cf2d67312744ca0d2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdxfLayerData.html">dxfLayerData</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a748ce81fb97745cf2d67312744ca0d2c">getLayerData</a> (const <a class="el" href="classdimeEntity.html">dimeEntity</a> *entity)</td></tr>
+<tr class="separator:a748ce81fb97745cf2d67312744ca0d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceb1c92671595baf42e4dd0096131411" id="r_aceb1c92671595baf42e4dd0096131411"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classdxfLayerData.html">dxfLayerData</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aceb1c92671595baf42e4dd0096131411">getLayerData</a> (const int colidx)</td></tr>
+<tr class="separator:aceb1c92671595baf42e4dd0096131411"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8712e23435c6575f08d34594e2dfb7db" id="r_a8712e23435c6575f08d34594e2dfb7db"><td class="memItemLeft" align="right" valign="top">dxfdouble&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8712e23435c6575f08d34594e2dfb7db">getMaxerr</a> () const</td></tr>
+<tr class="separator:a8712e23435c6575f08d34594e2dfb7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a311bfaf323eea4b7e465073b87293e87" id="r_a311bfaf323eea4b7e465073b87293e87"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a311bfaf323eea4b7e465073b87293e87">getNumSub</a> () const</td></tr>
+<tr class="separator:a311bfaf323eea4b7e465073b87293e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37af83f4b0fadf2619679a6ca2fb401f" id="r_a37af83f4b0fadf2619679a6ca2fb401f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37af83f4b0fadf2619679a6ca2fb401f">setFillmode</a> (const bool fill)</td></tr>
+<tr class="separator:a37af83f4b0fadf2619679a6ca2fb401f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a132c6ce0b23c420a0598e4ebac97a32d" id="r_a132c6ce0b23c420a0598e4ebac97a32d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a132c6ce0b23c420a0598e4ebac97a32d">setLayercol</a> (const bool v)</td></tr>
+<tr class="separator:a132c6ce0b23c420a0598e4ebac97a32d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4eef552937f81f92144470348b3809" id="r_a4d4eef552937f81f92144470348b3809"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d4eef552937f81f92144470348b3809">setMaxerr</a> (const dxfdouble maxerr)</td></tr>
+<tr class="separator:a4d4eef552937f81f92144470348b3809"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70dda51fd8f98e3a5f1d35a2ca4a748a" id="r_a70dda51fd8f98e3a5f1d35a2ca4a748a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70dda51fd8f98e3a5f1d35a2ca4a748a">setNumSub</a> (const int num)</td></tr>
+<tr class="separator:a70dda51fd8f98e3a5f1d35a2ca4a748a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc052302be33c44613832f3a2eb5e8f" id="r_a0bc052302be33c44613832f3a2eb5e8f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bc052302be33c44613832f3a2eb5e8f">writeVrml</a> (const char *filename, const bool vrml1=false, const bool only2d=false)</td></tr>
+<tr class="separator:a0bc052302be33c44613832f3a2eb5e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78a3b35c67aaea801d24185a767f04d5" id="r_a78a3b35c67aaea801d24185a767f04d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78a3b35c67aaea801d24185a767f04d5">writeVrml</a> (FILE *out, const bool vrml1=false, const bool only2d=false)</td></tr>
+<tr class="separator:a78a3b35c67aaea801d24185a767f04d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classdxfConverter.html" title="The dxfConverter class offers a simple interface for DXF converting. It makes it possible to extract ...">dxfConverter</a> class offers a simple interface for DXF converting. It makes it possible to extract all geometry from DXF files, and store it in internal geometry structures, which again can be exported as VRML. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aa87dbfb5a9c57cbf923eeab4da19b5d1" name="aa87dbfb5a9c57cbf923eeab4da19b5d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa87dbfb5a9c57cbf923eeab4da19b5d1">&#9670;&#160;</a></span>dxfConverter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dxfConverter::dxfConverter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor </p>
+
+</div>
+</div>
+<a id="a346139596d536757f95dbb720ad5b105" name="a346139596d536757f95dbb720ad5b105"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a346139596d536757f95dbb720ad5b105">&#9670;&#160;</a></span>~dxfConverter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dxfConverter::~dxfConverter </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Destructor </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae3709f172981731d3e53332cd457c4d9" name="ae3709f172981731d3e53332cd457c4d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3709f172981731d3e53332cd457c4d9">&#9670;&#160;</a></span>doConvert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dxfConverter::doConvert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classdimeModel.html">dimeModel</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>model</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Converts <em>model</em> to the internal geometry structures. </p><dl class="section see"><dt>See also</dt><dd>dxfConverter::writeWrl() </dd></dl>
+
+</div>
+</div>
+<a id="ae60f7b968aa9adbe0c1edc1e3ea5eb39" name="ae60f7b968aa9adbe0c1edc1e3ea5eb39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae60f7b968aa9adbe0c1edc1e3ea5eb39">&#9670;&#160;</a></span>findHeaderVariables()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dxfConverter::findHeaderVariables </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classdimeModel.html">dimeModel</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>model</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Finds the state of supported header variables in <em>model</em>. This method should be called before dxfxConverter::doConvert() </p>
+
+</div>
+</div>
+<a id="add1546c5596d855921a239a5232c10fc" name="add1546c5596d855921a239a5232c10fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add1546c5596d855921a239a5232c10fc">&#9670;&#160;</a></span>getColorIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dxfConverter::getColorIndex </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classdimeEntity.html">dimeEntity</a> *</td>          <td class="paramname"><span class="paramname"><em>entity</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Finds the correct color index for <em>entity</em>. Handles the BYLAYER case. </p>
+
+</div>
+</div>
+<a id="afd96281dc97003ac1a1136db97598f57" name="afd96281dc97003ac1a1136db97598f57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd96281dc97003ac1a1136db97598f57">&#9670;&#160;</a></span>getCurrentInsertColorIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dxfConverter::getCurrentInsertColorIndex </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the color index of the current INSERT entity. If no INSERT entity is current, the color index 7 (white) will be returned. </p>
+
+</div>
+</div>
+<a id="aac5143d5ff2035811990e891d6c4ebe3" name="aac5143d5ff2035811990e891d6c4ebe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac5143d5ff2035811990e891d6c4ebe3">&#9670;&#160;</a></span>getFillmode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dxfConverter::getFillmode </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns whether polylines with width and SOLID and TRACE should be filled. </p>
+
+</div>
+</div>
+<a id="a480917ec0c234b65ff6a7e9b65d5f69b" name="a480917ec0c234b65ff6a7e9b65d5f69b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a480917ec0c234b65ff6a7e9b65d5f69b">&#9670;&#160;</a></span>getLayercol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dxfConverter::getLayercol </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns whether only layers should be used (and not color index) when converting. </p>
+
+</div>
+</div>
+<a id="a6dd401e527903965a435d609e4b3bf8d" name="a6dd401e527903965a435d609e4b3bf8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dd401e527903965a435d609e4b3bf8d">&#9670;&#160;</a></span>getLayerData() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdxfLayerData.html">dxfLayerData</a> ** dxfConverter::getLayerData </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns a pointer to the <a class="el" href="classdxfLayerData.html" title="The dxfLayerData class handles all geometry for a given color index. DXF geometry is grouped into dif...">dxfLayerData</a> array. </p>
+
+</div>
+</div>
+<a id="a748ce81fb97745cf2d67312744ca0d2c" name="a748ce81fb97745cf2d67312744ca0d2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a748ce81fb97745cf2d67312744ca0d2c">&#9670;&#160;</a></span>getLayerData() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdxfLayerData.html">dxfLayerData</a> * dxfConverter::getLayerData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classdimeEntity.html">dimeEntity</a> *</td>          <td class="paramname"><span class="paramname"><em>entity</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Finds the color index for <em>entity</em>, and returns the <a class="el" href="classdxfLayerData.html" title="The dxfLayerData class handles all geometry for a given color index. DXF geometry is grouped into dif...">dxfLayerData</a> for it. </p>
+
+</div>
+</div>
+<a id="aceb1c92671595baf42e4dd0096131411" name="aceb1c92671595baf42e4dd0096131411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aceb1c92671595baf42e4dd0096131411">&#9670;&#160;</a></span>getLayerData() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classdxfLayerData.html">dxfLayerData</a> * dxfConverter::getLayerData </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>colidx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns a <a class="el" href="classdxfLayerData.html" title="The dxfLayerData class handles all geometry for a given color index. DXF geometry is grouped into dif...">dxfLayerData</a> instance for the color with color index <em>colidx</em>. </p>
+
+</div>
+</div>
+<a id="a8712e23435c6575f08d34594e2dfb7db" name="a8712e23435c6575f08d34594e2dfb7db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8712e23435c6575f08d34594e2dfb7db">&#9670;&#160;</a></span>getMaxerr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">dxfdouble dxfConverter::getMaxerr </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the maximum allowed error when converting circles, arcs ellipses. </p>
+
+</div>
+</div>
+<a id="a311bfaf323eea4b7e465073b87293e87" name="a311bfaf323eea4b7e465073b87293e87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a311bfaf323eea4b7e465073b87293e87">&#9670;&#160;</a></span>getNumSub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dxfConverter::getNumSub </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns the number of subdivisions set by <a class="el" href="#a70dda51fd8f98e3a5f1d35a2ca4a748a">dxfConverter::setNumSub()</a> </p>
+
+</div>
+</div>
+<a id="a37af83f4b0fadf2619679a6ca2fb401f" name="a37af83f4b0fadf2619679a6ca2fb401f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37af83f4b0fadf2619679a6ca2fb401f">&#9670;&#160;</a></span>setFillmode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dxfConverter::setFillmode </td>
+          <td>(</td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>fill</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets whether polylines with width and SOLID and TRACE should be filled. </p>
+
+</div>
+</div>
+<a id="a132c6ce0b23c420a0598e4ebac97a32d" name="a132c6ce0b23c420a0598e4ebac97a32d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a132c6ce0b23c420a0598e4ebac97a32d">&#9670;&#160;</a></span>setLayercol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dxfConverter::setLayercol </td>
+          <td>(</td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>v</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets whether only layer (and not color index) should be used when converting. This method should normally no be used. </p>
+
+</div>
+</div>
+<a id="a4d4eef552937f81f92144470348b3809" name="a4d4eef552937f81f92144470348b3809"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d4eef552937f81f92144470348b3809">&#9670;&#160;</a></span>setMaxerr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dxfConverter::setMaxerr </td>
+          <td>(</td>
+          <td class="paramtype">const dxfdouble</td>          <td class="paramname"><span class="paramname"><em>maxerr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the maximum error allowed when converting circles, arcs and ellipses into lines/polygons. </p>
+
+</div>
+</div>
+<a id="a70dda51fd8f98e3a5f1d35a2ca4a748a" name="a70dda51fd8f98e3a5f1d35a2ca4a748a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70dda51fd8f98e3a5f1d35a2ca4a748a">&#9670;&#160;</a></span>setNumSub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dxfConverter::setNumSub </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>num</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets the number of subdivisions for a circle or ellipse. This overrides the value set in <a class="el" href="#a4d4eef552937f81f92144470348b3809">dxfConverter::setMaxerr()</a> and should normally not be used.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a311bfaf323eea4b7e465073b87293e87">dxfConverter::getNumSub()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0bc052302be33c44613832f3a2eb5e8f" name="a0bc052302be33c44613832f3a2eb5e8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bc052302be33c44613832f3a2eb5e8f">&#9670;&#160;</a></span>writeVrml() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dxfConverter::writeVrml </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>filename</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>vrml1</em><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>only2d</em><span class="paramdefsep"> = </span><span class="paramdefval">false</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Writes the internal geometry structures to <em>filename</em>. </p>
+
+</div>
+</div>
+<a id="a78a3b35c67aaea801d24185a767f04d5" name="a78a3b35c67aaea801d24185a767f04d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78a3b35c67aaea801d24185a767f04d5">&#9670;&#160;</a></span>writeVrml() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dxfConverter::writeVrml </td>
+          <td>(</td>
+          <td class="paramtype">FILE *</td>          <td class="paramname"><span class="paramname"><em>out</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>vrml1</em><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool</td>          <td class="paramname"><span class="paramname"><em>only2d</em><span class="paramdefsep"> = </span><span class="paramdefval">false</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Writes the internal geometry structures to <em>out</em>. Warning: This function is not CRT safe. </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="convert_8h_source.html">convert.h</a></li>
+<li><b>convert.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classdxfConverter.html">dxfConverter</a></li>
+    <li class="footer">Generated on Tue May 14 2024 20:14:57 for dime by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>

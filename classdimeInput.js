@@ -1,0 +1,26 @@
+var classdimeInput =
+[
+    [ "dimeInput", "classdimeInput.html#ab06fa7de567b7a5e1a635f90e882084d", null ],
+    [ "~dimeInput", "classdimeInput.html#a768660b8b3f804109411d36e84847ba8", null ],
+    [ "eof", "classdimeInput.html#a5cd61f0c9c24011adc97f104cadae8a4", null ],
+    [ "getFilePosition", "classdimeInput.html#a3ec3cc96f3027ce7c76df370457c7e1d", null ],
+    [ "getMemHandler", "classdimeInput.html#a9b69a424226e31a4810bed06dabe59de", null ],
+    [ "getModel", "classdimeInput.html#a049b18e2635104255b270b12b05122df", null ],
+    [ "getVersion", "classdimeInput.html#a340d9f1c2576770043d96a8913530b3d", null ],
+    [ "isAborted", "classdimeInput.html#a3e532347ff2c29e944ddc5ffd60da105", null ],
+    [ "isBinary", "classdimeInput.html#a65103f1fbd1e7baf7d3c7eadd8aa2741", null ],
+    [ "putBackGroupCode", "classdimeInput.html#a173233ed45f35222514efb33233cb5b0", null ],
+    [ "readDouble", "classdimeInput.html#a21d6840c291c2e5e39586921df413997", null ],
+    [ "readFloat", "classdimeInput.html#a2096a98d3a435e6a3be917bbae675d34", null ],
+    [ "readGroupCode", "classdimeInput.html#aee6ef945760775f72261f8be35a28aef", null ],
+    [ "readInt16", "classdimeInput.html#aa2ea6336fee3005f2a4be7b65abe909e", null ],
+    [ "readInt32", "classdimeInput.html#a01a8a3e007edde0c3cec72ab75f9d108", null ],
+    [ "readInt8", "classdimeInput.html#ab88cfeab1f48775b8dd1b6ad7a71f11f", null ],
+    [ "readString", "classdimeInput.html#a153ce3568e89d051b07365871d4f9ced", null ],
+    [ "readStringNoSkip", "classdimeInput.html#ac0facba89a3398698c9f31b97f9d61cd", null ],
+    [ "relativePosition", "classdimeInput.html#ae18e64d9470ffd103ac6e08b869ba396", null ],
+    [ "setCallback", "classdimeInput.html#a43fa207d756d4cebb246153e66917e37", null ],
+    [ "setFile", "classdimeInput.html#a261d3962cec05f30f91703c2fea7e535", null ],
+    [ "setFileHandle", "classdimeInput.html#af67af1bf8b60eea7b86ec7c922a78c9e", null ],
+    [ "setFilePointer", "classdimeInput.html#a4b8e06be0c37933e2db4ac9f043a5440", null ]
+];

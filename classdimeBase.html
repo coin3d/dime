@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>dime: dimeBase Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/dime" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">dime
+   &#160;<span id="projectnumber">0.9.1</span>
+   </div>
+   <div id="projectbrief">A library for reading, constructing, manipulating, and writing DXF file data</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classdimeBase.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classdimeBase-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">dimeBase Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>The <a class="el" href="classdimeBase.html" title="The dimeBase class is the superclass for most classes in Dime.">dimeBase</a> class is the superclass for most classes in Dime.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Base_8h_source.html">dime/Base.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for dimeBase:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classdimeBase.png" usemap="#dimeBase_map" alt=""/>
+  <map id="dimeBase_map" name="dimeBase_map">
+<area href="classdimeRecord.html" title="The dimeRecord class is the superclass of all record classes." alt="dimeRecord" shape="rect" coords="0,56,131,80"/>
+<area href="classdimeRecordHolder.html" title="The dimeRecordHolder class is a superclass for objects that store records." alt="dimeRecordHolder" shape="rect" coords="282,56,413,80"/>
+<area href="classdimeSection.html" title="The dimeSection class is the superclass for all section classes." alt="dimeSection" shape="rect" coords="564,56,695,80"/>
+<area href="classdimeTable.html" title="The dimeTable class stores table entries." alt="dimeTable" shape="rect" coords="705,56,836,80"/>
+<area href="classdimeDoubleRecord.html" title="The dimeDoubleRecord class is a container class for double records." alt="dimeDoubleRecord" shape="rect" coords="141,112,272,136"/>
+<area href="classdimeFloatRecord.html" title="The dimeFloatRecord class is a container class for float records." alt="dimeFloatRecord" shape="rect" coords="141,168,272,192"/>
+<area href="classdimeInt16Record.html" title="The dimeInt16Record class is a container class for 16-bit integer records." alt="dimeInt16Record" shape="rect" coords="141,224,272,248"/>
+<area href="classdimeInt32Record.html" title="The dimeInt32Record class is a container class for 32-bit integer records." alt="dimeInt32Record" shape="rect" coords="141,280,272,304"/>
+<area href="classdimeInt8Record.html" title="The dimeInt8Record class is a container class for 8-bit integer records." alt="dimeInt8Record" shape="rect" coords="141,336,272,360"/>
+<area href="classdimeStringRecord.html" title="The dimeStringRecord class is a container class for string records." alt="dimeStringRecord" shape="rect" coords="141,392,272,416"/>
+<area href="classdimeClass.html" title="The dimeClass class is the superclass for all the class classes." alt="dimeClass" shape="rect" coords="423,112,554,136"/>
+<area href="classdimeEntity.html" title="The dimeEntity class is the superclass of all entity classes." alt="dimeEntity" shape="rect" coords="423,168,554,192"/>
+<area href="classdimeObject.html" title="The dimeObject class is the superclass for the object classes." alt="dimeObject" shape="rect" coords="423,224,554,248"/>
+<area href="classdimeTableEntry.html" title="The dimeTableEntry class is the superclass for all table classes." alt="dimeTableEntry" shape="rect" coords="423,280,554,304"/>
+<area href="classdimeBlocksSection.html" title="The dimeBlocksSection class handles a BLOCKS section." alt="dimeBlocksSection" shape="rect" coords="705,112,836,136"/>
+<area href="classdimeClassesSection.html" title="The dimeClassesSection class handles a CLASSES section." alt="dimeClassesSection" shape="rect" coords="705,168,836,192"/>
+<area href="classdimeEntitiesSection.html" title="The dimeEntitiesSection class handles an ENTITIES section." alt="dimeEntitiesSection" shape="rect" coords="705,224,836,248"/>
+<area href="classdimeHeaderSection.html" title="The dimeHeaderSection class handles the HEADER section." alt="dimeHeaderSection" shape="rect" coords="705,280,836,304"/>
+<area href="classdimeObjectsSection.html" title="The dimeObjectsSection object handles an OBJECTS section." alt="dimeObjectsSection" shape="rect" coords="705,336,836,360"/>
+<area href="classdimeTablesSection.html" title="The dimeTablesSection class handles a TABLES section." alt="dimeTablesSection" shape="rect" coords="705,392,836,416"/>
+<area href="classdimeUnknownSection.html" title="The dimeUnknownSection class is used to support unknown sections." alt="dimeUnknownSection" shape="rect" coords="705,448,836,472"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a7e8962e8d373008de108b9344fff70d6" id="r_a7e8962e8d373008de108b9344fff70d6"><td class="memItemLeft" align="right" valign="top"><a id="a7e8962e8d373008de108b9344fff70d6" name="a7e8962e8d373008de108b9344fff70d6"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<b>dimeBaseType</b> = 1
+, <b>dimeRecordType</b>
+, <b>dimeStringRecordType</b>
+, <b>dimeFloatRecordType</b>
+, <br />
+&#160;&#160;<b>dimeDoubleRecordType</b>
+, <b>dimeInt8RecordType</b>
+, <b>dimeInt16RecordType</b>
+, <b>dimeInt32RecordType</b>
+, <br />
+&#160;&#160;<b>dimeHexRecordType</b>
+, <b>dimeRecordHolderType</b>
+, <b>dimeClassType</b>
+, <b>dimeUnknownClassType</b>
+, <br />
+&#160;&#160;<b>dimeObjectType</b>
+, <b>dimeUnknownObjectType</b>
+, <b>dimeEntityType</b>
+, <b>dimeUnknownEntityType</b>
+, <br />
+&#160;&#160;<b>dimePolylineType</b>
+, <b>dimeVertexType</b>
+, <b>dimeFaceEntityType</b>
+, <b>dimeExtrusionEntityType</b>
+, <br />
+&#160;&#160;<b>dime3DFaceType</b>
+, <b>dimeSolidType</b>
+, <b>dimeTraceType</b>
+, <b>dimeLineType</b>
+, <br />
+&#160;&#160;<b>dimeTextType</b>
+, <b>dimePointType</b>
+, <b>dimeBlockType</b>
+, <b>dimeInsertType</b>
+, <br />
+&#160;&#160;<b>dimeCircleType</b>
+, <b>dimeArcType</b>
+, <b>dimeLWPolylineType</b>
+, <b>dimeEllipseType</b>
+, <br />
+&#160;&#160;<b>dimeSplineType</b>
+, <b>dimeSectionType</b>
+, <b>dimeUnknownSectionType</b>
+, <b>dimeEntitiesSectionType</b>
+, <br />
+&#160;&#160;<b>dimeBlocksSectionType</b>
+, <b>dimeTablesSectionType</b>
+, <b>dimeHeaderSectionType</b>
+, <b>dimeClassesSectionType</b>
+, <br />
+&#160;&#160;<b>dimeObjectsSectionType</b>
+, <b>dimeTableType</b>
+, <b>dimeTableEntryType</b>
+, <b>dimeUnknownTableType</b>
+, <br />
+&#160;&#160;<b>dimeUCSTableType</b>
+, <b>dimeLayerTableType</b>
+, <b>dimeLastTypeTag</b>
+<br />
+ }</td></tr>
+<tr class="separator:a7e8962e8d373008de108b9344fff70d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a0bdfd8bc437e82ada19130573c44cadf" id="r_a0bdfd8bc437e82ada19130573c44cadf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0bdfd8bc437e82ada19130573c44cadf">dimeBase</a> (void)</td></tr>
+<tr class="separator:a0bdfd8bc437e82ada19130573c44cadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5001bd8f586f933a472bac5021af85f2" id="r_a5001bd8f586f933a472bac5021af85f2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5001bd8f586f933a472bac5021af85f2">~dimeBase</a> ()</td></tr>
+<tr class="separator:a5001bd8f586f933a472bac5021af85f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb6386ed33ca334a16699b81299ce791" id="r_acb6386ed33ca334a16699b81299ce791"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb6386ed33ca334a16699b81299ce791">isOfType</a> (const int thetypeid) const</td></tr>
+<tr class="separator:acb6386ed33ca334a16699b81299ce791"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59a2109399a95bdf1f220ffb368e6105" id="r_a59a2109399a95bdf1f220ffb368e6105"><td class="memItemLeft" align="right" valign="top"><a id="a59a2109399a95bdf1f220ffb368e6105" name="a59a2109399a95bdf1f220ffb368e6105"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>operator delete</b> (void *ptr)</td></tr>
+<tr class="separator:a59a2109399a95bdf1f220ffb368e6105"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef7dcd69adbc5341cdcfe616c9b5f0a7" id="r_aef7dcd69adbc5341cdcfe616c9b5f0a7"><td class="memItemLeft" align="right" valign="top"><a id="aef7dcd69adbc5341cdcfe616c9b5f0a7" name="aef7dcd69adbc5341cdcfe616c9b5f0a7"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>operator new</b> (size_t size, <a class="el" href="classdimeMemHandler.html">dimeMemHandler</a> *memhandler=NULL, const int alignment=4)</td></tr>
+<tr class="separator:aef7dcd69adbc5341cdcfe616c9b5f0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad057cc147eddf080fa13c406ee435fa1" id="r_ad057cc147eddf080fa13c406ee435fa1"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad057cc147eddf080fa13c406ee435fa1">typeId</a> () const =0</td></tr>
+<tr class="separator:ad057cc147eddf080fa13c406ee435fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classdimeBase.html" title="The dimeBase class is the superclass for most classes in Dime.">dimeBase</a> class is the superclass for most classes in Dime. </p>
+<p><a class="el" href="classdimeBase.html" title="The dimeBase class is the superclass for most classes in Dime.">dimeBase</a> implements the <em>new</em> operator to enable use of the special-purpose memory manager class, <a class="el" href="classdimeMemHandler.html" title="The dimeMemHandler class is a special-purpose memory manager.">dimeMemHandler</a>. It also implements a simple runtime type checking system. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a0bdfd8bc437e82ada19130573c44cadf" name="a0bdfd8bc437e82ada19130573c44cadf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bdfd8bc437e82ada19130573c44cadf">&#9670;&#160;</a></span>dimeBase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dimeBase::dimeBase </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor. </p>
+
+</div>
+</div>
+<a id="a5001bd8f586f933a472bac5021af85f2" name="a5001bd8f586f933a472bac5021af85f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5001bd8f586f933a472bac5021af85f2">&#9670;&#160;</a></span>~dimeBase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">dimeBase::~dimeBase </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>virtual destructor. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="acb6386ed33ca334a16699b81299ce791" name="acb6386ed33ca334a16699b81299ce791"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb6386ed33ca334a16699b81299ce791">&#9670;&#160;</a></span>isOfType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool dimeBase::isOfType </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>thetypeid</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns <em>true</em> if the object is of type <em>typeid</em> or is inherited from it. Function in base class checks whether <em>thetypeid</em> equals the virtual <a class="el" href="#ad057cc147eddf080fa13c406ee435fa1">dimeBase::typeId()</a> value or equals <em>dimeBaseType</em>. Must be implemented by all subclasses that are superclasses of other classes, and should check if <em>thetypeid</em> equals its typeId, and then call its parent's isOfType function. Leaf-classes do not have to implement this method. </p>
+
+<p>Reimplemented in <a class="el" href="classdimeClass.html#ae7f774ca2aa937830fb24df1629a2275">dimeClass</a>, <a class="el" href="classdimeEntity.html#a9e8639c359d924982edbf5a4a8d2d9a5">dimeEntity</a>, <a class="el" href="classdimeFaceEntity.html#a610b0bddfb4856c4152ce584e8fe355f">dimeFaceEntity</a>, <a class="el" href="classdimeObject.html#a02f0581c42f2c81cf9f0996e51962ce7">dimeObject</a>, <a class="el" href="classdimeRecordHolder.html#a8c145f4e746e24beb57db8e973a02bb6">dimeRecordHolder</a>, <a class="el" href="classdimeSection.html#a0ea0546be1b9d1742ee911c7f7c7f252">dimeSection</a>, <a class="el" href="classdimeTableEntry.html#afc90a7debf9b077b092a204793aaf462">dimeTableEntry</a>, and <a class="el" href="classdimeExtrusionEntity.html#a76c363baaa54090963e02738873df61d">dimeExtrusionEntity</a>.</p>
+
+</div>
+</div>
+<a id="ad057cc147eddf080fa13c406ee435fa1" name="ad057cc147eddf080fa13c406ee435fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad057cc147eddf080fa13c406ee435fa1">&#9670;&#160;</a></span>typeId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dimeBase::typeId </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Must be implemented by all subclasses, and should return an unique id for that class. </p>
+
+<p>Implemented in <a class="el" href="classdimeUnknownClass.html#a9a8cff2e54e8e49901a9faefa682599d">dimeUnknownClass</a>, <a class="el" href="classdime3DFace.html#af9f0c9f54667a188c3a5de1efa024062">dime3DFace</a>, <a class="el" href="classdimeArc.html#ad996f5da44023623510f39ebb6c1eee9">dimeArc</a>, <a class="el" href="classdimeBlock.html#acdb24d5852f3ba38abe26765e8f30912">dimeBlock</a>, <a class="el" href="classdimeCircle.html#aa6a7ac1909c3a91c49ac699efcbb8cc1">dimeCircle</a>, <a class="el" href="classdimeEllipse.html#a3b6e4ef97c404ad73419808fc66ab05d">dimeEllipse</a>, <a class="el" href="classdimeExtrusionEntity.html#ac53045af8b047350defc82054e327b3f">dimeExtrusionEntity</a>, <a class="el" href="classdimeFaceEntity.html#aa207d1a898ff48b24fa059be351fcab6">dimeFaceEntity</a>, <a class="el" href="classdimeInsert.html#a05328b05f6071fb9db26d21add320062">dimeInsert</a>, <a class="el" href="classdimeLine.html#ab6c4c5ac3956cff285b8979be0d7f372">dimeLine</a>, <a class="el" href="classdimeLWPolyline.html#ae65663a2f4eb39e521aae3767cdf384a">dimeLWPolyline</a>, <a class="el" href="classdimePoint.html#afc46da580d5667e04d1f2b7d51697a6f">dimePoint</a>, <a class="el" href="classdimePolyline.html#a228eacf05a795c7a39434fe9d225095b">dimePolyline</a>, <a class="el" href="classdimeSolid.html#a27dcb5bdeb0e11a67de9e52bf29e6749">dimeSolid</a>, <a class="el" href="classdimeSpline.html#ae66946c7eb017de9e97cb647554333cb">dimeSpline</a>, <a class="el" href="classdimeText.html#a2bcee9238ee7a76ff78ad66a4d932091">dimeText</a>, <a class="el" href="classdimeTrace.html#a303d0a0faa166d6a3d068319e3201d19">dimeTrace</a>, <a class="el" href="classdimeUnknownEntity.html#abbdfe45b705a0699bde291c9e6c2f3fb">dimeUnknownEntity</a>, <a class="el" href="classdimeVertex.html#a29250a5b00f3338138056cc27e5d4bd4">dimeVertex</a>, <a class="el" href="classdimeUnknownObject.html#a14b43479ec96890d507a73d2fbbb4be0">dimeUnknownObject</a>, <a class="el" href="classdimeDoubleRecord.html#a3c7dd2ce83fc632bc16c47e608299e9c">dimeDoubleRecord</a>, <a class="el" href="classdimeFloatRecord.html#a9be383857c914eb1b60bcff93be93896">dimeFloatRecord</a>, <a class="el" href="classdimeHexRecord.html#a9b5714a3803bb0e14a3d8cc8e0022055">dimeHexRecord</a>, <a class="el" href="classdimeInt16Record.html#aa1e41e6dd98861d6c759985d743e7733">dimeInt16Record</a>, <a class="el" href="classdimeInt32Record.html#af0d5b451b390938c5c2ee097745ebec4">dimeInt32Record</a>, <a class="el" href="classdimeInt8Record.html#a098f0ef4579d59610b4b6d3e8053e059">dimeInt8Record</a>, <a class="el" href="classdimeStringRecord.html#a85383624568a61adbd8c9e4eef0c631c">dimeStringRecord</a>, <a class="el" href="classdimeBlocksSection.html#a27ec359e5327d52a58a433103041a30c">dimeBlocksSection</a>, <a class="el" href="classdimeClassesSection.html#a615870dc58f2d6aeb33ba76872014a4d">dimeClassesSection</a>, <a class="el" href="classdimeEntitiesSection.html#ae82bf6c842d839e3d3e4f9dbfaef59fe">dimeEntitiesSection</a>, <a class="el" href="classdimeHeaderSection.html#adcf29a17727e282ac78f0f06e9ece2fc">dimeHeaderSection</a>, <a class="el" href="classdimeObjectsSection.html#a507c42562776f25c152a447ae033e546">dimeObjectsSection</a>, <a class="el" href="classdimeTablesSection.html#a6da1755f8a04ef34010f68c92a21e083">dimeTablesSection</a>, <a class="el" href="classdimeUnknownSection.html#ad2755a4c9dd3ba80d23635a570a73744">dimeUnknownSection</a>, <a class="el" href="classdimeLayerTable.html#aabcfb4fd6ff81c8aaa893283ac629526">dimeLayerTable</a>, <a class="el" href="classdimeTable.html#ae97666c16c6e4ec1ef908e99ec8b5f4e">dimeTable</a>, <a class="el" href="classdimeUCSTable.html#a8822fdc9a39d3fc3839ac9dbbd236240">dimeUCSTable</a>, <a class="el" href="classdimeUnknownTable.html#a28a7435c8ce842d2f19d34c5ba0c6889">dimeUnknownTable</a>, <a class="el" href="classdimeObject.html#abb385d72ae91b77f5cd579b49c756252">dimeObject</a>, <a class="el" href="classdimeRecord.html#a15b2d484ce16f9caa3cc5cb60f8f09dc">dimeRecord</a>, <a class="el" href="classdimeSection.html#afbc1f44e4fcc7c0fba86fb85ac14c5c1">dimeSection</a>, and <a class="el" href="classdimeTableEntry.html#ae14679c57607629413ae773de1f56f1c">dimeTableEntry</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="Base_8h_source.html">Base.h</a></li>
+<li><b>Base.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classdimeBase.html">dimeBase</a></li>
+    <li class="footer">Generated on Tue May 14 2024 20:14:56 for dime by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>

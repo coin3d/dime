@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>dime: dimeBSPTree Class Reference</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/coin3d/dime" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Coin_logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">dime
+   &#160;<span id="projectnumber">0.9.1</span>
+   </div>
+   <div id="projectbrief">A library for reading, constructing, manipulating, and writing DXF file data</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generated by Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('classdimeBSPTree.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classdimeBSPTree-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">dimeBSPTree Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>The <a class="el" href="classdimeBSPTree.html" title="The dimeBSPTree class is a simple BSP tree implementation.">dimeBSPTree</a> class is a simple BSP tree implementation.  
+ <a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a8a4a6347970b1c4d846a43fe51949f6c" id="r_a8a4a6347970b1c4d846a43fe51949f6c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a4a6347970b1c4d846a43fe51949f6c">dimeBSPTree</a> (const int maxnodepts=64, const int initsize=4)</td></tr>
+<tr class="separator:a8a4a6347970b1c4d846a43fe51949f6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf185d0135a2cbedb79dbf62b2af089c" id="r_acf185d0135a2cbedb79dbf62b2af089c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf185d0135a2cbedb79dbf62b2af089c">~dimeBSPTree</a> ()</td></tr>
+<tr class="separator:acf185d0135a2cbedb79dbf62b2af089c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0d00da31b467264775609b4dd818dd9" id="r_ad0d00da31b467264775609b4dd818dd9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0d00da31b467264775609b4dd818dd9">addPoint</a> (const <a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;pt, void *const userdata=NULL)</td></tr>
+<tr class="separator:ad0d00da31b467264775609b4dd818dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac0def29f4206dae27438a8dddc11d7b" id="r_aac0def29f4206dae27438a8dddc11d7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac0def29f4206dae27438a8dddc11d7b">clear</a> (const int initsize=4)</td></tr>
+<tr class="separator:aac0def29f4206dae27438a8dddc11d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48734aa4d968c1bb9ff606ef4f4d68c1" id="r_a48734aa4d968c1bb9ff606ef4f4d68c1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48734aa4d968c1bb9ff606ef4f4d68c1">findPoint</a> (const <a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;pos) const</td></tr>
+<tr class="separator:a48734aa4d968c1bb9ff606ef4f4d68c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f5eee9a1531065259585469147aff95" id="r_a8f5eee9a1531065259585469147aff95"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classdimeBox.html">dimeBox</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f5eee9a1531065259585469147aff95">getBBox</a> () const</td></tr>
+<tr class="separator:a8f5eee9a1531065259585469147aff95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e5090272e17672b3204cfcb4adffb20" id="r_a5e5090272e17672b3204cfcb4adffb20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e5090272e17672b3204cfcb4adffb20">getPoint</a> (const int idx, <a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;pt)</td></tr>
+<tr class="separator:a5e5090272e17672b3204cfcb4adffb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fa8954956246bc3c16ad76eca34ab24" id="r_a4fa8954956246bc3c16ad76eca34ab24"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fa8954956246bc3c16ad76eca34ab24">getUserData</a> (const int idx) const</td></tr>
+<tr class="separator:a4fa8954956246bc3c16ad76eca34ab24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91dd8b6ee22050113bef33e8095f9f6a" id="r_a91dd8b6ee22050113bef33e8095f9f6a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91dd8b6ee22050113bef33e8095f9f6a">numPoints</a> () const</td></tr>
+<tr class="separator:a91dd8b6ee22050113bef33e8095f9f6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af81f6566b1f36775556aaabfeebc6816" id="r_af81f6566b1f36775556aaabfeebc6816"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af81f6566b1f36775556aaabfeebc6816">removePoint</a> (const <a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;pt)</td></tr>
+<tr class="separator:af81f6566b1f36775556aaabfeebc6816"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad84ad1eec9e4fbe59eadf2b806ef7bad" id="r_ad84ad1eec9e4fbe59eadf2b806ef7bad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad84ad1eec9e4fbe59eadf2b806ef7bad">removePoint</a> (const int idx)</td></tr>
+<tr class="separator:ad84ad1eec9e4fbe59eadf2b806ef7bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b0f0610ca9380e85d24a69d1342dc84" id="r_a6b0f0610ca9380e85d24a69d1342dc84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b0f0610ca9380e85d24a69d1342dc84">setUserData</a> (const int idx, void *const data)</td></tr>
+<tr class="separator:a6b0f0610ca9380e85d24a69d1342dc84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classdimeBSPTree.html" title="The dimeBSPTree class is a simple BSP tree implementation.">dimeBSPTree</a> class is a simple BSP tree implementation. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a8a4a6347970b1c4d846a43fe51949f6c" name="a8a4a6347970b1c4d846a43fe51949f6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a4a6347970b1c4d846a43fe51949f6c">&#9670;&#160;</a></span>dimeBSPTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dimeBSPTree::dimeBSPTree </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>maxnodepts</em><span class="paramdefsep"> = </span><span class="paramdefval">64</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>initsize</em><span class="paramdefsep"> = </span><span class="paramdefval">4</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor. Will create an empty BSP tree with one node. <em>maxnodepts</em> is the maximum number of points in a BSP node. <em>initsize</em> is the initial size of the arrays that holds the coordinates and user data. </p>
+
+</div>
+</div>
+<a id="acf185d0135a2cbedb79dbf62b2af089c" name="acf185d0135a2cbedb79dbf62b2af089c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf185d0135a2cbedb79dbf62b2af089c">&#9670;&#160;</a></span>~dimeBSPTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">dimeBSPTree::~dimeBSPTree </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Destructor. Will free all memory used. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad0d00da31b467264775609b4dd818dd9" name="ad0d00da31b467264775609b4dd818dd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0d00da31b467264775609b4dd818dd9">&#9670;&#160;</a></span>addPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dimeBSPTree::addPoint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pt</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>data</em><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Attempts to add a new point to the BSP tree. If a point with the same coordinates as <em>pt</em> already is in the tree, the index to that point will be returned. Otherwise, the point is appended at the end of the list of points, the user data is set, and the new index is returned. </p>
+
+</div>
+</div>
+<a id="aac0def29f4206dae27438a8dddc11d7b" name="aac0def29f4206dae27438a8dddc11d7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac0def29f4206dae27438a8dddc11d7b">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dimeBSPTree::clear </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>initsize</em><span class="paramdefsep"> = </span><span class="paramdefval">4</span></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Frees the memory used by the BSP tree. Do not use the BSP tree after this method has been called. </p>
+
+</div>
+</div>
+<a id="a48734aa4d968c1bb9ff606ef4f4d68c1" name="a48734aa4d968c1bb9ff606ef4f4d68c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48734aa4d968c1bb9ff606ef4f4d68c1">&#9670;&#160;</a></span>findPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dimeBSPTree::findPoint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Searches for a point with coordinates <em>pos</em>. Returns the index if found, -1 otherwise. </p>
+
+</div>
+</div>
+<a id="a8f5eee9a1531065259585469147aff95" name="a8f5eee9a1531065259585469147aff95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f5eee9a1531065259585469147aff95">&#9670;&#160;</a></span>getBBox()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classdimeBox.html">dimeBox</a> * dimeBSPTree::getBBox </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the bounding box for all points in the BSP tree. </p>
+
+</div>
+</div>
+<a id="a5e5090272e17672b3204cfcb4adffb20" name="a5e5090272e17672b3204cfcb4adffb20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e5090272e17672b3204cfcb4adffb20">&#9670;&#160;</a></span>getPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dimeBSPTree::getPoint </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>idx</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pt</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the coordinates for the point at index <em>idx</em>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="#a91dd8b6ee22050113bef33e8095f9f6a">dimeBSPTree::numPoints()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a4fa8954956246bc3c16ad76eca34ab24" name="a4fa8954956246bc3c16ad76eca34ab24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fa8954956246bc3c16ad76eca34ab24">&#9670;&#160;</a></span>getUserData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * dimeBSPTree::getUserData </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the user data for the point at index <em>idx</em>. </p>
+
+</div>
+</div>
+<a id="a91dd8b6ee22050113bef33e8095f9f6a" name="a91dd8b6ee22050113bef33e8095f9f6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91dd8b6ee22050113bef33e8095f9f6a">&#9670;&#160;</a></span>numPoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dimeBSPTree::numPoints </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the number of points in the BSP tree. </p>
+
+</div>
+</div>
+<a id="af81f6566b1f36775556aaabfeebc6816" name="af81f6566b1f36775556aaabfeebc6816"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af81f6566b1f36775556aaabfeebc6816">&#9670;&#160;</a></span>removePoint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int dimeBSPTree::removePoint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classdimeVec3f.html">dimeVec3f</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pt</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
+
+</div>
+</div>
+<a id="ad84ad1eec9e4fbe59eadf2b806ef7bad" name="ad84ad1eec9e4fbe59eadf2b806ef7bad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad84ad1eec9e4fbe59eadf2b806ef7bad">&#9670;&#160;</a></span>removePoint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dimeBSPTree::removePoint </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>idx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Removes the point at <em>index</em>. The BSP tree will not be restructured, no matter how many points you remove. </p>
+
+</div>
+</div>
+<a id="a6b0f0610ca9380e85d24a69d1342dc84" name="a6b0f0610ca9380e85d24a69d1342dc84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b0f0610ca9380e85d24a69d1342dc84">&#9670;&#160;</a></span>setUserData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dimeBSPTree::setUserData </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>idx</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the user data for the point with index <em>idx</em>. </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="BSPTree_8h_source.html">BSPTree.h</a></li>
+<li><b>BSPTree.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classdimeBSPTree.html">dimeBSPTree</a></li>
+    <li class="footer">Generated on Tue May 14 2024 20:14:56 for dime by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+  </ul>
+</div>
+</body>
+</html>
