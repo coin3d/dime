@@ -42,6 +42,7 @@ include(GNUInstallDirs)
 option(DIME_BUILD_SHARED_LIBS "Build shared library when ON, static when OFF (default)." OFF)
 #option(DIME_BUILD_TESTS "Build unit tests when ON (default), skips them when OFF." ON)
 option(DIME_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." OFF)
+option(DIME_BUILD_AWESOME_DOCUMENTATION "Build and install API documentation in new modern style (requires Doxygen)." OFF)
 cmake_dependent_option(DIME_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "DIME_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(DIME_BUILD_DOCUMENTATION_MAN "Build Dime man pages." OFF "DIME_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(DIME_BUILD_DOCUMENTATION_QTHELP "Build QtHelp documentation." OFF "DIME_BUILD_DOCUMENTATION" OFF)
@@ -245,6 +246,71 @@ if(DIME_BUILD_DOCUMENTATION)
     install(DIRECTORY "${CMAKE_BINARY_DIR}/man/man3" DESTINATION ${CMAKE_INSTALL_MANDIR} COMPONENT documentation)
     message(STATUS "CMAKE_INSTALL_MANDIR ${CMAKE_INSTALL_MANDIR}")
   endif()
+endif()
+
+# Add a target to generate new modern API documentation with Doxygen
+if(DIME_BUILD_AWESOME_DOCUMENTATION)
+  find_package(Doxygen)
+  if(NOT DOXYGEN_FOUND)
+    message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+  endif()
+
+  if(NOT "${Coin_DOC_DIR}" STREQUAL "")
+    get_filename_component(_coin_versioned_dir ${Coin_DOC_DIR} NAME)
+    set(DOXYGEN_TAGFILES_AWESOME "${Coin_DOC_DIR}/html/Coin.tag=../../${_coin_versioned_dir}/html_awesome")
+  endif()
+
+  find_package(Git QUIET)
+  if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+  # Update submodules as needed
+      option(GIT_SUBMODULE "Check submodules during build" ON)
+      if(GIT_SUBMODULE)
+          message(STATUS "Submodule update")
+          execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                          RESULT_VARIABLE GIT_SUBMOD_RESULT)
+          if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+              message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+          endif()
+      endif()
+  endif()
+
+# ############################################################################
+# Setup documentation options
+# ############################################################################
+  set(GENERATE_HTMLHELP NO)
+  set(DOXYGEN_GENERATE_MAN NO)
+  set(GENERATE_QHP NO)
+  set(GENERATE_TREEVIEW YES)
+  set(DOXYGEN_INTERNAL_DOCS NO)
+  set(DOXYGEN_EXTRACT_PRIVATE NO)
+  set(DOXYGEN_WARN_IF_UNDOCUMENTED YES)
+  set(DOXYGEN_EXCLUDE)
+  set(GITHUB_LINK "https://github.com/coin3d/dime")
+
+  set(DOXYFILE_AWESOME "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_awesome")
+  set(HTML_HEADER_AWESOME "${CMAKE_BINARY_DIR}/header_awesome.html")
+  set(DOXYGEN_OUTPUT_AWESOME "${CMAKE_BINARY_DIR}/html_awesome/index.html")
+  configure_file("${CMAKE_SOURCE_DIR}/docs/dime.doxygen.awesome.cmake.in" ${DOXYFILE_AWESOME} @ONLY)
+  configure_file("${CMAKE_SOURCE_DIR}/docs/doxygen-awesome/doxygen-custom/header.html.cmake.in" ${HTML_HEADER_AWESOME} @ONLY)
+
+# ############################################################################
+# Setup documentation targets
+# ############################################################################
+  add_custom_command(
+    OUTPUT ${DOXYGEN_OUTPUT_AWESOME}
+    COMMAND ${CMAKE_COMMAND} -E echo_append "Generating modern API documentation with Doxygen "
+    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYFILE_AWESOME}
+    COMMAND ${CMAKE_COMMAND} -E echo "done."
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+    DEPENDS ${DOXYFILE_AWESOME}
+  )
+  add_custom_target(documentation_awesome ALL DEPENDS ${DOXYGEN_OUTPUT_AWESOME})
+
+# ############################################################################
+# Install built documentation files
+# ############################################################################
+  install(DIRECTORY "${CMAKE_BINARY_DIR}/html_awesome" DESTINATION ${CMAKE_INSTALL_DOCDIR} COMPONENT documentation REGEX ".*\\.(chm|qch)" EXCLUDE)
 endif()
 
 # ############################################################################
