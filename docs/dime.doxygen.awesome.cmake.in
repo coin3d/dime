@@ -6,7 +6,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = @PROJECT_NAME@
 PROJECT_NUMBER         = @PROJECT_VERSION@
-PROJECT_BRIEF          = "A library for reading, constructing, manipulating, and writing DXF file data"
+PROJECT_BRIEF          = "Portable DXF file library"
 PROJECT_LOGO           = @CMAKE_SOURCE_DIR@/docs/doxygen/Coin_logo.png
 PROJECT_ICON           =
 OUTPUT_DIRECTORY       =
